@@ -84,9 +84,8 @@ namespace WindowsGuide_WPF.Resources.Winget
         {
             Debug.WriteLine(package.Site);
 
-                Debug.WriteLine(pkg);
 
-                if (pkg == null)
+                if (false)
                 {
                     Debug.WriteLine("Passou!");
 

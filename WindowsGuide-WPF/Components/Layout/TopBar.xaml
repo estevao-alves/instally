@@ -23,7 +23,7 @@
                     <Trigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="{x:null}" Duration="0:0:0.3" />
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" Duration="0:0:0.3" />
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.ExitActions>
