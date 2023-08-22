@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Packaging;
 using System.Linq;
 using System.Security.Policy;
 using System.Text.Json;
@@ -20,11 +21,9 @@ namespace WindowsGuide_WPF.Resources.Winget
         public string Publisher { get; set; }
         public List<string> Tags { get; set; }
         public string Description { get; set; }
-        public bool SiteBool { get; set; }
         public string Site { get; set; }
         public int VersionsLength { get; set; }
         public string LatestVersion { get; set; }
-
         public string UpdatedAt { get; set; }
     }
 
@@ -41,69 +40,56 @@ namespace WindowsGuide_WPF.Resources.Winget
         public Package CapturarPacote(string NomeDoPacote)
         {
             Package pkg = Packages.Find(pkg => pkg.Name.ToLower() == NomeDoPacote.ToLower());
-
             return pkg;
         }
 
         public List<Package> CapturarPacotes(string ParteDoNomeDoPacote)
         {
             List<Package> pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower())).OrderByDescending(pkg => pkg.VersionsLength).ToList();
-            Debug.WriteLine(pkgs[0].VersionsLength);
             return pkgs;
         }
 
-        public Image CapturarFaviconDoPacote(string NomeDoPacote)
+        public UIElement CapturarFaviconDoPacote(string NomeDoPacote)
         {
             Package pkg = CapturarPacote(NomeDoPacote);
 
-            var urlDoFavicon = $"https://www.google.com/s2/favicons?sz=32&domain_url={pkg.Site}";
-
-            isFaviconnull(pkg);
-
-            Image image = new Image()
+            if(pkg.Site is null)
             {
-                Margin = new Thickness(0, 0, 5, 0),
-                Name = "IconImage",
-                Height = 30,
-                Width = 30,
-            };
-            image.Stretch = Stretch.Fill;
-            image.ClipToBounds = true;
-            
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(urlDoFavicon, UriKind.Absolute);
-            bitmap.EndInit();
-
-            image.Source = bitmap;
-
-            return image;
-        }
-
-        public bool isFaviconnull(Package package)
-        {
-            Debug.WriteLine(package.Site);
-
-
-                if (false)
+                TextBlock textBlock = new TextBlock()
                 {
-                    Debug.WriteLine("Passou!");
+                    Text = pkg.Name[0].ToString().ToUpper(),
+                    Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    FontSize = 26,
+                };
 
-                    TextBlock textBlock = new TextBlock()
-                    {
-                        Text = package.Name[0].ToString().ToUpper(),
-                        Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        FontSize = 26,
-                    };
+                return textBlock;
+            }
+            else
+            {
+                var urlDoFavicon = $"https://www.google.com/s2/favicons?sz=32&domain_url={pkg.Site}";
 
-                    App.Master.Items.WrapperIcon.Child = textBlock;
+
+                Image image = new Image()
+                {
+                    Margin = new Thickness(0, 0, 5, 0),
+                    Name = "IconImage",
+                    Height = 30,
+                    Width = 30,
+                };
+                image.Stretch = Stretch.Fill;
+                image.ClipToBounds = true;
+
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(urlDoFavicon, UriKind.Absolute);
+                bitmap.EndInit();
+
+                image.Source = bitmap;
                 
-                    return true;
-                }
-
-            return false;
+                return image;
+            }
         }
     }
 }

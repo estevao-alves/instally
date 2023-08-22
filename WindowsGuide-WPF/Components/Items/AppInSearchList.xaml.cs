@@ -24,17 +24,10 @@ namespace WindowsGuide_WPF.Components.Items
 
         public void CarregarInformacoesDoApp(string pkgName)
         {
-            Package pkg = App.Master.Winget.CapturarPacote(pkgName);
-
-            if (pkg.Site is not null)
-            {
-                Image img = App.Master.Winget.CapturarFaviconDoPacote(pkgName);
-
-                img.HorizontalAlignment = HorizontalAlignment.Center;
-                img.VerticalAlignment = VerticalAlignment.Center;
-                img.Margin = new Thickness(5);
-                WrapperIcon.Child = img;
-            }
+            UIElement imgOrText = App.Master.Winget.CapturarFaviconDoPacote(pkgName);
+         
+            WrapperIcon.Child = imgOrText;
+            WrapperIcon.Padding = new Thickness(5, 0, 0, 0);
 
             Titulo.Text = pkgName;
         }

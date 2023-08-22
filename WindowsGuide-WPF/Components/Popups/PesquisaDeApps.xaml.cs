@@ -53,6 +53,8 @@ namespace WindowsGuide_WPF.Components.Popups
             PacotesEncontrados = App.Master.Winget.CapturarPacotes(SearchTextBox.Text).Take<Package>(LimiteDeResultados).ToList();
             foreach (Package pacote in PacotesEncontrados) AppList.Children.Add(new AppInSearchList(pacote.Name));
 
+            Debug.WriteLine(SearchTextBox.Text);
+
             if (PacotesEncontrados.Count < LimiteDeResultados) LimiteDeResultados = PacotesEncontrados.Count;
         }
 

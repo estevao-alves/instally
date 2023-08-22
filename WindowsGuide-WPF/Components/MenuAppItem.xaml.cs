@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using WindowsGuide_WPF.Resources.Winget;
@@ -38,7 +39,7 @@ namespace WindowsGuide_WPF.Components
 
         public void AdicionarIcone()
         {
-            Image image = App.Master.Winget.CapturarFaviconDoPacote(AppName);
+            UIElement image = App.Master.Winget.CapturarFaviconDoPacote(AppName);
             WrapperAppIcon.Child = image;
         }
 

@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using WindowsGuide_WPF.Resources.Winget;
-using WindowsGuide_WPF.Components.Items;
 
 namespace WindowsGuide_WPF
 {
@@ -10,7 +9,6 @@ namespace WindowsGuide_WPF
         {
             public static MainWindow Main;
             public static WingetData Winget;
-            public static AppInSearchList Items;
         }
 
         public App() {
