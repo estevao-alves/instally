@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="WindowsGuide_WPF.Components.Popups.PesquisaDeApps"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:items="clr-namespace:WindowsGuide_WPF.Components.Items"
+             mc:Ignorable="d" 
+             d:DesignHeight="600"
+             d:DesignWidth="800"
+             >
+
+    <UserControl.Resources>
+        <Style x:Key="SearchBox">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Stroke="Red" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Border Background="#333" Opacity=".7" />
+
+        <Grid Margin="100">
+            <Border Background="{DynamicResource TertiaryColor}" CornerRadius="10">
+                <Grid Margin="30" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid>
+                        <Border
+                        Background="{DynamicResource PrimaryColor}"
+                        Grid.Column="0"
+                        CornerRadius="20"
+                        >
+                            <TextBox
+                            Background="Transparent"
+                            Foreground="{DynamicResource LightGray}"
+                            Margin="15 0"
+                            BorderThickness="0"
+                            FontSize="20"
+                            VerticalAlignment="Center"
+                            GotFocus="TextBox_GotFocus"
+                            KeyDown="SearchTextBox_KeyDown"
+                            Name="SearchTextBox"
+                            CaretBrush="White"
+                            >Search
+                            </TextBox>
+                        </Border>
+                    
+                        <Viewbox HorizontalAlignment="Right">
+                            <Grid Margin="8">
+                                <Path Data="M6.35196 11.3757C9.01301 11.3757 11.1702 9.21859 11.1702 6.55754C11.1702 3.89651 9.01301 1.73933 6.35196 1.73933C3.69093 1.73933 1.53375 3.89651 1.53375 6.55754C1.53375 9.21859 3.69093 11.3757 6.35196 11.3757Z"
+                                Stroke="{DynamicResource LightGray}" StrokeThickness="2" StrokeMiterLimit="10"/>
+                                <Path Data="M9.83875 9.87774L15.5505 15.7559"
+                                Stroke="{DynamicResource LightGray}" StrokeThickness="2" StrokeMiterLimit="10" StrokeEndLineCap="round"/>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Border
+                            Background="{DynamicResource PrimaryColor}"
+                            Width="100"
+                            CornerRadius="12"
+                            Margin="20 0 0 0"
+                            >
+                            <TextBlock
+                                Foreground="White"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                FontWeight="SemiBold"
+                                >APPLICATIONS</TextBlock>
+                        </Border>
+                        <Border
+                            CornerRadius="12"
+                            Margin="20 0 0 0"
+                            BorderThickness="2"
+                            BorderBrush="{DynamicResource PrimaryColor}"
+                            >
+                            <TextBlock
+                                Foreground="{DynamicResource LightGray}"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                FontSize="10"
+                                Margin="20 0"
+                                FontWeight="SemiBold"
+                                >SETTINGS</TextBlock>
+                        </Border>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20 0 0">
+
+                        <Border BorderBrush="{DynamicResource SecondaryColor}" BorderThickness="2" CornerRadius="10">
+                            <ScrollViewer Name="BarraDeRolagem" >
+                                <UniformGrid x:Name="AppList" Columns="6">
+                                    <items:AppInSearchList />
+                                    <items:AppInSearchList />
+                                    <items:AppInSearchList />
+                                </UniformGrid>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Border
+                Cursor="Hand"
+                MouseDown="Times_Close"
+                Background="{DynamicResource SecondaryColor}"
+                CornerRadius="30"
+                Width="30"
+                Height="30"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="10"
+                >
+                <Viewbox Width="10">
+                    <Grid>
+                        <Path Data="M11.3954 1.0921C11.7224 0.765098 12.2526 0.765098 12.5796 1.0921C12.9066 1.4191 12.9066 1.94927 12.5796 2.27627L2.01883 12.837C1.69183 13.164 1.16166 13.164 0.834659 12.837C0.507659 12.51 0.507659 11.9798 0.834659 11.6528L11.3954 1.0921Z" Fill="#B5B2B2"/>
+                        <Path Data="M0.815369 2.21828C0.499044 1.90196 0.499044 1.38909 0.815369 1.07277C1.13169 0.756444 1.64456 0.756444 1.96088 1.07277L12.3336 11.4455C12.6499 11.7618 12.6499 12.2747 12.3336 12.591C12.0173 12.9073 11.5044 12.9073 11.1881 12.591L0.815369 2.21828Z" Fill="#B5B2B2"/>
+                    </Grid>
+                </Viewbox>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

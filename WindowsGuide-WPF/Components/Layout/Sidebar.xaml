@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="WindowsGuide_WPF.Components.Layout.Sidebar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WindowsGuide_WPF.Components.Layout"
+             mc:Ignorable="d"
+             d:DesignHeight="500"
+             >
+    <Grid Width="50" Background="{DynamicResource TertiaryColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <Border MouseDown="Search_MouseDown" Background="Transparent">
+                <Viewbox>
+                    <Grid Margin="6">
+                        <Path Data="M6.35196 11.3757C9.01301 11.3757 11.1702 9.21859 11.1702 6.55754C11.1702 3.89651 9.01301 1.73933 6.35196 1.73933C3.69093 1.73933 1.53375 3.89651 1.53375 6.55754C1.53375 9.21859 3.69093 11.3757 6.35196 11.3757Z"
+                          Stroke="white" StrokeThickness="2" StrokeMiterLimit="10"/>
+                        <Path Data="M9.83875 9.87774L15.5505 15.7559"
+                          Stroke="white" StrokeThickness="2" StrokeMiterLimit="10" StrokeEndLineCap="round"/>
+                    </Grid>
+                </Viewbox>
+            </Border>
+            <Border Background="{DynamicResource PrimaryColor}" CornerRadius="10 0 0 10">
+                <Viewbox Margin="8" Height="30" Width="30">
+                    <Path Data="M10.6917 2.1117C11.5734 2.1117 12.2921 2.83361 12.2921 3.71916V14.1671C12.2921 15.0526 11.5734 15.7745 10.6917 15.7745H2.39253C1.51086 15.7745 0.792114 15.0526 0.792114 14.1671L0.792114 3.71916C0.792114 2.83361 1.51086 2.1117 2.39253 2.1117M6.54211 1.5534V9.59071M8.84211 8.02171L6.59961 9.7351L4.24209 8.02171"
+                    Stroke="white" StrokeThickness="1.5" StrokeEndLineCap="round" StrokeStartLineCap="round" StrokeLineJoin="round"/>
+                </Viewbox>
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="6">
+            <Viewbox>
+                <Grid>
+                    <Path Data="M24.0316 12.3382C24.0316 18.9656 18.659 24.3382 12.0316 24.3382C5.4042 24.3382 0.0316162 18.9656 0.0316162 12.3382C0.0316162 5.71081 5.4042 0.338226 12.0316 0.338226C18.659 0.338226 24.0316 5.71081 24.0316 12.3382Z"
+                          Fill="#4C4C4C"/>
+                    <Path Data="M12.0317 10.9585C13.5649 10.9585 14.8077 9.71558 14.8077 8.1824C14.8077 6.64922 13.5649 5.40634 12.0317 5.40634C10.4985 5.40634 9.25562 6.64922 9.25562 8.1824C9.25562 9.71558 10.4985 10.9585 12.0317 10.9585Z"
+                          Fill="#2F2F2F" Stroke="#282828" StrokeThickness="1.5" StrokeLineJoin="round"/>
+                    <Path Data="M6.47949 18.89C6.47949 15.8205 8.96209 13.3379 12.0316 13.3379C15.1011 13.3379 17.5837 15.8205 17.5837 18.89H6.47949Z"
+                          Fill="#2F2F2F" Stroke="#282828" StrokeThickness="1.5" StrokeEndLineCap="round" StrokeLineJoin="round"/>
+                    <Path Data="M24.2781 19.6756C24.2781 22.0769 22.3315 24.0235 19.9302 24.0235C17.5289 24.0235 15.5822 22.0769 15.5822 19.6756C15.5822 17.2743 17.5289 15.3276 19.9302 15.3276C22.3315 15.3276 24.2781 17.2743 24.2781 19.6756Z"
+                          Fill="#282828"/>
+                    <Path Data="M22.4544 19.5168L22.8694 18.421C22.6883 18.0876 22.6128 17.9526 22.4317 17.627L21.3225 17.4523C21.2168 17.4365 21.1263 17.3809 21.0659 17.2935L20.3641 16.3725H19.4963L18.8021 17.2935C18.7342 17.3809 18.6437 17.4365 18.5456 17.4523L17.4288 17.627C17.2477 17.9526 17.1722 18.0876 16.9911 18.421L17.4061 19.5168C17.4514 19.62 17.4514 19.7311 17.4061 19.8264L16.9911 20.9301C17.1722 21.2556 17.2477 21.3986 17.4288 21.7241L18.5456 21.8908C18.6437 21.9067 18.7342 21.9623 18.8021 22.0496L19.4963 22.9786H20.3641L21.0659 22.0496C21.1263 21.9623 21.2168 21.9067 21.3225 21.8908L22.4317 21.7241C22.6128 21.3986 22.6883 21.2556 22.8694 20.9301L22.4544 19.8264C22.4166 19.7311 22.4166 19.62 22.4544 19.5168ZM19.934 20.9698C19.2549 20.9698 18.6965 20.3902 18.6965 19.6756C18.6965 18.961 19.2549 18.3813 19.934 18.3813C20.6131 18.3813 21.164 18.961 21.164 19.6756C21.164 20.3902 20.6131 20.9698 19.934 20.9698Z"
+                          Fill="#4C4C4C"/>
+                </Grid>
+            </Viewbox>
+        </StackPanel>
+    </Grid>
+</UserControl>
