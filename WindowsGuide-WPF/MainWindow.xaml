@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         
         Title="MainWindow"
-        Height="450"
-        Width="800"
+        Height="700"
+        Width="1200"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -28,7 +28,10 @@
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="#aaa" Duration="0:0:0.3" />
+                                <ColorAnimation
+                                    To="#22ffffff"
+                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                    Duration="0:0:0.2" />
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
@@ -36,7 +39,10 @@
                     <Trigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" Duration="0:0:0.3" />
+                                <ColorAnimation
+                                    To="Transparent"
+                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                    Duration="0:0:0.2" />
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.ExitActions>
@@ -90,8 +96,9 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        
-                        <TextBlock
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Foreground="White"
@@ -99,14 +106,26 @@
                             FontSize="14"
                             FontWeight="SemiBold"
                             Grid.Row="0"
-                            Text="WORK" />
+                            Text="WORK">
+
+                            </TextBlock>
+                            <Viewbox Height="10" HorizontalAlignment="Left" Margin="5 0 0 10">
+                                <Grid>
+                                    <Path Data="M2.55 11.5021L1.62 15.8321L5.95 14.9021L15.21 5.64206C16.15 4.70206 16.15 3.18206 15.21 2.24206C14.27 1.30206 12.75 1.30206 11.81 2.24206L2.55 11.5021Z"
+                                        Stroke="{DynamicResource LightGray}" StrokeThickness="2" StrokeLineJoin="round"/>
+                                    <Path Data="M14.26 6.58205L10.83 3.21205"
+                                        Stroke="{DynamicResource LightGray}" StrokeThickness="2" StrokeLineJoin="round"/>
+                                </Grid>
+                            </Viewbox>
+                        </StackPanel>
 
                         <Border
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             Background="{DynamicResource PrimaryColor}"
                             CornerRadius="6"
-                            Cursor="Hand">
+                            Cursor="Hand"
+                            MouseDown="Search_MouseDown">
                             <Grid>
                                 <TextBlock
                                     Foreground="#FFF"
@@ -146,7 +165,7 @@
                     <Rectangle
                     StrokeDashArray="4 2"
                     StrokeThickness="4"
-                    Stroke="#000"
+                    Stroke="{DynamicResource TertiaryColor}"
                     RadiusX="8"
                     RadiusY="8"
                     >
@@ -158,8 +177,12 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         >
-                        <Path Data="M5.31961 14.2596C5.71027 14.4051 6.11621 14.5058 6.52961 14.5596C6.8888 14.6284 7.25388 14.6619 7.61961 14.6596C9.44791 14.6596 11.2014 13.934 12.4951 12.6422C13.7888 11.3503 14.5169 9.59795 14.5196 7.76965C14.5174 7.31663 14.4739 6.86476 14.3896 6.41965C14.3143 6.02932 14.2004 5.64745 14.0496 5.27965V5.21965C13.6298 4.14448 12.9467 3.192 12.0628 2.44965C11.179 1.70731 10.1229 1.19889 8.99141 0.971065C7.85991 0.743255 6.68927 0.803345 5.58704 1.14583C4.48481 1.48831 3.48628 2.1022 2.68312 2.93114C1.87997 3.76008 1.29793 4.77752 0.990448 5.89002C0.682958 7.00252 0.659888 8.17445 0.923338 9.29815C1.18679 10.4219 1.72832 11.4614 2.49822 12.3213C3.26812 13.1813 4.24171 13.834 5.32961 14.2196L5.31961 14.2596ZM7.62961 11.5796C7.36439 11.5796 7.11003 11.4742 6.9225 11.2867C6.73496 11.0992 6.62961 10.8448 6.62961 10.5796V8.76965H4.81961C4.55439 8.76965 4.30004 8.66425 4.1125 8.47675C3.92496 8.28925 3.81961 8.03485 3.81961 7.76965C3.81961 7.50443 3.92496 7.25008 4.1125 7.06254C4.30004 6.87501 4.55439 6.76965 4.81961 6.76965H6.62961V4.95965C6.62961 4.69443 6.73496 4.44008 6.9225 4.25254C7.11003 4.06501 7.36439 3.95965 7.62961 3.95965C7.89481 3.95965 8.14921 4.06501 8.33671 4.25254C8.52421 4.44008 8.62961 4.69443 8.62961 4.95965V6.76965H10.4396C10.7048 6.76965 10.9592 6.87501 11.1467 7.06254C11.3342 7.25008 11.4396 7.50443 11.4396 7.76965C11.4445 7.82955 11.4445 7.88975 11.4396 7.94965C11.4047 8.14415 11.3129 8.32395 11.1758 8.46635C11.0388 8.60875 10.8626 8.70735 10.6696 8.74965H10.4696H8.62961V10.5796C8.62841 10.6848 8.61161 10.7893 8.57961 10.8896C8.53251 11.0341 8.45301 11.1659 8.34731 11.275C8.24161 11.3842 8.11251 11.4678 7.96961 11.5196C7.86061 11.5592 7.74556 11.5795 7.62961 11.5796Z"
-                        Fill="white"/>
+                        <Grid>
+                            <Path Data="M3.09309 1.17016C3.09309 0.804796 3.38928 0.508606 3.75464 0.508606C4.12001 0.508606 4.4162 0.804795 4.4162 1.17016V7.04328C4.4162 7.40865 4.12001 7.70484 3.75464 7.70484C3.38928 7.70484 3.09309 7.40865 3.09309 7.04329V1.17016Z"
+                              Fill="{DynamicResource TertiaryColor}"/>
+                            <Path Data="M6.69117 3.44517C7.05654 3.44517 7.35273 3.74136 7.35273 4.10672C7.35273 4.47209 7.05654 4.76828 6.69117 4.76828L0.818051 4.76828C0.452684 4.76828 0.156494 4.47209 0.156494 4.10672C0.156494 3.74136 0.452683 3.44517 0.81805 3.44517L6.69117 3.44517Z"
+                              Fill="{DynamicResource TertiaryColor}"/>
+                        </Grid>
                     </Viewbox>
                 </Grid>
             </Border>

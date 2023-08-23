@@ -59,9 +59,10 @@ namespace WindowsGuide_WPF.Resources.Winget
                 {
                     Text = pkg.Name[0].ToString().ToUpper(),
                     Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+                    Margin = new Thickness(0, 0, 5, 0),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
-                    FontSize = 26,
+                    FontSize = 30,
                 };
 
                 return textBlock;
@@ -75,8 +76,8 @@ namespace WindowsGuide_WPF.Resources.Winget
                 {
                     Margin = new Thickness(0, 0, 5, 0),
                     Name = "IconImage",
-                    Height = 30,
-                    Width = 30,
+                    Height = 25,
+                    Width = 25,
                 };
                 image.Stretch = Stretch.Fill;
                 image.ClipToBounds = true;

@@ -13,13 +13,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel>
-            <Border MouseDown="Search_MouseDown" Background="Transparent">
+            <Border Background="Transparent">
                 <Viewbox>
-                    <Grid Margin="6">
-                        <Path Data="M6.35196 11.3757C9.01301 11.3757 11.1702 9.21859 11.1702 6.55754C11.1702 3.89651 9.01301 1.73933 6.35196 1.73933C3.69093 1.73933 1.53375 3.89651 1.53375 6.55754C1.53375 9.21859 3.69093 11.3757 6.35196 11.3757Z"
-                          Stroke="white" StrokeThickness="2" StrokeMiterLimit="10"/>
-                        <Path Data="M9.83875 9.87774L15.5505 15.7559"
-                          Stroke="white" StrokeThickness="2" StrokeMiterLimit="10" StrokeEndLineCap="round"/>
+                    <Grid Margin="5">
+                        <Border Background="{DynamicResource PrimaryColor}" Height="12" Width="12" CornerRadius="5">
+                        </Border>    
                     </Grid>
                 </Viewbox>
             </Border>

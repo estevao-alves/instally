@@ -42,12 +42,13 @@ namespace WindowsGuide_WPF.Components.Layout
             {
                 Background = (SolidColorBrush)App.Current.Resources["PrimaryColor"],
                 CornerRadius = new CornerRadius(8),
-                Margin = new Thickness(0, 0, 5, 0),
-                Width = 30,
-                Height = 30,
+                Margin = new Thickness(0, 0, 12, 0),
+                Width = 40,
+                Height = 40,
                 Child = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name),
-                Padding = new Thickness(6),
+                Padding = new Thickness(6, 6, 0, 6),
             };
+
             ListaDeInstalacao.Children.Add(borderWrapper);
 
             return borderWrapper;

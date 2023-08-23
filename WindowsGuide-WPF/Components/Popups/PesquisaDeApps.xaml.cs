@@ -5,6 +5,7 @@ using WindowsGuide_WPF.Components.Items;
 using WindowsGuide_WPF.Resources.Winget;
 using System.Linq;
 using System.Diagnostics;
+using System.Windows.Media;
 
 namespace WindowsGuide_WPF.Components.Popups
 {
@@ -21,7 +22,6 @@ namespace WindowsGuide_WPF.Components.Popups
             DataContext = this;
             AppList.Children.Clear();
 
-            SearchTextBox.Text = string.Empty;
             PesquisarPacotes();
             BarraDeRolagem.ScrollChanged += BarraDeRolagem_ScrollChanged;
         }
@@ -51,10 +51,8 @@ namespace WindowsGuide_WPF.Components.Popups
         {
             AppList.Children.Clear();
             PacotesEncontrados = App.Master.Winget.CapturarPacotes(SearchTextBox.Text).Take<Package>(LimiteDeResultados).ToList();
+
             foreach (Package pacote in PacotesEncontrados) AppList.Children.Add(new AppInSearchList(pacote.Name));
-
-            Debug.WriteLine(SearchTextBox.Text);
-
             if (PacotesEncontrados.Count < LimiteDeResultados) LimiteDeResultados = PacotesEncontrados.Count;
         }
 
@@ -74,5 +72,27 @@ namespace WindowsGuide_WPF.Components.Popups
             }
         }
 
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            LimiteDeResultados = 42;
+            BarraDeRolagem.ScrollToTop();
+            PesquisarPacotes();
+        }
+
+        private void AppList_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            if (ActualWidth < 1100)
+            {
+                AppList.Columns = 4;
+            }
+            else if (ActualWidth < 1600)
+            {
+                AppList.Columns = 6;
+            }
+            else
+            {
+                AppList.Columns = 8;
+            }
+        }
     }
 }

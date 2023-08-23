@@ -47,26 +47,33 @@
                             <TextBox
                             Background="Transparent"
                             Foreground="{DynamicResource LightGray}"
-                            Margin="15 0"
+                            Margin="20 0"
                             BorderThickness="0"
-                            FontSize="20"
+                            FontSize="14"
                             VerticalAlignment="Center"
                             GotFocus="TextBox_GotFocus"
                             KeyDown="SearchTextBox_KeyDown"
                             Name="SearchTextBox"
                             CaretBrush="White"
-                            >Search
-                            </TextBox>
+                            Text="Search"
+                            />
                         </Border>
-                    
-                        <Viewbox HorizontalAlignment="Right">
-                            <Grid Margin="8">
-                                <Path Data="M6.35196 11.3757C9.01301 11.3757 11.1702 9.21859 11.1702 6.55754C11.1702 3.89651 9.01301 1.73933 6.35196 1.73933C3.69093 1.73933 1.53375 3.89651 1.53375 6.55754C1.53375 9.21859 3.69093 11.3757 6.35196 11.3757Z"
+
+                        <Border
+                                Background="Transparent"
+                                HorizontalAlignment="Right"
+                                MouseDown="Grid_MouseDown"
+                                Cursor="Hand"
+                                CornerRadius="20">
+                            <Viewbox>
+                                <Grid Margin="10">
+                                    <Path Data="M6.35196 11.3757C9.01301 11.3757 11.1702 9.21859 11.1702 6.55754C11.1702 3.89651 9.01301 1.73933 6.35196 1.73933C3.69093 1.73933 1.53375 3.89651 1.53375 6.55754C1.53375 9.21859 3.69093 11.3757 6.35196 11.3757Z"
                                 Stroke="{DynamicResource LightGray}" StrokeThickness="2" StrokeMiterLimit="10"/>
-                                <Path Data="M9.83875 9.87774L15.5505 15.7559"
+                                    <Path Data="M9.83875 9.87774L15.5505 15.7559"
                                 Stroke="{DynamicResource LightGray}" StrokeThickness="2" StrokeMiterLimit="10" StrokeEndLineCap="round"/>
-                            </Grid>
-                        </Viewbox>
+                                </Grid>
+                            </Viewbox>
+                        </Border>
                     </Grid>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
@@ -105,7 +112,12 @@
 
                         <Border BorderBrush="{DynamicResource SecondaryColor}" BorderThickness="2" CornerRadius="10">
                             <ScrollViewer Name="BarraDeRolagem" >
-                                <UniformGrid x:Name="AppList" Columns="6">
+                                <UniformGrid x:Name="AppList" Columns="4" SizeChanged="AppList_SizeChanged" VerticalAlignment="Top">
+                                    <items:AppInSearchList />
+                                    <items:AppInSearchList />
+                                    <items:AppInSearchList />
+                                    <items:AppInSearchList />
+                                    <items:AppInSearchList />
                                     <items:AppInSearchList />
                                     <items:AppInSearchList />
                                     <items:AppInSearchList />

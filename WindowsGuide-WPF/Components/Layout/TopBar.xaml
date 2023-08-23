@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              d:DesignWidth="800"
              >
-
+    
     <UserControl.Resources>
         <Style x:Key="ControlButtons_Hover" TargetType="Border">
             <Setter Property="Background" Value="Transparent" />
@@ -15,7 +15,10 @@
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="#aaa" Duration="0:0:0.3" />
+                                <ColorAnimation
+                                To="#22ffffff" 
+                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                Duration="0:0:0.2" />
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
@@ -23,7 +26,10 @@
                     <Trigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" Duration="0:0:0.3" />
+                                <ColorAnimation
+                                To="Transparent" 
+                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                Duration="0:0:0.2" />
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.ExitActions>
@@ -31,16 +37,16 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid
         Background="{DynamicResource PrimaryColor}"
         Height="40"
         >
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="0.8*" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Horizontal">
@@ -52,8 +58,12 @@
             </StackPanel>
 
             <Grid Grid.Column="1">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource White}" Padding="10, 0">APPLICATIONS</TextBlock>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource White}"
+                        Padding="10, 0"
+                        >APPLICATIONS</TextBlock>
                 </StackPanel>
             </Grid>
 
@@ -96,6 +106,7 @@
                 <Border
                         Grid.Column="2"
                         MouseDown="Close_MouseDown"
+                        Name="CloseButton"
                         Background="Transparent"
                         Style="{StaticResource ControlButtons_Hover}"
                         >

@@ -12,9 +12,11 @@
             <SolidColorBrush x:Key="PrimaryColor" Color="#454343" />
             <SolidColorBrush x:Key="SecondaryColor" Color="#2F2F2F" />
             <SolidColorBrush x:Key="TertiaryColor" Color="#282828" />
+            
+            <SolidColorBrush x:Key="ActionColor" Color="#25d865" />
+            
             <SolidColorBrush x:Key="LightGray" Color="#B5B2B2" />
             <SolidColorBrush x:Key="White" Color="#D9D9D9" />
-            <SolidColorBrush x:Key="ActionButton" Color="#38d381" />
 
         </ResourceDictionary>
     </Application.Resources>

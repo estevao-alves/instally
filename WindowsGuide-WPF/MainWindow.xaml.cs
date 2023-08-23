@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using WindowsGuide_WPF.Components;
+using WindowsGuide_WPF.Components.Popups;
 
 namespace WindowsGuide_WPF
 {
@@ -35,6 +36,12 @@ namespace WindowsGuide_WPF
         {
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
+        }
+        private void Search_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            PesquisaDeApps janelaDePesquisa = new();
+
+            App.Master.Main.AreaDePopups.Children.Add(janelaDePesquisa);
         }
     }
 }
