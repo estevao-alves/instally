@@ -42,7 +42,7 @@ namespace WindowsGuide_WPF.Components.Layout
             {
                 Background = (SolidColorBrush)App.Current.Resources["PrimaryColor"],
                 CornerRadius = new CornerRadius(8),
-                Margin = new Thickness(0, 0, 12, 0),
+                Margin = new Thickness(0, 0, 10, 0),
                 Width = 40,
                 Height = 40,
                 Child = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name),
@@ -74,6 +74,9 @@ namespace WindowsGuide_WPF.Components.Layout
                     string appCodeId = ListaDeAppParaInstalar[i-1].CodeId;
                     string appName = ListaDeAppParaInstalar[i-1].Name;
 
+                    Debug.WriteLine(appCodeId);
+                    Debug.WriteLine(appName);
+
                     // Verificar se o app já está instalado
                     janelaDeInstalacao.TextoDetalhes.Text = $"{appName} ({i}/{ListaDeAppParaInstalar.Count})";
                     string result = await Task.Run(() => ExecutarCommand($"winget list -q {appCodeId}"));
@@ -83,6 +86,8 @@ namespace WindowsGuide_WPF.Components.Layout
                 }
 
                 if (appsJaInstalados.Count > 0) throw new Exception($"Existem {appsJaInstalados.Count} aplicativos já instalados, deseja ignorar e prosseguir com a instalação?");
+
+                InstalarApps(ListaDeAppParaInstalar);
             }
             catch(Exception ex)
             {
@@ -176,6 +181,16 @@ namespace WindowsGuide_WPF.Components.Layout
             process.WaitForExit();
 
             return output;
+        }
+
+        private void InstallButton_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            InstallButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1ba34c"));
+        }
+
+        private void InstallButton_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            InstallButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1db453"));
         }
     }
 }

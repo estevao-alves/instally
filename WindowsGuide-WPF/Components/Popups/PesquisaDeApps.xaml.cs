@@ -3,18 +3,25 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using WindowsGuide_WPF.Components.Items;
 using WindowsGuide_WPF.Resources.Winget;
+using WindowsGuide_WPF.Components.Layout;
 using System.Linq;
-using System.Diagnostics;
+using System.Windows;
 using System.Windows.Media;
 
 namespace WindowsGuide_WPF.Components.Popups
 {
     public partial class PesquisaDeApps : UserControl
     {
+        
+        string? TextoPadraoSearch;
+        string? CategoriaEscolhida;
+
         List<Package> PacotesEncontrados { get; set; } = new();
         int LimiteDeResultados = 42;
 
         public event System.EventHandler<ScrollChangedEventArgs> ViewChanged;
+
+        List<AppParaInstalar> ListaDeAppParaInstalar;
 
         public PesquisaDeApps()
         {
@@ -22,6 +29,9 @@ namespace WindowsGuide_WPF.Components.Popups
             DataContext = this;
             AppList.Children.Clear();
 
+            TextoPadraoSearch = SearchTextBox.Text;
+
+            ListaDeAppParaInstalar = new();
             PesquisarPacotes();
             BarraDeRolagem.ScrollChanged += BarraDeRolagem_ScrollChanged;
         }
@@ -42,27 +52,44 @@ namespace WindowsGuide_WPF.Components.Popups
             App.Master.Main.AreaDePopups.Children.Clear();
         }
 
-        private void TextBox_GotFocus(object sender, System.Windows.RoutedEventArgs e)
-        {
-            SearchTextBox.Text = string.Empty;
-        }
-
         public void PesquisarPacotes()
         {
-            AppList.Children.Clear();
-            PacotesEncontrados = App.Master.Winget.CapturarPacotes(SearchTextBox.Text).Take<Package>(LimiteDeResultados).ToList();
+            string TextoDigitado = SearchTextBox.Text;
+            string? filtro = TextoDigitado.Length > 0 ? (TextoDigitado != TextoPadraoSearch ? TextoDigitado : null) : null;
+            
+            PacotesEncontrados = App.Master.Winget.CapturarPacotes(filtro, CategoriaEscolhida).Skip(LimiteDeResultados).Take<Package>(42).ToList();
+            LimiteDeResultados = PacotesEncontrados.Count;
 
             foreach (Package pacote in PacotesEncontrados) AppList.Children.Add(new AppInSearchList(pacote.Name));
-            if (PacotesEncontrados.Count < LimiteDeResultados) LimiteDeResultados = PacotesEncontrados.Count;
         }
 
         public void BuscarMaisPacotes(int qtd)
         {
-            LimiteDeResultados += qtd;
             PesquisarPacotes();
         }
 
-        private void SearchTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        public void BuscarPorCategoria(string categoriaEscolhida)
+        {
+            LimiteDeResultados = 42;
+            BarraDeRolagem.ScrollToTop();
+
+            if (categoriaEscolhida == "all") CategoriaEscolhida = null;
+            else CategoriaEscolhida = categoriaEscolhida;
+
+            PesquisarPacotes();
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(SearchTextBox.Text))
+                Placeholder.Visibility = Visibility.Visible;
+            else
+                Placeholder.Visibility = Visibility.Collapsed;
+        
+            SearchTextBox.Select(SearchTextBox.Text.Length, 0);
+        }
+
+        private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -79,7 +106,7 @@ namespace WindowsGuide_WPF.Components.Popups
             PesquisarPacotes();
         }
 
-        private void AppList_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        public void AppList_ChangeColumns()
         {
             if (ActualWidth < 1100)
             {
@@ -93,6 +120,42 @@ namespace WindowsGuide_WPF.Components.Popups
             {
                 AppList.Columns = 8;
             }
+
+            if (DetalhesDoApp.Visibility == Visibility.Visible) AppList.Columns = AppList.Columns - 2;
+        }
+
+        private void AppList_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e) => AppList_ChangeColumns();
+
+        public Border AdicionarApp(Package pkg)
+        {
+            ListaDeAppParaInstalar.Add(new AppParaInstalar(pkg.Name, pkg.Id));
+
+            Border borderWrapper = new()
+            {
+                Background = (SolidColorBrush)App.Current.Resources["PrimaryColor"],
+                CornerRadius = new CornerRadius(8),
+                Margin = new Thickness(0, 0, 10, 0),
+                Width = 40,
+                Height = 40,
+                Child = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name),
+                Padding = new Thickness(6, 6, 0, 6),
+            };
+
+            ListaDeInstalacao.Children.Add(borderWrapper);
+
+            return borderWrapper;
+        }
+
+        public void RemoverApp(Border appItemWithBorder, string wingetId)
+        {
+            ListaDeAppParaInstalar = ListaDeAppParaInstalar.FindAll(item => item.CodeId != wingetId);
+            ListaDeInstalacao.Children.Remove(appItemWithBorder);
+        }
+
+        private void Add_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            App.Master.Main.AdicionarAplicativosACategoria(ListaDeAppParaInstalar);
+            App.Master.Main.AreaDePopups.Children.Clear();
         }
     }
 }

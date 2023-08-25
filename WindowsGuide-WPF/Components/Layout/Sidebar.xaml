@@ -15,22 +15,46 @@
         <StackPanel>
             <Border Background="Transparent">
                 <Viewbox>
-                    <Grid Margin="5">
-                        <Border Background="{DynamicResource PrimaryColor}" Height="12" Width="12" CornerRadius="5">
+                    <Grid Margin="5" Cursor="Hand">
+                        <Border Background="{DynamicResource PrimaryColor}" Height="12" Width="12" CornerRadius="6">
                         </Border>    
                     </Grid>
                 </Viewbox>
             </Border>
-            <Border Background="{DynamicResource PrimaryColor}" CornerRadius="10 0 0 10">
-                <Viewbox Margin="8" Height="30" Width="30">
+            <Border
+                Background="{DynamicResource PrimaryColor}"
+                Margin="0 2"
+                CornerRadius="10 0 0 10"
+                Cursor="Hand"
+                >
+                <Viewbox Margin="10" Height="24" Width="24">
                     <Path Data="M10.6917 2.1117C11.5734 2.1117 12.2921 2.83361 12.2921 3.71916V14.1671C12.2921 15.0526 11.5734 15.7745 10.6917 15.7745H2.39253C1.51086 15.7745 0.792114 15.0526 0.792114 14.1671L0.792114 3.71916C0.792114 2.83361 1.51086 2.1117 2.39253 2.1117M6.54211 1.5534V9.59071M8.84211 8.02171L6.59961 9.7351L4.24209 8.02171"
                     Stroke="white" StrokeThickness="1.5" StrokeEndLineCap="round" StrokeStartLineCap="round" StrokeLineJoin="round"/>
                 </Viewbox>
             </Border>
+
+            <Border
+                Cursor="Hand"
+                Background="Transparent"
+                Name="SidebarSettings"
+                MouseEnter="SidebarSettings_MouseEnter"
+                MouseLeave="SidebarSettings_MouseLeave"
+                Margin="0 2"
+                CornerRadius="10 0 0 10"
+                >
+                <Viewbox>
+                    <Grid Margin="10 8 8 8" Width="18" Height="18">
+                        <Path Data="M9.32148 16.3052L7.39648 17.4837M7.39648 17.4837L7.38773 9.38153M7.39648 17.4837L0.728638 13.4326V5.33045M7.38773 9.38153L14.0552 5.33045M7.38773 9.38153L0.728638 5.33045M14.0552 5.33045V8.1662M14.0552 5.33045L7.38738 1.27946L0.728638 5.33045"
+                              Stroke="white" StrokeEndLineCap="round" StrokeStartLineCap="round" StrokeLineJoin="round"/>
+                        <Path Data="M16.8109 13.3034L17.2921 12.0329C17.0821 11.6462 16.9946 11.4897 16.7846 11.1122L15.4984 10.9096C15.3759 10.8912 15.2709 10.8268 15.2009 10.7255L14.3871 9.65746H13.3809L12.5759 10.7255C12.4971 10.8268 12.3921 10.8912 12.2784 10.9096L10.9834 11.1122C10.7734 11.4897 10.6859 11.6462 10.4759 12.0329L10.9571 13.3034C11.0096 13.4231 11.0096 13.552 10.9571 13.6625L10.4759 14.9423C10.6859 15.3198 10.7734 15.4855 10.9834 15.863L12.2784 16.0563C12.3921 16.0747 12.4971 16.1392 12.5759 16.2405L13.3809 17.3177H14.3871L15.2009 16.2405C15.2709 16.1392 15.3759 16.0747 15.4984 16.0563L16.7846 15.863C16.9946 15.4855 17.0821 15.3198 17.2921 14.9423L16.8109 13.6625C16.7671 13.552 16.7671 13.4231 16.8109 13.3034ZM13.8884 14.9883C13.1009 14.9883 12.4534 14.3162 12.4534 13.4876C12.4534 12.6589 13.1009 11.9868 13.8884 11.9868C14.6759 11.9868 15.3146 12.6589 15.3146 13.4876C15.3146 14.3162 14.6759 14.9883 13.8884 14.9883Z"
+                              Fill="white"/>
+                    </Grid>
+                </Viewbox>
+            </Border>
         </StackPanel>
-        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="6">
+        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" Margin="6 6 6 12">
             <Viewbox>
-                <Grid>
+                <Grid Cursor="Hand">
                     <Path Data="M24.0316 12.3382C24.0316 18.9656 18.659 24.3382 12.0316 24.3382C5.4042 24.3382 0.0316162 18.9656 0.0316162 12.3382C0.0316162 5.71081 5.4042 0.338226 12.0316 0.338226C18.659 0.338226 24.0316 5.71081 24.0316 12.3382Z"
                           Fill="#4C4C4C"/>
                     <Path Data="M12.0317 10.9585C13.5649 10.9585 14.8077 9.71558 14.8077 8.1824C14.8077 6.64922 13.5649 5.40634 12.0317 5.40634C10.4985 5.40634 9.25562 6.64922 9.25562 8.1824C9.25562 9.71558 10.4985 10.9585 12.0317 10.9585Z"

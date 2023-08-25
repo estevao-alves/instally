@@ -120,12 +120,11 @@
                         </StackPanel>
 
                         <Border
+                            Name="AddButton"
                             Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Background="{DynamicResource PrimaryColor}"
-                            CornerRadius="6"
-                            Cursor="Hand"
-                            MouseDown="Search_MouseDown">
+                            Style="{DynamicResource ActionButton}"
+                            MouseDown="Search_MouseDown"
+                            >
                             <Grid>
                                 <TextBlock
                                     Foreground="#FFF"

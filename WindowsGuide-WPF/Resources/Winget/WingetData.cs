@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
@@ -24,7 +25,6 @@ namespace WindowsGuide_WPF.Resources.Winget
         public string Site { get; set; }
         public int VersionsLength { get; set; }
         public string LatestVersion { get; set; }
-        public string UpdatedAt { get; set; }
     }
 
     public class WingetData
@@ -43,9 +43,15 @@ namespace WindowsGuide_WPF.Resources.Winget
             return pkg;
         }
 
-        public List<Package> CapturarPacotes(string ParteDoNomeDoPacote)
+        public List<Package> CapturarPacotes(string? ParteDoNomeDoPacote, string? categoria)
         {
-            List<Package> pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower())).OrderByDescending(pkg => pkg.VersionsLength).ToList();
+            List<Package> pkgs;
+
+            if (ParteDoNomeDoPacote is null) ParteDoNomeDoPacote = "";
+
+            if (categoria is not null) pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower()) && pkg.Tags.Contains(categoria)).OrderByDescending(pkg => pkg.VersionsLength).ToList();
+            else pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower())).OrderByDescending(pkg => pkg.VersionsLength).ToList();
+
             return pkgs;
         }
 

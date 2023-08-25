@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:icons="clr-namespace:WindowsGuide_WPF.Resources.Icons"
              mc:Ignorable="d"
              >
 
@@ -15,6 +16,8 @@
         Margin="10"
         Cursor="Hand"
         VerticalAlignment="Top"
+        MouseEnter="WrapperAppItem_MouseEnter"
+        MouseLeave="WrapperAppItem_MouseLeave"
         >
         <Grid>
             <Grid.RowDefinitions>
@@ -44,7 +47,9 @@
                 TextAlignment="Center"
                 Text="Nome do app muito longoooooo"
                 />
-            
+
+            <icons:Info x:Name="InfoIcon" IsActive="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 -10 -10 0" Width="20" MouseDown="InfoIcon_MouseDown" />
+
         </Grid>
     </Border>
 </UserControl>

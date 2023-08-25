@@ -1,12 +1,21 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using WindowsGuide_WPF.Components;
+using WindowsGuide_WPF.Components.Layout;
 using WindowsGuide_WPF.Components.Popups;
 
 namespace WindowsGuide_WPF
 {
     public partial class MainWindow : Window
     {
+        public PesquisaDeApps JanelaDePesquisa;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -19,17 +28,39 @@ namespace WindowsGuide_WPF
         {
             AppsCategoria1.Children.Clear();
 
-            MenuAppItem app1 = new("Blender");
-            MenuAppItem app2 = new("Insomnia");
-            MenuAppItem app3 = new("Inkscape");
-            MenuAppItem app4 = new("Discord");
-            MenuAppItem app5 = new("Obsidian");
+            try
+            {
+                StreamReader reader = new StreamReader("Apps.txt");
 
-            AppsCategoria1.Children.Add(app1);
-            AppsCategoria1.Children.Add(app2);
-            AppsCategoria1.Children.Add(app3);
-            AppsCategoria1.Children.Add(app4);
-            AppsCategoria1.Children.Add(app5);
+                string line = reader.ReadLine();
+
+                while (line != null)
+                {
+                    MenuAppItem newApp = new(line);
+                    AppsCategoria1.Children.Add(newApp);
+
+                    line = reader.ReadLine();
+                }
+
+                reader.Close();
+            } catch(Exception ex)
+            {
+
+            }
+        }
+
+        public void AdicionarAplicativosACategoria(List<AppParaInstalar> list)
+        {
+            StreamWriter writer = new StreamWriter("Apps.txt", true);
+
+            foreach (AppParaInstalar app in list)
+            {
+                writer.WriteLine(app.Name);
+                MenuAppItem newApp = new(app.Name);
+                AppsCategoria1.Children.Add(newApp);
+            }
+
+            writer.Close();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -37,11 +68,12 @@ namespace WindowsGuide_WPF
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
+
         private void Search_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            PesquisaDeApps janelaDePesquisa = new();
+            JanelaDePesquisa = new();
 
-            App.Master.Main.AreaDePopups.Children.Add(janelaDePesquisa);
+            App.Master.Main.AreaDePopups.Children.Add(JanelaDePesquisa);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using WindowsGuide_WPF.Components.Layout;
+using WindowsGuide_WPF.Components.Popups;
 using WindowsGuide_WPF.Resources.Winget;
 
 namespace WindowsGuide_WPF
