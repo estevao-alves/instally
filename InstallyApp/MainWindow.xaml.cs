@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using InstallyApp.Components;
 using InstallyApp.Components.Layout;
 using InstallyApp.Components.Popups;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace InstallyApp
 {
@@ -60,12 +62,6 @@ namespace InstallyApp
             writer.Close();
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
-        }
-
         private void Search_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             JanelaDePesquisa = new();
@@ -91,6 +87,33 @@ namespace InstallyApp
             {
                 if (WindowState == WindowState.Maximized) WindowState = WindowState.Normal;
                 DragMove();
+            }
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+
+                MoveWindowToMousePosition();
+            }
+        }
+
+        private void MoveWindowToMousePosition()
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                Point getMousePosition = Mouse.GetPosition(this);
+                var mouse = TranslatePoint(getMousePosition, null);
+
+                double WindowWidth = Width;
+
+                Left = mouse.X - (WindowWidth / 2);
+                Top = mouse.Y;
+
+                Debug.WriteLine(WindowWidth);
             }
         }
     }

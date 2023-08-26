@@ -33,7 +33,11 @@ namespace InstallyApp.Resources.Winget
 
         public WingetData()
         {
-            string text = File.ReadAllText(@"./packages.json");
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "packages.json";
+            Debug.WriteLine(path);
+            string text = File.ReadAllText("./packages.json");
+            
+            // string text = File.ReadAllText(@"./packages.json");
             Packages = JsonSerializer.Deserialize<List<Package>>(text);
         }
 
