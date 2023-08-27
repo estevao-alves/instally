@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using InstallyApp.Components;
 using InstallyApp.Components.Layout;
 using InstallyApp.Components.Popups;
+using static System.Formats.Asn1.AsnWriter;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace InstallyApp
@@ -42,10 +45,7 @@ namespace InstallyApp
                 }
 
                 reader.Close();
-            } catch(Exception ex)
-            {
-
-            }
+            } catch(Exception ex){ }
         }
 
         public void AdicionarAplicativosACategoria(List<AppParaInstalar> list)
@@ -73,6 +73,21 @@ namespace InstallyApp
         {
             if(WindowState == WindowState.Maximized) LayoutMain.Margin = new Thickness(7);
             else LayoutMain.Margin = new Thickness(0);
+
+            if (WindowState == WindowState.Maximized || ActualHeight == SystemParameters.WorkArea.Height)
+            {
+                LayoutMainOpacityMask.RadiusX = 0;
+                LayoutMainOpacityMask.RadiusY = 0;
+
+                LayoutMain.Margin = new Thickness(7);
+            }
+            else
+            {
+                LayoutMainOpacityMask.RadiusX = 10;
+                LayoutMainOpacityMask.RadiusY = 10;
+
+                LayoutMain.Margin = new Thickness(0);
+            }
         }
 
         private void TopBar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -108,12 +123,8 @@ namespace InstallyApp
                 Point getMousePosition = Mouse.GetPosition(this);
                 var mouse = TranslatePoint(getMousePosition, null);
 
-                double WindowWidth = Width;
-
-                Left = mouse.X - (WindowWidth / 2);
-                Top = mouse.Y;
-
-                Debug.WriteLine(WindowWidth);
+                Left = mouse.X - (Width / 2);
+                Top = mouse.Y - (TopBar.Height / 2);
             }
         }
     }

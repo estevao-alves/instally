@@ -88,9 +88,10 @@ namespace InstallyApp.Resources.Winget
                     Name = "IconImage",
                     Height = 25,
                     Width = 25,
+                    ClipToBounds = true,
+                    Stretch = Stretch.Fill,
                 };
-                image.Stretch = Stretch.Fill;
-                image.ClipToBounds = true;
+
 
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();

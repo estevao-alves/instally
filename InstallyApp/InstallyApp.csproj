@@ -1,20 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <None Include="packages.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net6.0-windows</TargetFramework>
         <RootNamespace>InstallyApp</RootNamespace>
         <nullable>enable</nullable>
         <UseWPF>true</UseWPF>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
-        <PublishSingleFile>true</PublishSingleFile>
 	</PropertyGroup>
 
+    <ItemGroup>
+      <None Include="bin\Debug\net6.0-windows\packages.json" />
+    </ItemGroup>
 </Project>
 
