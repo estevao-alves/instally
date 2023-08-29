@@ -9,7 +9,7 @@ namespace InstallyApp.Components
     public partial class MenuAppItem : UserControl
     {
         string appName;
-        Border BorderAppFooter;
+        Button BorderAppFooter;
         Package PacoteWingetSelecionado;
 
         public string AppName

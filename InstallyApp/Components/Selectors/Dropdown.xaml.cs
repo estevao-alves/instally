@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -46,17 +47,21 @@ namespace InstallyApp.Components.Selectors
 
             foreach(string item in items)
             {
-                Border borderWrapper = new()
+                Button borderWrapper = new()
                 {
                     Margin = new Thickness(2, 0, 2, 2),
-                    CornerRadius = new CornerRadius(10),
-                    Style = (Style)App.Current.Resources["HoverEffect"]
+                    Background = (SolidColorBrush)App.Current.Resources["PrimaryColor"],
+                    Style = (Style)App.Current.Resources["HoverEffect"],
                 };
 
-                borderWrapper.MouseDown += (object sender, MouseButtonEventArgs e) =>
+                borderWrapper.Click += (object sender, RoutedEventArgs e) =>
                 {
                     DropDownTitle.Text = item.ToUpper();
                     Callback(item);
+
+                    // Close DropDown
+                    IsActive = false;
+                    ListItems.Visibility = Visibility.Collapsed;
                 };
 
                 TextBlock textBlock = new()
@@ -67,7 +72,7 @@ namespace InstallyApp.Components.Selectors
                     Text = item.ToUpper()
                 };
 
-                borderWrapper.Child = textBlock;
+                borderWrapper.Content = textBlock;
 
                 ListItems.Children.Add(borderWrapper);
             }

@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using InstallyApp.Resources.Winget;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace InstallyApp.Components.Items
 {
@@ -11,7 +12,7 @@ namespace InstallyApp.Components.Items
         public bool IsActive = false;
 
         string appName;
-        Border appInListaDeInstalacao;
+        Button appInListaDeInstalacao;
 
         public AppInSearchList()
         {
@@ -31,7 +32,6 @@ namespace InstallyApp.Components.Items
         public void CarregarInformacoesDoApp(string pkgName)
         {
             UIElement appIcon = App.Master.Winget.CapturarFaviconDoPacote(pkgName);
-         
             WrapperIcon.Child = appIcon;
             WrapperIcon.Padding = new Thickness(5, 0, 0, 0);
 

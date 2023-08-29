@@ -8,6 +8,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Diagnostics;
+using System.Windows.Documents;
+using System.Windows.Documents.DocumentStructures;
 
 namespace InstallyApp.Components.Popups
 {
@@ -28,6 +30,7 @@ namespace InstallyApp.Components.Popups
         {
             InitializeComponent();
             DataContext = this;
+
             AppList.Children.Clear();
 
             TextoPadraoSearch = SearchTextBox.Text;
@@ -46,7 +49,7 @@ namespace InstallyApp.Components.Popups
             }
         }
 
-        private void Times_Close(object sender, MouseButtonEventArgs e)
+        private void Times_Close(object sender, RoutedEventArgs e)
         {
             App.Master.Main.AreaDePopups.Children.Clear();
         }
@@ -69,6 +72,14 @@ namespace InstallyApp.Components.Popups
 
             if (categoriaEscolhida == "all") CategoriaEscolhida = null;
             else CategoriaEscolhida = categoriaEscolhida;
+
+            foreach(Button button in Dropdown_Categoria.ListItems.Children)
+            {
+                button.Visibility = Visibility.Visible;
+
+                TextBlock? textBlock = button.Content as TextBlock;
+                if (textBlock?.Text.ToLower() == categoriaEscolhida) button.Visibility = Visibility.Collapsed;
+            }
 
             PesquisarPacotes();
             BarraDeRolagem.ScrollToTop();
@@ -96,7 +107,7 @@ namespace InstallyApp.Components.Popups
             }
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Search_MouseDown(object sender, MouseButtonEventArgs e)
         {
             LimiteDeResultados = 0;
             AppList.Children.Clear();
@@ -125,18 +136,18 @@ namespace InstallyApp.Components.Popups
 
         private void AppList_SizeChanged(object sender, SizeChangedEventArgs e) => AppList_ChangeColumns();
 
-        public Border AdicionarApp(Package pkg)
+        public Button AdicionarApp(Package pkg)
         {
             ListaDeAppParaInstalar.Add(new AppParaInstalar(pkg.Name, pkg.Id));
 
-            Border borderWrapper = new()
+            Button borderWrapper = new()
             {
                 Background = (SolidColorBrush)App.Current.Resources["PrimaryColor"],
-                CornerRadius = new CornerRadius(8),
                 Margin = new Thickness(0, 0, 10, 0),
                 Width = 40,
                 Height = 40,
-                Child = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name),
+                Style = (Style)App.Current.Resources["HoverEffect"],
+                Content = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name),
                 Padding = new Thickness(6, 6, 0, 6),
             };
 
@@ -145,7 +156,7 @@ namespace InstallyApp.Components.Popups
             return borderWrapper;
         }
 
-        public void RemoverApp(Border appItemWithBorder, string wingetId)
+        public void RemoverApp(Button appItemWithBorder, string wingetId)
         {
             ListaDeAppParaInstalar = ListaDeAppParaInstalar.FindAll(item => item.CodeId != wingetId);
             ListaDeInstalacao.Children.Remove(appItemWithBorder);
@@ -153,7 +164,7 @@ namespace InstallyApp.Components.Popups
 
         private void Add_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            App.Master.Main.AdicionarAplicativosACategoria(ListaDeAppParaInstalar);
+            App.Master.Main.AdicionarAplicativosACollection(ListaDeAppParaInstalar);
             App.Master.Main.AreaDePopups.Children.Clear();
         }
     }

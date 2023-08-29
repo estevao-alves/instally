@@ -12,12 +12,12 @@ namespace InstallyApp.Components.Layout
             InitializeComponent();
         }
 
-        private void Close_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Close_Click(object sender, RoutedEventArgs e)
         {
             App.Current.MainWindow.Close();
         }
 
-        private void Maximize_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Maximize_Click(object sender, RoutedEventArgs e)
         {
             if (App.Current.MainWindow.WindowState == WindowState.Normal)
             {
@@ -29,7 +29,7 @@ namespace InstallyApp.Components.Layout
             }
         }
 
-        private void Minimize_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Minimize_Click(object sender, RoutedEventArgs e)
         {
             App.Current.MainWindow.WindowState = WindowState.Minimized;
         }

@@ -4,12 +4,7 @@
              >
     <Application.Resources>
         <ResourceDictionary>
-
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/ScrollBar.xaml" />
-                <ResourceDictionary Source="Resources/Styles/HoverEffect.xaml" />
-                <ResourceDictionary Source="Resources/Styles/ActionButton.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="FontFamily">pack://application:,,,/Resources/Fonts/#Poppins</FontFamily>
             
             <SolidColorBrush x:Key="PrimaryColor" Color="#454343" />
             <SolidColorBrush x:Key="SecondaryColor" Color="#2F2F2F" />
@@ -20,6 +15,11 @@
             <SolidColorBrush x:Key="LightGray" Color="#B5B2B2" />
             <SolidColorBrush x:Key="White" Color="#D9D9D9" />
 
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/ScrollBar.xaml" />
+                <ResourceDictionary Source="Resources/Styles/HoverEffect.xaml" />
+                <ResourceDictionary Source="Resources/Styles/ActionButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
     </Application.Resources>

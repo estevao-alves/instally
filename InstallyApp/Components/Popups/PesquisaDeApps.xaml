@@ -67,7 +67,7 @@
                                     Background="Transparent"
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
-                                    MouseDown="Grid_MouseDown"
+                                    MouseDown="Search_MouseDown"
                                     Cursor="Hand"
                                     CornerRadius="20"
                                     >
@@ -87,13 +87,14 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
 
-                        <selectors:Dropdown Margin="20 0" Titulo="Categories" Opcoes="all,backup,cloud,download" Callback="BuscarPorCategoria" />
+                        <selectors:Dropdown Margin="20 0" x:Name="Dropdown_Categoria" Titulo="Categories" Opcoes="all,backup,cloud,download" Callback="BuscarPorCategoria" />
 
-                        <Border
-                            CornerRadius="12"
+                        <Button
+                            Background="{DynamicResource TertiaryColor}"
                             BorderThickness="2"
                             Style="{DynamicResource HoverEffect}"
                             BorderBrush="{DynamicResource PrimaryColor}"
+                            Visibility="Collapsed"
                             >
                             <TextBlock
                                 Foreground="{DynamicResource LightGray}"
@@ -103,7 +104,7 @@
                                 Margin="20 0"
                                 FontWeight="SemiBold"
                                 >SETTINGS</TextBlock>
-                        </Border>
+                        </Button>
                     </StackPanel>
 
                     <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20 0 10" Panel.ZIndex="-1">
@@ -155,11 +156,11 @@
                 </Grid>
             </Border>
 
-            <Border
+            <Button
+                Background="{DynamicResource SecondaryColor}"
                 Cursor="Hand"
-                MouseDown="Times_Close"
+                Click="Times_Close"
                 Style="{DynamicResource HoverEffect}"
-                CornerRadius="30"
                 Width="30"
                 Height="30"
                 HorizontalAlignment="Right"
@@ -172,7 +173,7 @@
                         <Path Data="M0.815369 2.21828C0.499044 1.90196 0.499044 1.38909 0.815369 1.07277C1.13169 0.756444 1.64456 0.756444 1.96088 1.07277L12.3336 11.4455C12.6499 11.7618 12.6499 12.2747 12.3336 12.591C12.0173 12.9073 11.5044 12.9073 11.1881 12.591L0.815369 2.21828Z" Fill="#B5B2B2"/>
                     </Grid>
                 </Viewbox>
-            </Border>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

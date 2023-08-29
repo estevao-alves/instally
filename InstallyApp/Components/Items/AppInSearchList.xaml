@@ -25,14 +25,33 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border
+            <Grid Name="GridParaArredondarImagem">
+                
+                <Border
                 Background="{DynamicResource SecondaryColor}"
-                Name="WrapperIcon"
+                Name="IconBackgroundCircle"
                 Width="50"
                 Height="50"
                 CornerRadius="50"
                 Margin="0 0 0 20"
-                />
+                >
+
+                <Grid>
+                    <Grid.OpacityMask>
+                        <VisualBrush>
+                            <VisualBrush.Visual>
+                                <Grid Width="{Binding ElementName=WrapperIcon, Path=ActualWidth}" Height="{Binding ElementName=WrapperIcon, Path=ActualHeight}">
+                                    <Rectangle Fill="Black" RadiusX="15" RadiusY="15"/>
+                                </Grid>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.OpacityMask>
+                    
+                    <Border Name="WrapperIcon" />
+                </Grid>
+                </Border>
+
+            </Grid>
 
             <TextBlock
                 Foreground="White"
@@ -49,7 +68,6 @@
                 />
 
             <icons:Info x:Name="InfoIcon" IsActive="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 -10 -10 0" Width="20" MouseDown="InfoIcon_MouseDown" />
-
         </Grid>
     </Border>
 </UserControl>

@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using InstallyApp.Components;
+using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
 using InstallyApp.Components.Popups;
-using static System.Formats.Asn1.AsnWriter;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace InstallyApp
 {
@@ -26,9 +24,32 @@ namespace InstallyApp
             CarregarAplicativos();
         }
 
+        /*
+        public async void VerificarInstalacaoWinget()
+        {
+            string wingetVersionCommand = await Task.Run(() => this.Footer.ExecutarCommand($"winget --version").Substring(0, 4).TrimStart('v'));
+            double wingetVersion = Convert.ToDouble(wingetVersionCommand);
+
+            if (wingetVersion >= 1.5)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.WingetAvisoDeInstalacao.Visibility = Visibility.Collapsed;
+                });
+            }
+            else
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.WingetAvisoDeInstalacao.Visibility = Visibility.Visible;
+                });
+            }
+        }
+        */
+
         public void CarregarAplicativos()
         {
-            AppsCategoria1.Children.Clear();
+            Collection1.Apps.Children.Clear();
 
             try
             {
@@ -39,7 +60,7 @@ namespace InstallyApp
                 while (line != null)
                 {
                     MenuAppItem newApp = new(line);
-                    AppsCategoria1.Children.Add(newApp);
+                    Collection1.Apps.Children.Add(newApp);
 
                     line = reader.ReadLine();
                 }
@@ -48,7 +69,7 @@ namespace InstallyApp
             } catch(Exception ex){ }
         }
 
-        public void AdicionarAplicativosACategoria(List<AppParaInstalar> list)
+        public void AdicionarAplicativosACollection(List<AppParaInstalar> list)
         {
             StreamWriter writer = new StreamWriter("Apps.txt", true);
 
@@ -56,17 +77,32 @@ namespace InstallyApp
             {
                 writer.WriteLine(app.Name);
                 MenuAppItem newApp = new(app.Name);
-                AppsCategoria1.Children.Add(newApp);
+
+                Collection1.Apps.Children.Add(newApp);
             }
 
             writer.Close();
         }
 
-        private void Search_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        public void RemoverAplicativosDaCollection(List<AppParaInstalar> list)
         {
-            JanelaDePesquisa = new();
+            try
+            {
+                StreamReader reader = new StreamReader("Apps.txt");
 
-            App.Master.Main.AreaDePopups.Children.Add(JanelaDePesquisa);
+                string line = reader.ReadLine();
+
+                while (line != null)
+                {
+                    MenuAppItem newApp = new(line);
+                    Collection1.Apps.Children.Remove(newApp);
+
+                    line = reader.ReadLine();
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex) { }
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -126,6 +162,23 @@ namespace InstallyApp
                 Left = mouse.X - (Width / 2);
                 Top = mouse.Y - (TopBar.Height / 2);
             }
+        }
+
+        private void AddCollection_Click(object sender, RoutedEventArgs e)
+        {
+            Collection collection = new();
+
+            collection.Apps.Children.Clear();
+            CollectionList.Children.Add(collection);
+
+            if (CollectionList.Children.Count >= 4)
+            {
+                AddCollection.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void Collection1_MouseDown(object sender, MouseButtonEventArgs e)
+        {
         }
     }
 }

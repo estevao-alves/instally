@@ -20,18 +20,16 @@
 
         <Border
             Style="{StaticResource ActionButton}"
+            MouseDown="VerificarApps_MouseDown"
             Name="InstallButton"
             Grid.Column="2"
-            Padding="20 10"
-            Margin="20 0"
+            Margin="20 10"
             >
             <TextBlock
-                Foreground="White"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 FontSize="20"
                 FontWeight="Bold"
-                MouseDown="VerificarApps"
                 Text="Install"
                 />
         </Border>

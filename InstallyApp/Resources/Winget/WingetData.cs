@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
-using System.IO.Packaging;
 using System.Linq;
-using System.Security.Policy;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using InstallyApp.Components.Items;
 
 namespace InstallyApp.Resources.Winget
 {
@@ -81,17 +77,15 @@ namespace InstallyApp.Resources.Winget
             {
                 var urlDoFavicon = $"https://www.google.com/s2/favicons?sz=32&domain_url={pkg.Site}";
 
-
                 Image image = new Image()
                 {
                     Margin = new Thickness(0, 0, 5, 0),
                     Name = "IconImage",
-                    Height = 25,
-                    Width = 25,
+                    Height = 30,
+                    Width = 30,
                     ClipToBounds = true,
                     Stretch = Stretch.Fill,
                 };
-
 
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();

@@ -41,6 +41,8 @@
                 MouseEnter="SidebarSettings_MouseEnter"
                 MouseLeave="SidebarSettings_MouseLeave"
                 CornerRadius="10"
+                
+                Visibility="Collapsed"
                 >
                 <Viewbox>
                     <Grid Margin="8 6 6 6" Width="18" Height="18">

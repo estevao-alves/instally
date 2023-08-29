@@ -9,7 +9,7 @@ namespace InstallyApp.Components.Popups
             InitializeComponent();
         }
 
-        private void Times_Close(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Close_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             App.Master.Main.AreaDePopups.Children.Clear();
         }

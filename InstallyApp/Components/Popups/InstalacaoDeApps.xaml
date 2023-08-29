@@ -22,8 +22,8 @@
         <Border Background="#333" Opacity=".7" />
 
         <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border Width="400" Height="200" Background="{DynamicResource TertiaryColor}" CornerRadius="10">
-                <Grid Margin="30" VerticalAlignment="Center">
+            <Border Width="400" Height="200" Margin="10" Background="{DynamicResource TertiaryColor}" CornerRadius="10">
+                <Grid Margin="20" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
@@ -59,16 +59,18 @@
                         />
 
                     <StackPanel Name="Botoes" Grid.Row="3" Visibility="Collapsed" Orientation="Horizontal" Margin="0 20 0 0" HorizontalAlignment="Center">
-                        <Button Name="Confirmar">Continuar</Button>
+                        <Border Name="Confirmar" Background="#1db453" Style="{DynamicResource ActionButton}">
+                            <TextBlock Name="ConfirmarTextBlock" FontSize="16" Text="Continuar" />
+                        </Border>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <Border
+            <Button
                 Cursor="Hand"
-                MouseDown="Times_Close"
-                Background="{DynamicResource SecondaryColor}"
-                CornerRadius="30"
+                Click="Close_Click"
+                Background="{DynamicResource TertiaryColor}"
+                Style="{DynamicResource HoverEffect}"
                 Width="30"
                 Height="30"
                 HorizontalAlignment="Right"
@@ -81,7 +83,7 @@
                         <Path Data="M0.815369 2.21828C0.499044 1.90196 0.499044 1.38909 0.815369 1.07277C1.13169 0.756444 1.64456 0.756444 1.96088 1.07277L12.3336 11.4455C12.6499 11.7618 12.6499 12.2747 12.3336 12.591C12.0173 12.9073 11.5044 12.9073 11.1881 12.591L0.815369 2.21828Z" Fill="#B5B2B2"/>
                     </Grid>
                 </Viewbox>
-            </Border>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

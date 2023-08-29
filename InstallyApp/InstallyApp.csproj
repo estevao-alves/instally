@@ -11,5 +11,16 @@
     <ItemGroup>
       <None Include="bin\Debug\net6.0-windows\packages.json" />
     </ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Resources\Fonts\Poppins-Black.ttf" />
+		<Resource Include="Resources\Fonts\Poppins-Bold.ttf" />
+		<Resource Include="Resources\Fonts\Poppins-ExtraBold.ttf" />
+		<Resource Include="Resources\Fonts\Poppins-Light.ttf" />
+		<Resource Include="Resources\Fonts\Poppins-Medium.ttf" />
+		<Resource Include="Resources\Fonts\Poppins-Regular.ttf" />
+		<Resource Include="Resources\Fonts\Poppins-SemiBold.ttf" />
+	</ItemGroup>
+	
 </Project>
 
