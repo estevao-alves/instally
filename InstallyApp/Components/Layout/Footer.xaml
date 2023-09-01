@@ -9,7 +9,7 @@
              >
     <Grid
         MinHeight="60"
-        Background="#2F2F2F"
+        Background="{DynamicResource SecondaryColor}"
         >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -30,8 +30,7 @@
                 HorizontalAlignment="Center"
                 FontSize="20"
                 FontWeight="Bold"
-                Text="Install"
-                />
+                ><Run Text="Install"/><Run Language="pt-br" Text="y"/></TextBlock>
         </Border>
         
     </Grid>

@@ -12,7 +12,7 @@
         Title="MainWindow"
         Height="700"
         Width="1200"
-        MinHeight="500"
+        MinHeight="540"
         MinWidth="820"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -51,65 +51,28 @@
             </VisualBrush>
         </Grid.OpacityMask>
 
+        <layout:TopBar x:Name="TopBar" Grid.Row="0" Grid.Column="1" MouseDoubleClick="TopBar_MouseDoubleClick" MouseMove="TopBar_MouseMove" />
 
-        <layout:TopBar x:Name="TopBar" Grid.Row="0" Grid.Column="1" MouseDoubleClick="TopBar_MouseDoubleClick" Margin="-50 0 0 0" MouseMove="TopBar_MouseMove" />
+        <layout:Sidebar Visibility="Collapsed" Grid.Column="0" Grid.RowSpan="3" />
 
-        <layout:Sidebar Grid.Column="0" Grid.RowSpan="3" />
+        <Border Grid.Row="1" Grid.Column="1" Padding="20" Background="{DynamicResource PrimaryColor}">
+            <Grid Name="CollectionList">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" Grid.Column="1" Background="{StaticResource PrimaryColor}" Name="Categorias">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" MinWidth="320" />
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Orientation="Horizontal" Name="CollectionList">
-                <items:Collection x:Name="Collection1" MouseDown="Collection1_MouseDown"/>
-            </StackPanel>
-
-            <Button
-                Name="AddCollection"
-                Click="AddCollection_Click"
-                BorderThickness="4"
-                Margin="20"
-                Grid.Column="1"
-                Cursor="Hand"
-                Background="{DynamicResource PrimaryColor}"
-                Style="{StaticResource HoverEffect}"
-                Opacity=".3"
-                >
-
-                <Grid>
-                    <Rectangle
-                        StrokeDashArray="4 2"
-                        StrokeThickness="4"
-                        Stroke="{DynamicResource TertiaryColor}"
-                        RadiusX="8"
-                        RadiusY="8"
-                        >
-                    </Rectangle>
-
-                    <Viewbox
-                        Height="20"
-                        Width="20"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        >
-                        <Grid>
-                            <Path Data="M3.09309 1.17016C3.09309 0.804796 3.38928 0.508606 3.75464 0.508606C4.12001 0.508606 4.4162 0.804795 4.4162 1.17016V7.04328C4.4162 7.40865 4.12001 7.70484 3.75464 7.70484C3.38928 7.70484 3.09309 7.40865 3.09309 7.04329V1.17016Z"
-                        Fill="{DynamicResource TertiaryColor}"/>
-                            <Path Data="M6.69117 3.44517C7.05654 3.44517 7.35273 3.74136 7.35273 4.10672C7.35273 4.47209 7.05654 4.76828 6.69117 4.76828L0.818051 4.76828C0.452684 4.76828 0.156494 4.47209 0.156494 4.10672C0.156494 3.74136 0.452683 3.44517 0.81805 3.44517L6.69117 3.44517Z"
-                        Fill="{DynamicResource TertiaryColor}"/>
-                        </Grid>
-                    </Viewbox>
-                </Grid>
-            </Button>
-
-        </Grid>
-
+                <items:Collection />
+                <items:CollectionAdd Grid.Column="1" />
+            </Grid>
+        </Border>
+        
         <layout:Footer Grid.Row="2" Grid.Column="1" x:Name="Footer" />
 
         <popup:WingetAvisoDeInstalacao x:Name="WingetAvisoDeInstalacao" Visibility="Collapsed" Grid.Row="1" Grid.Column="1" />
@@ -117,6 +80,5 @@
         <Border Grid.RowSpan="3" Grid.ColumnSpan="2" Name="LayoutBackgroundColor">
             <Grid Grid.RowSpan="3" Grid.ColumnSpan="2" Name="AreaDePopups" />
         </Border>
-
     </Grid>
 </Window>

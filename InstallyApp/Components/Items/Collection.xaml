@@ -6,10 +6,9 @@
              xmlns:local="clr-namespace:InstallyApp.Components.Items"
              xmlns:components="clr-namespace:InstallyApp.Components"
              mc:Ignorable="d"
-             Width="280"
              >
         
-    <Border Background="#2F2F2F" Margin="20 20 -10 20" CornerRadius="8">
+    <Border Background="{DynamicResource SecondaryColor}" CornerRadius="8" Margin="0 0 10 0">
         <StackPanel>
             <Grid Margin="20 10 10 10">
                 <Grid.ColumnDefinitions>
@@ -22,63 +21,53 @@
                     Style="{DynamicResource HoverEffect}"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
-                    Padding="20"
                     Margin="-10 0 0 0"
                     Cursor="Hand"
+                    MouseEnter="CollectionButton_MouseEnter"
+                    MouseLeave="CollectionButton_MouseLeave"
                     >
 
-                    <StackPanel Orientation="Horizontal"  MouseDown="EditName_MouseDown">
+                    <Grid MouseDown="EditName_MouseDown">
                         <TextBox
-                            Name="NomeDaCollection"
+                            Name="CollectionTextBox"
                             Background="Transparent"
                             Foreground="White"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Margin="8"
+                            Padding="4 4 20 4"
                             Grid.Row="0"
                             FontSize="14"
                             FontWeight="SemiBold"
                             TextAlignment="Center"
                             BorderThickness="0"
                             Text="My Collection"
-                            TextChanged="TextBox_TextChanged"
+                            KeyUp="CollectionTextBox_KeyUp"
+                            Cursor="Hand"
+                            CaretBrush="White"
+                            IsEnabled="False"
+                            MouseLeave="CollectionTextBox_MouseLeave"
                             />
 
-                        <Viewbox Height="10" VerticalAlignment="Center">
-                            <Grid>
-                                <Path Data="M2.55 11.5021L1.62 15.8321L5.95 14.9021L15.21 5.64206C16.15 4.70206 16.15 3.18206 15.21 2.24206C14.27 1.30206 12.75 1.30206 11.81 2.24206L2.55 11.5021Z"
+                        <Grid Name="EditPen" Visibility="Collapsed" Height="10" HorizontalAlignment="Right" Margin="0 0 5 0">
+                            <Viewbox>
+                                <Grid>
+                                    <Path Data="M2.55 11.5021L1.62 15.8321L5.95 14.9021L15.21 5.64206C16.15 4.70206 16.15 3.18206 15.21 2.24206C14.27 1.30206 12.75 1.30206 11.81 2.24206L2.55 11.5021Z"
                                 Stroke="{DynamicResource LightGray}" StrokeThickness="2" StrokeLineJoin="round"/>
-                                <Path Data="M14.26 6.58205L10.83 3.21205"
+                                    <Path Data="M14.26 6.58205L10.83 3.21205"
                                 Stroke="{DynamicResource LightGray}" StrokeThickness="2" StrokeLineJoin="round"/>
-                            </Grid>
-                        </Viewbox>
+                                </Grid>
+                            </Viewbox>
+                        </Grid>
 
-                    </StackPanel>
+                    </Grid>
                 </Button>
 
                 <Border
-                        Style="{DynamicResource ActionButton}"
-                        Name="AddButton"
-                        Grid.Column="1"
-                        Padding="2"
-                        MouseDown="Search_MouseDown"
-                        >
+                    Style="{DynamicResource ActionButton}"
+                    Name="AddButton"
+                    Grid.Column="1"
+                    Padding="2"
+                    MouseDown="AdicionarApp_MouseDown"
+                    >
                     <Grid>
-                        <!--
-                        <Viewbox
-                            Height="15"
-                            Width="15"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            >
-                            <Grid>
-                                <Path Data="M3.09309 1.17016C3.09309 0.804796 3.38928 0.508606 3.75464 0.508606C4.12001 0.508606 4.4162 0.804795 4.4162 1.17016V7.04328C4.4162 7.40865 4.12001 7.70484 3.75464 7.70484C3.38928 7.70484 3.09309 7.40865 3.09309 7.04329V1.17016Z"
-                                Fill="White"/>
-                                <Path Data="M6.69117 3.44517C7.05654 3.44517 7.35273 3.74136 7.35273 4.10672C7.35273 4.47209 7.05654 4.76828 6.69117 4.76828L0.818051 4.76828C0.452684 4.76828 0.156494 4.47209 0.156494 4.10672C0.156494 3.74136 0.452683 3.44517 0.81805 3.44517L6.69117 3.44517Z"
-                                Fill="White"/>
-                            </Grid>
-                        </Viewbox>
-                        -->
                         <TextBlock
                             Foreground="#FFF"
                             Text="Adicionar"

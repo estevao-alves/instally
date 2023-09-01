@@ -14,7 +14,7 @@
                             <EventTrigger RoutedEvent="MouseEnter">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(Color)" To="#555" Duration="0:0:0:0.2" AccelerationRatio="0.5" DecelerationRatio="0.3"/>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(Color)" To="#333" Duration="0:0:0:0.2" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -22,7 +22,7 @@
                             <EventTrigger RoutedEvent="MouseLeave">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{TemplateBinding Background}" Duration="0:0:0:0.2" AccelerationRatio="0.5" DecelerationRatio="0.3"/>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="{TemplateBinding Background}" Duration="0:0:0:0.2" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>

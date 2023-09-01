@@ -27,8 +27,8 @@ namespace InstallyApp.Components.Layout
 
     public partial class Footer : UserControl
     {
-        List<AppParaInstalar> ListaDeAppParaInstalar;
-        InstalacaoDeApps janelaDeInstalacao;
+        public List<AppParaInstalar> ListaDeAppParaInstalar;
+        public InstalacaoDeApps janelaDeInstalacao;
 
         public Footer()
         {
@@ -213,7 +213,7 @@ namespace InstallyApp.Components.Layout
                 CreateNoWindow = true
             };
 
-            Process process = new Process();
+            Process process = new();
             process.StartInfo = startInfo;
             process.Start();
 

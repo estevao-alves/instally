@@ -9,7 +9,7 @@ namespace InstallyApp.Components.Selectors
 {
     public partial class Dropdown : UserControl
     {
-        bool IsActive = false;
+        public bool IsActive = false;
         public string[] items = new string[0];
 
         public string Titulo
@@ -54,7 +54,7 @@ namespace InstallyApp.Components.Selectors
                     Style = (Style)App.Current.Resources["HoverEffect"],
                 };
 
-                borderWrapper.Click += (object sender, RoutedEventArgs e) =>
+                borderWrapper.PreviewMouseDown += (object sender,MouseButtonEventArgs e) =>
                 {
                     DropDownTitle.Text = item.ToUpper();
                     Callback(item);
@@ -91,5 +91,6 @@ namespace InstallyApp.Components.Selectors
                 ListItems.Visibility = Visibility.Visible;
             }
         }
+
     }
 }

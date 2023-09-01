@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using InstallyApp.Components;
 using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
@@ -15,13 +17,14 @@ namespace InstallyApp
     public partial class MainWindow : Window
     {
         public PesquisaDeApps JanelaDePesquisa;
+        public Collection ColecaoSelecionada;
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
 
-            CarregarAplicativos();
+            CarregarCollections();
         }
 
         /*
@@ -47,62 +50,59 @@ namespace InstallyApp
         }
         */
 
-        public void CarregarAplicativos()
+        public void CarregarCollections()
         {
-            Collection1.Apps.Children.Clear();
+            CollectionList.Children.Clear();
 
-            try
+            DirectoryInfo dirCollections = new("Collections");
+
+            if(!dirCollections.Exists) Directory.CreateDirectory("Collections");
+
+            FileInfo[] collections = dirCollections.GetFiles();
+
+            if (collections.Length < 1)
             {
-                StreamReader reader = new StreamReader("Apps.txt");
-
-                string line = reader.ReadLine();
-
-                while (line != null)
+                Collection collection = new Collection("My Collection");
+                CollectionList.Children.Add(collection);
+            }
+            else
+            {
+                for(int i = 0; i < collections.Length; i++)
                 {
-                    MenuAppItem newApp = new(line);
-                    Collection1.Apps.Children.Add(newApp);
+                    Collection collection = new Collection(collections[i].Name.Replace(collections[i].Extension, ""));
+                    CollectionList.Children.Add(collection);
 
-                    line = reader.ReadLine();
+                    Grid.SetColumn(collection, i);
                 }
+            }
 
-                reader.Close();
-            } catch(Exception ex){ }
+            if(dirCollections.GetFiles().Length < 4)
+            {
+                CollectionAdd collectionAdd = new();
+                CollectionList.Children.Add(collectionAdd);
+
+                Grid.SetColumn(collectionAdd, dirCollections.GetFiles().Length);
+            }
         }
 
-        public void AdicionarAplicativosACollection(List<AppParaInstalar> list)
+        public void AdicionarAplicativosACollection(List<AppParaInstalar> list, Collection collection)
         {
-            StreamWriter writer = new StreamWriter("Apps.txt", true);
+            StreamWriter writer = new StreamWriter(@$"{collection.dir}\{collection.Title}.txt", true);
 
             foreach (AppParaInstalar app in list)
             {
                 writer.WriteLine(app.Name);
                 MenuAppItem newApp = new(app.Name);
+                newApp.OnExcluir += () =>
+                {
+                    collection.Apps.Children.Remove(newApp);
+                    collection.AtualizarArquivo(app.Name);
+                };
 
-                Collection1.Apps.Children.Add(newApp);
+                collection.Apps.Children.Add(newApp);
             }
 
             writer.Close();
-        }
-
-        public void RemoverAplicativosDaCollection(List<AppParaInstalar> list)
-        {
-            try
-            {
-                StreamReader reader = new StreamReader("Apps.txt");
-
-                string line = reader.ReadLine();
-
-                while (line != null)
-                {
-                    MenuAppItem newApp = new(line);
-                    Collection1.Apps.Children.Remove(newApp);
-
-                    line = reader.ReadLine();
-                }
-
-                reader.Close();
-            }
-            catch (Exception ex) { }
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -162,23 +162,6 @@ namespace InstallyApp
                 Left = mouse.X - (Width / 2);
                 Top = mouse.Y - (TopBar.Height / 2);
             }
-        }
-
-        private void AddCollection_Click(object sender, RoutedEventArgs e)
-        {
-            Collection collection = new();
-
-            collection.Apps.Children.Clear();
-            CollectionList.Children.Add(collection);
-
-            if (CollectionList.Children.Count >= 4)
-            {
-                AddCollection.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void Collection1_MouseDown(object sender, MouseButtonEventArgs e)
-        {
         }
     }
 }

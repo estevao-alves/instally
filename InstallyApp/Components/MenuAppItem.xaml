@@ -4,33 +4,64 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d">
-    
-    <Grid Margin="0 0 0 3" MouseDown="Grid_MouseDown" Cursor="Hand">
-        <Border Name="BorderWrapper" Background="Transparent" CornerRadius="8"/>
-        <DockPanel Height="30" Margin="12, 5" VerticalAlignment="Center">
 
+    <Grid Margin="0 0 0 3" Cursor="Hand" MouseDown="AppItem_MouseDown" MouseEnter="BorderWrapper_MouseEnter" MouseLeave="BorderWrapper_MouseLeave">
+        <Border
+        Name="BorderWrapper"
+        Background="Transparent"
+        CornerRadius="6"
+        />
+        <Border
+        Name="BorderBackgroundHover"
+        CornerRadius="6"
+        />
+
+        <DockPanel Height="30" Margin="12, 5" VerticalAlignment="Center">
             <Grid>
                 <Viewbox Name="WrapperAppIcon" Width="20" Height="20">
                     <Border
-                    Width="18"
-                    Height="18"
-                    CornerRadius="18"
-                    Background="{DynamicResource PrimaryColor}"
-                    />
+                Width="18"
+                Height="18"
+                CornerRadius="18"
+                Background="{DynamicResource PrimaryColor}"
+                />
                 </Viewbox>
             </Grid>
 
             <StackPanel Name="MeusIcons" />
 
             <TextBlock
-                Padding="2"
-                Margin="10,0,0,0"
-                Foreground="White"
-                Name="Title"
-                Text="Nome do App"
-                FontSize="16"
-                VerticalAlignment="Center"
-                />
+            Padding="2"
+            Margin="10,0,8,0"
+            Foreground="White"
+            Name="Title"
+            Text="Nome do App"
+            FontSize="16"
+            VerticalAlignment="Center"
+            TextTrimming="CharacterEllipsis"
+            />
         </DockPanel>
+
+        <Button
+        Background="{DynamicResource SecondaryColor}"
+        Name="RemoveButton"
+        Click="RemoveButton_Click"
+        Style="{DynamicResource HoverEffect}"
+        Width="20"
+        Height="20"
+        Visibility="Collapsed"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Top"
+        Margin="5"
+        >
+            <Viewbox Width="10">
+                <Grid>
+                    <Path Data="M11.3954 1.0921C11.7224 0.765098 12.2526 0.765098 12.5796 1.0921C12.9066 1.4191 12.9066 1.94927 12.5796 2.27627L2.01883 12.837C1.69183 13.164 1.16166 13.164 0.834659 12.837C0.507659 12.51 0.507659 11.9798 0.834659 11.6528L11.3954 1.0921Z" Fill="#B5B2B2"/>
+                    <Path Data="M0.815369 2.21828C0.499044 1.90196 0.499044 1.38909 0.815369 1.07277C1.13169 0.756444 1.64456 0.756444 1.96088 1.07277L12.3336 11.4455C12.6499 11.7618 12.6499 12.2747 12.3336 12.591C12.0173 12.9073 11.5044 12.9073 11.1881 12.591L0.815369 2.21828Z" Fill="#B5B2B2"/>
+                </Grid>
+            </Viewbox>
+        </Button>
+
     </Grid>
+
 </UserControl>

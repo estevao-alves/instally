@@ -17,7 +17,7 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <ColorAnimation
-                                To="#168d41" 
+                                To="#6247AA" 
                                 Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
                                 Duration="0:0:0.1"
                                 />
@@ -29,7 +29,7 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <ColorAnimation
-                                To="#1db453"
+                                To="#7251b5"
                                 Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
                                 Duration="0:0:0.1"
                                 />

@@ -7,9 +7,6 @@ using InstallyApp.Components.Layout;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using System.Diagnostics;
-using System.Windows.Documents;
-using System.Windows.Documents.DocumentStructures;
 
 namespace InstallyApp.Components.Popups
 {
@@ -24,7 +21,7 @@ namespace InstallyApp.Components.Popups
 
         public event System.EventHandler<ScrollChangedEventArgs> ViewChanged;
 
-        List<AppParaInstalar> ListaDeAppParaInstalar;
+        List<AppParaInstalar> ListaDeAppsParaColecionar;
 
         public PesquisaDeApps()
         {
@@ -35,7 +32,7 @@ namespace InstallyApp.Components.Popups
 
             TextoPadraoSearch = SearchTextBox.Text;
 
-            ListaDeAppParaInstalar = new();
+            ListaDeAppsParaColecionar = new();
             PesquisarPacotes();
 
             BarraDeRolagem.ScrollChanged += BarraDeRolagem_ScrollChanged;
@@ -49,7 +46,7 @@ namespace InstallyApp.Components.Popups
             }
         }
 
-        private void Times_Close(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             App.Master.Main.AreaDePopups.Children.Clear();
         }
@@ -73,7 +70,7 @@ namespace InstallyApp.Components.Popups
             if (categoriaEscolhida == "all") CategoriaEscolhida = null;
             else CategoriaEscolhida = categoriaEscolhida;
 
-            foreach(Button button in Dropdown_Categoria.ListItems.Children)
+            foreach(Button button in DropdownCategoria.ListItems.Children)
             {
                 button.Visibility = Visibility.Visible;
 
@@ -87,6 +84,8 @@ namespace InstallyApp.Components.Popups
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            this.Cursor = Cursors.Arrow;
+
             if (string.IsNullOrEmpty(SearchTextBox.Text))
                 Placeholder.Visibility = Visibility.Visible;
             else
@@ -104,6 +103,8 @@ namespace InstallyApp.Components.Popups
 
                 PesquisarPacotes();
                 BarraDeRolagem.ScrollToTop();
+
+                Keyboard.ClearFocus();
             }
         }
 
@@ -118,18 +119,9 @@ namespace InstallyApp.Components.Popups
 
         public void AppList_ChangeColumns()
         {
-            if (ActualWidth < 1100)
-            {
-                AppList.Columns = 4;
-            }
-            else if (ActualWidth < 1600)
-            {
-                AppList.Columns = 6;
-            }
-            else
-            {
-                AppList.Columns = 8;
-            }
+            if (ActualWidth < 1100) AppList.Columns = 4;
+            else if (ActualWidth < 1600) AppList.Columns = 6;
+            else AppList.Columns = 8;
 
             if (DetalhesDoApp.Visibility == Visibility.Visible) AppList.Columns = AppList.Columns - 2;
         }
@@ -138,7 +130,7 @@ namespace InstallyApp.Components.Popups
 
         public Button AdicionarApp(Package pkg)
         {
-            ListaDeAppParaInstalar.Add(new AppParaInstalar(pkg.Name, pkg.Id));
+            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.Id));
 
             Button borderWrapper = new()
             {
@@ -158,14 +150,32 @@ namespace InstallyApp.Components.Popups
 
         public void RemoverApp(Button appItemWithBorder, string wingetId)
         {
-            ListaDeAppParaInstalar = ListaDeAppParaInstalar.FindAll(item => item.CodeId != wingetId);
+            ListaDeAppsParaColecionar = ListaDeAppsParaColecionar.FindAll(item => item.CodeId != wingetId);
             ListaDeInstalacao.Children.Remove(appItemWithBorder);
         }
 
         private void Add_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            App.Master.Main.AdicionarAplicativosACollection(ListaDeAppParaInstalar);
+            App.Master.Main.AdicionarAplicativosACollection(ListaDeAppsParaColecionar, App.Master.Main.ColecaoSelecionada);
             App.Master.Main.AreaDePopups.Children.Clear();
+        }
+
+        private void SearchTextBox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            App.Master.Main.MouseDown += (object sender, MouseButtonEventArgs e) => { SearchTextBox.Focusable = false; BarraDeRolagem.Focus(); };
+        }
+
+        private void SearchTextBox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            SearchTextBox.Focusable = true;
+        }
+        private void DropdownCategoria_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DropdownCategoria.IsActive)
+            {
+                DropdownCategoria.ListItems.Visibility = Visibility.Collapsed;
+                DropdownCategoria.IsActive = false;
+            }
         }
     }
 }

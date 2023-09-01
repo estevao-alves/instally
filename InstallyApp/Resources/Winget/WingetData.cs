@@ -21,6 +21,8 @@ namespace InstallyApp.Resources.Winget
         public string Site { get; set; }
         public int VersionsLength { get; set; }
         public string LatestVersion { get; set; }
+
+        public double Score { get; set; }
     }
 
     public class WingetData
@@ -49,8 +51,8 @@ namespace InstallyApp.Resources.Winget
 
             if (ParteDoNomeDoPacote is null) ParteDoNomeDoPacote = "";
 
-            if (categoria is not null) pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower()) && pkg.Tags.Contains(categoria)).OrderByDescending(pkg => pkg.VersionsLength).ToList();
-            else pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower())).OrderByDescending(pkg => pkg.VersionsLength).ToList();
+            if (categoria is not null) pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower()) && pkg.Tags.Contains(categoria)).OrderByDescending(pkg => pkg.VersionsLength).OrderByDescending(pkg => pkg.Score).ToList();
+            else pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower())).OrderByDescending(pkg => pkg.VersionsLength).OrderByDescending(pkg => pkg.Score).ToList();
 
             return pkgs;
         }

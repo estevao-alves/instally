@@ -10,11 +10,11 @@
              d:DesignWidth="800"
              >
 
-    <Grid>
-        <Border Background="#333" Opacity=".7" />
+    <Grid PreviewMouseDown="DropdownCategoria_PreviewMouseDown">
+        <Border Background="{DynamicResource TertiaryColor}" Opacity=".6" />
 
         <Grid Margin="100">
-            <Border Background="{DynamicResource TertiaryColor}" CornerRadius="10">
+            <Border Background="{DynamicResource SecondaryColor}" CornerRadius="10">
                 <Grid Margin="30 30 30 20" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
@@ -29,11 +29,14 @@
 
                     <Grid>
                         <Border
-                        Background="{DynamicResource PrimaryColor}"
-                        Grid.Column="0"
-                        CornerRadius="20"
-                        Padding="20 0 10 0"
-                        >
+                            Name="SearchBoxWrapper"
+                            Background="{DynamicResource PrimaryColor}"
+                            Grid.Column="0"
+                            CornerRadius="20"
+                            Padding="20 0 10 0"
+                            MouseEnter="SearchTextBox_MouseEnter"
+                            
+                            >
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -50,11 +53,12 @@
                                     TextChanged="SearchTextBox_TextChanged"
                                     Name="SearchTextBox"
                                     CaretBrush="White"
+                                    MouseLeave="SearchTextBox_MouseLeave"
                                     />
 
                                 <TextBlock
                                     Name="Placeholder"
-                                    Foreground="{DynamicResource LightGray}"
+                                    Foreground="#999"
                                     FontSize="14"
                                     Margin="2"
                                     VerticalAlignment="Center"
@@ -87,7 +91,13 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
 
-                        <selectors:Dropdown Margin="20 0" x:Name="Dropdown_Categoria" Titulo="Categories" Opcoes="all,backup,cloud,download" Callback="BuscarPorCategoria" />
+                        <selectors:Dropdown
+                            Margin="20 0"
+                            x:Name="DropdownCategoria"
+                            Titulo="Categories"
+                            Opcoes="all,gaming,music,web,utility,develop"
+                            Callback="BuscarPorCategoria"
+                            />
 
                         <Button
                             Background="{DynamicResource TertiaryColor}"
@@ -159,7 +169,7 @@
             <Button
                 Background="{DynamicResource SecondaryColor}"
                 Cursor="Hand"
-                Click="Times_Close"
+                Click="CloseButton_Click"
                 Style="{DynamicResource HoverEffect}"
                 Width="30"
                 Height="30"

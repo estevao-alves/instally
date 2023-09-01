@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -17,15 +19,17 @@ namespace InstallyApp.Components.Items
         public AppInSearchList()
         {
             InitializeComponent();
+
             InfoIcon.Visibility = Visibility.Collapsed;
         }
 
-        public AppInSearchList(string appName)
+        public AppInSearchList(string pacoteName)
         {
+
             InitializeComponent();
 
-            this.appName = appName;
-            CarregarInformacoesDoApp(appName);
+            this.appName = pacoteName;
+            CarregarInformacoesDoApp(pacoteName);
             InfoIcon.Visibility = Visibility.Collapsed;
         }
 
@@ -38,8 +42,17 @@ namespace InstallyApp.Components.Items
             Titulo.Text = pkgName;
         }
 
-        private void WrapperAppItem_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void WrapperAppItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (App.Master.Main.ColecaoSelecionada.VerificarSeAplicativoJaExiste(appName))
+            {
+                AlertDropdownCanvas.Visibility = Visibility.Visible;
+                await Task.Delay(3000);
+                AlertDropdownCanvas.Visibility = Visibility.Collapsed;
+
+                return;
+            }
+
             Package pkg = App.Master.Winget.CapturarPacote(appName);
 
             if (IsActive) {
@@ -56,6 +69,11 @@ namespace InstallyApp.Components.Items
                 // Adicionar a lista de instalação
                 appInListaDeInstalacao = App.Master.Main.JanelaDePesquisa.AdicionarApp(pkg);
             }
+        }
+
+        public void jaAdicionadoIcon(string pacoteName)
+        {
+           
         }
 
         private void WrapperAppItem_MouseEnter(object sender, MouseEventArgs e)

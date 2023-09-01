@@ -59,7 +59,7 @@
                 Width="{Binding ActualWidth, ElementName=CanvasArea}"
                 >
 
-                <StackPanel x:Name="ListItems" Margin="0 40 0 0">
+                <StackPanel x:Name="ListItems" Margin="0 40 0 0" >
                     <Border
                         Margin="2 0 2 2"
                         CornerRadius="10"
