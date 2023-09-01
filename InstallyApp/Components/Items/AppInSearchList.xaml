@@ -32,10 +32,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid Name="GridParaArredondarImagem">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="9*"/>
-                        <ColumnDefinition Width="148*"/>
-                    </Grid.ColumnDefinitions>
+                    
 
                     <Border
                         Background="{DynamicResource PrimaryColor}"
@@ -43,7 +40,7 @@
                         Width="50"
                         Height="50"
                         CornerRadius="50"
-                        Margin="45,0,53,20" Grid.Column="1"
+                        Margin="0 0 0 20"
                         >
 
                         <Grid>
@@ -56,7 +53,7 @@
                                     </VisualBrush.Visual>
                                 </VisualBrush>
                             </Grid.OpacityMask>
-
+                        
                             <Border Name="WrapperIcon" />
                         </Grid>
                     </Border>
