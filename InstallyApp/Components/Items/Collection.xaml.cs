@@ -1,16 +1,22 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace InstallyApp.Components.Items
 {
     public partial class Collection : UserControl
     {
-        public string dir { get; set; }
+        public string dirName { get; set; }
         public string Title { get; set; }
         public string collectionFile { get; set; }
+
+        public bool isActive = false;
 
         public Collection()
         {
@@ -24,10 +30,12 @@ namespace InstallyApp.Components.Items
             Apps.Children.Clear();
 
             // Define
-            dir = "Collections";
-            collectionFile = @$"{dir}\{title}.txt";
+            dirName = "Collections";
+            collectionFile = @$"{dirName}\{title}.txt";
             Title = title;
             CollectionTextBox.Text = title;
+
+            VerOpcoesConfiguracao();
 
             // Carrega
             CarregarArquivo();
@@ -53,11 +61,15 @@ namespace InstallyApp.Components.Items
                     newApp.OnExcluir += () =>
                     {
                         Apps.Children.Remove(newApp);
-                        AtualizarArquivo(newApp.Title.Text);
+                        AtualizarArquivo(line);
+                        App.Master.AppsJaAdicionados.Remove(line);
                     };
 
                     Apps.Children.Add(newApp);
+                    App.Master.AppsJaAdicionados.Add(line);
                 }
+
+                reader.Close();
             }
         }
 
@@ -74,13 +86,16 @@ namespace InstallyApp.Components.Items
                 {
                     if (line != appName) sw.WriteLine(line);
                 }
+
+                sw.Close();
+                sr.Close();
             }
 
             File.Delete(collectionFile);
             File.Move(tempFile, collectionFile);
         }
 
-        private void AdicionarApp_MouseDown(object sender, MouseButtonEventArgs e)
+        private void AdicionarApp_Click(object sender, RoutedEventArgs e)
         {
             App.Master.Main.JanelaDePesquisa = new();
             App.Master.Main.ColecaoSelecionada = this;
@@ -104,20 +119,20 @@ namespace InstallyApp.Components.Items
             if (e.Key == Key.Enter) AtualizarNome();
         }
 
+        private void ClickOutside(object sender, MouseButtonEventArgs e) => AtualizarNome();
+
+        private void CollectionTextBox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            App.Master.Main.MouseDown -= ClickOutside;
+            App.Master.Main.MouseDown += ClickOutside;
+        }
+
         public void ChangeIcon()
         {
             App.Master.Main.MouseEnter += (object sender, MouseEventArgs e) => { EditPen.Visibility = System.Windows.Visibility.Visible; };
 
             if (CollectionTextBox.IsEnabled) EditPen.Visibility = System.Windows.Visibility.Visible;
             if (!CollectionTextBox.IsEnabled) EditPen.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void ClickOutSide(object sender, MouseButtonEventArgs e) => AtualizarNome();
-
-        private void CollectionTextBox_MouseLeave(object sender, MouseEventArgs e)
-        {
-            App.Master.Main.MouseDown -= ClickOutSide;
-            App.Master.Main.MouseDown += ClickOutSide;
         }
 
         private void CollectionButton_MouseEnter(object sender, MouseEventArgs e)
@@ -139,7 +154,7 @@ namespace InstallyApp.Components.Items
             string oldTitle = Title;
             string newTitle = CollectionTextBox.Text;
 
-            DirectoryInfo dirCollections = new(dir);
+            DirectoryInfo dirCollections = new(dirName);
 
             if(dirCollections.GetFiles($"{newTitle}.txt").Length > 0)
             {
@@ -149,24 +164,61 @@ namespace InstallyApp.Components.Items
 
             Title = newTitle;
 
-            File.Move(collectionFile, $@"{dir}\{CollectionTextBox.Text}.txt");
-            File.Delete($@"{dir}\{oldTitle}.txt");
+            File.Move(collectionFile, $@"{dirName}\{CollectionTextBox.Text}.txt");
+            File.Delete($@"{dirName}\{oldTitle}.txt");
         }
 
-        public bool VerificarSeAplicativoJaExiste(string appName)
+        private void VerOpcoesConfiguracao()
+        {
+            if (isActive)
+            {
+                CollectionGearButton.Background = new SolidColorBrush(Color.FromArgb(255, 45, 45, 51));
+                CollectionRemoveButton.Visibility = Visibility.Visible;
+                isActive = false;
+            }
+            else
+            {
+                CollectionGearButton.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                CollectionRemoveButton.Visibility = Visibility.Collapsed;
+                isActive = true;
+            }
+        }
+
+        private void GearButton_Click(object sender, RoutedEventArgs e) => VerOpcoesConfiguracao();
+
+        private async void RemoveCollection_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                foreach (MenuAppItem item in Apps.Children)
+                int ColunaAtual = Grid.GetColumn(this);
+
+                CollectionRemoveButton.Content = "Removendo...";
+                CollectionRemoveButton.Opacity = .6;
+                CollectionRemoveButton.Cursor = Cursors.Wait;
+
+                File.Delete(collectionFile);
+
+                await Task.Delay(3000);
+                if (File.Exists(collectionFile)) throw new Exception("Erro, o arquivo ainda não foi excluído!");
+
+                App.Master.Main.CollectionList.Children.Remove(this);
+
+                foreach (UIElement coll in App.Master.Main.CollectionList.Children)
                 {
-                    if (item.AppName == appName) throw new Exception("Aplicativo já pertence a coleção!");
+                    int colunaDoElemento = Grid.GetColumn(coll);
+
+                    if (colunaDoElemento > ColunaAtual) Grid.SetColumn(coll, colunaDoElemento - 1);
                 }
 
-                return false;
+                DirectoryInfo dirCollections = new("Collections");
+                FileInfo[] collections = dirCollections.GetFiles();
+
+                if (collections.Length <= 3) App.Master.Main.ElementCollectionAdd.Visibility = Visibility.Visible;
+
             }
             catch(Exception ex)
             {
-                return true;
+                Debug.WriteLine(ex.Message);
             }
         }
     }

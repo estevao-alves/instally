@@ -19,37 +19,36 @@ namespace InstallyApp.Components.Items
         public AppInSearchList()
         {
             InitializeComponent();
-
             InfoIcon.Visibility = Visibility.Collapsed;
         }
 
-        public AppInSearchList(string pacoteName)
+        public AppInSearchList(string pacoteName, bool pacoteJaAdicionado)
         {
-
             InitializeComponent();
 
-            this.appName = pacoteName;
-            CarregarInformacoesDoApp(pacoteName);
+            appName = pacoteName;
             InfoIcon.Visibility = Visibility.Collapsed;
+            IconJaAdicionado.Visibility = pacoteJaAdicionado ? Visibility.Visible : Visibility.Collapsed;
+            
+            CarregarInformacoesDoApp(pacoteName);
         }
 
         public void CarregarInformacoesDoApp(string pkgName)
         {
-
             UIElement appIcon = App.Master.Winget.CapturarFaviconDoPacote(pkgName);
             WrapperIcon.Child = appIcon;
             WrapperIcon.Padding = new Thickness(5, 0, 0, 0);
             Debug.WriteLine(appIcon);
-
-
 
             Titulo.Text = pkgName;
         }
 
         private async void WrapperAppItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (App.Master.Main.ColecaoSelecionada.VerificarSeAplicativoJaExiste(appName))
+            if (App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(appName))
             {
+                this.AlertDropdownText.Text = $"App already added in: {App.Master.Main.ColecaoSelecionada.Title}";
+
                 AlertDropdownCanvas.Visibility = Visibility.Visible;
                 await Task.Delay(3000);
                 AlertDropdownCanvas.Visibility = Visibility.Collapsed;
@@ -73,11 +72,6 @@ namespace InstallyApp.Components.Items
                 // Adicionar a lista de instalação
                 appInListaDeInstalacao = App.Master.Main.JanelaDePesquisa.AdicionarApp(pkg);
             }
-        }
-
-        public void jaAdicionadoIcon(string pacoteName)
-        {
-           
         }
 
         private void WrapperAppItem_MouseEnter(object sender, MouseEventArgs e)

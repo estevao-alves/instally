@@ -9,7 +9,7 @@ namespace InstallyApp.Components.Selectors
 {
     public partial class Dropdown : UserControl
     {
-        public bool IsActive = false;
+        public bool isActive= false;
         public string[] items = new string[0];
 
         public string Titulo
@@ -60,7 +60,7 @@ namespace InstallyApp.Components.Selectors
                     Callback(item);
 
                     // Close DropDown
-                    IsActive = false;
+                    isActive= false;
                     ListItems.Visibility = Visibility.Collapsed;
                 };
 
@@ -80,15 +80,15 @@ namespace InstallyApp.Components.Selectors
 
         private void TagButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (IsActive)
+            if (isActive)
             {
-                IsActive = false;
                 ListItems.Visibility = Visibility.Collapsed;
+                isActive= false;
             }
             else
             {
-                IsActive = true;
                 ListItems.Visibility = Visibility.Visible;
+                isActive= true;
             }
         }
 

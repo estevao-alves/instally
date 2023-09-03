@@ -16,8 +16,8 @@
         MinWidth="820"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
+        MouseDown="Window_MouseDown" 
         AllowsTransparency="True"
-        MouseDown="Window_MouseDown"
         ResizeMode="CanResize"
         
         StateChanged="Window_StateChanged"
@@ -51,7 +51,7 @@
             </VisualBrush>
         </Grid.OpacityMask>
 
-        <layout:TopBar x:Name="TopBar" Grid.Row="0" Grid.Column="1" MouseDoubleClick="TopBar_MouseDoubleClick" MouseMove="TopBar_MouseMove" />
+        <layout:TopBar x:Name="TopBar" Grid.Row="0" Grid.Column="1" MouseMove="TopBar_MouseMove" />
 
         <layout:Sidebar Visibility="Collapsed" Grid.Column="0" Grid.RowSpan="3" />
 

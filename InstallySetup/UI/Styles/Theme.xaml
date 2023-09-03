@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Theme -->
+    <SolidColorBrush x:Key="Foreground" Color="#161616" />
+    <SolidColorBrush x:Key="PrimaryColor" Color="#EEE" />
+    <SolidColorBrush x:Key="SecondaryColor" Color="#227251b5" />
+    <SolidColorBrush x:Key="HighlightColor" Color="#7251b5" />
+    
+    <!-- WHITE
+    <SolidColorBrush x:Key="Foreground" Color="#161616" />
+    <SolidColorBrush x:Key="PrimaryColor" Color="#FFF" />
+    <SolidColorBrush x:Key="SecondaryColor" Color="#15000000" />
+    <SolidColorBrush x:Key="HighlightColor" Color="#1962B9" />
+    -->
+
+</ResourceDictionary>

@@ -9,6 +9,7 @@
             <SolidColorBrush x:Key="ActionColor" Color="#7251b5" />
             <SolidColorBrush x:Key="PurpleViolet" Color="#6247AA" />
 
+            <SolidColorBrush x:Key="Red" Color="#c26161" />
             <SolidColorBrush x:Key="LightGray" Color="#DFDFDF" />
             <SolidColorBrush x:Key="White" Color="#FFF" />
 
@@ -23,6 +24,7 @@
             -->
             
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Global.xaml" />
                 <ResourceDictionary Source="Resources/Styles/ScrollBar.xaml" />
                 <ResourceDictionary Source="Resources/Styles/HoverEffect.xaml" />
                 <ResourceDictionary Source="Resources/Styles/ActionButton.xaml" />

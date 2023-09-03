@@ -1,14 +1,19 @@
-﻿using System.Windows.Input;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows;
-using System.Windows.Media;
-using System.Diagnostics;
 
-namespace InstallyApp.Components.Layout
+namespace InstallySetup.UI.Components.Layout
 {
     public partial class TopBar : UserControl
     {
-        public bool IsIconActive = false;
+        public bool AllowMaximize
+        {
+            set
+            {
+                if(value) BtnMaximize.Visibility = Visibility.Visible;
+                else BtnMaximize.Visibility = Visibility.Collapsed;
+            }
+        }
+
         public TopBar()
         {
             InitializeComponent();
@@ -36,11 +41,5 @@ namespace InstallyApp.Components.Layout
             App.Current.MainWindow.WindowState = WindowState.Minimized;
         }
 
-        private void MaximizeMinimize_DoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Debug.WriteLine("MouseClick");
-            if (App.Master.Main.WindowState == WindowState.Normal) App.Master.Main.WindowState = WindowState.Maximized;
-            else App.Master.Main.WindowState = WindowState.Normal;
-        }
     }
 }

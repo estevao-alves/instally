@@ -59,7 +59,11 @@ namespace InstallyApp.Components.Popups
             PacotesEncontrados = App.Master.Winget.CapturarPacotes(filtro, CategoriaEscolhida).Skip(LimiteDeResultados).Take(42).ToList();
             LimiteDeResultados = PacotesEncontrados.Count;
 
-            foreach (Package pacote in PacotesEncontrados) AppList.Children.Add(new AppInSearchList(pacote.Name));
+            foreach (Package pacote in PacotesEncontrados)
+            {
+                AppInSearchList app = new(pacote.Name, App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(pacote.Name));
+                AppList.Children.Add(app);
+            }
         }
 
         public void BuscarPorCategoria(string categoriaEscolhida)
@@ -171,10 +175,10 @@ namespace InstallyApp.Components.Popups
         }
         private void DropdownCategoria_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (DropdownCategoria.IsActive)
+            if (DropdownCategoria.isActive)
             {
                 DropdownCategoria.ListItems.Visibility = Visibility.Collapsed;
-                DropdownCategoria.IsActive = false;
+                DropdownCategoria.isActive = false;
             }
         }
     }

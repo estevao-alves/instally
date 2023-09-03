@@ -1,0 +1,22 @@
+﻿<Application x:Class="InstallySetup.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Startup="Application_Startup">
+    
+    <Application.Resources>
+        <ResourceDictionary>
+    
+            <FontFamily x:Key="FontFamily">pack://application:,,,/UI/Fonts/#Poppins</FontFamily>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UI/Styles/Theme.xaml" />
+                <ResourceDictionary Source="UI/Styles/Globals.xaml" />
+                <ResourceDictionary Source="UI/Styles/ScrollBar.xaml" />
+                
+                <!-- Effects -->
+                <ResourceDictionary Source="UI/Styles/HoverEffect.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>

@@ -9,10 +9,6 @@
         <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
 	</PropertyGroup>
 
-    <ItemGroup>
-      <None Include="bin\Debug\net6.0-windows\packages.json" />
-    </ItemGroup>
-
 	<ItemGroup>
 		<Resource Include="Resources\Fonts\Poppins-Black.ttf" />
 		<Resource Include="Resources\Fonts\Poppins-Bold.ttf" />

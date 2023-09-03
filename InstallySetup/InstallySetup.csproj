@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>UI/Assets/favicon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Title>Instally</Title>
+    <PackageId>Instally</PackageId>
+    <Authors>Instally</Authors>
+    <Company>Instally</Company>
+    <Product>Instally</Product>
+    <Copyright>Todos os direitos reservados à Instally.</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <Resource Include="UI\Assets\favicon.ico" />
+	  <Resource Include="UI\Fonts\Poppins-Black.ttf" />
+	  <Resource Include="UI\Fonts\Poppins-Bold.ttf" />
+	  <Resource Include="UI\Fonts\Poppins-ExtraBold.ttf" />
+	  <Resource Include="UI\Fonts\Poppins-Light.ttf" />
+	  <Resource Include="UI\Fonts\Poppins-Medium.ttf" />
+	  <Resource Include="UI\Fonts\Poppins-Regular.ttf" />
+	  <Resource Include="UI\Fonts\Poppins-SemiBold.ttf" />
+  </ItemGroup>
+
+</Project>

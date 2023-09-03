@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using InstallyApp.Components;
 using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
@@ -18,6 +15,7 @@ namespace InstallyApp
     {
         public PesquisaDeApps JanelaDePesquisa;
         public Collection ColecaoSelecionada;
+        public CollectionAdd ElementCollectionAdd;
 
         public MainWindow()
         {
@@ -27,32 +25,13 @@ namespace InstallyApp
             CarregarCollections();
         }
 
-        /*
-        public async void VerificarInstalacaoWinget()
-        {
-            string wingetVersionCommand = await Task.Run(() => this.Footer.ExecutarCommand($"winget --version").Substring(0, 4).TrimStart('v'));
-            double wingetVersion = Convert.ToDouble(wingetVersionCommand);
-
-            if (wingetVersion >= 1.5)
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    this.WingetAvisoDeInstalacao.Visibility = Visibility.Collapsed;
-                });
-            }
-            else
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    this.WingetAvisoDeInstalacao.Visibility = Visibility.Visible;
-                });
-            }
-        }
-        */
-
         public void CarregarCollections()
         {
             CollectionList.Children.Clear();
+
+            ElementCollectionAdd = new();
+            ElementCollectionAdd.Visibility = Visibility.Collapsed;
+            CollectionList.Children.Add(ElementCollectionAdd);
 
             DirectoryInfo dirCollections = new("Collections");
 
@@ -78,31 +57,39 @@ namespace InstallyApp
 
             if(dirCollections.GetFiles().Length < 4)
             {
-                CollectionAdd collectionAdd = new();
-                CollectionList.Children.Add(collectionAdd);
-
-                Grid.SetColumn(collectionAdd, dirCollections.GetFiles().Length);
+                ElementCollectionAdd.Visibility = Visibility.Visible;
+                Grid.SetColumn(ElementCollectionAdd, dirCollections.GetFiles().Length);
             }
         }
 
         public void AdicionarAplicativosACollection(List<AppParaInstalar> list, Collection collection)
         {
-            StreamWriter writer = new StreamWriter(@$"{collection.dir}\{collection.Title}.txt", true);
+            StreamWriter writer = new StreamWriter(@$"{collection.dirName}\{collection.Title}.txt", true);
 
             foreach (AppParaInstalar app in list)
             {
                 writer.WriteLine(app.Name);
+                
                 MenuAppItem newApp = new(app.Name);
                 newApp.OnExcluir += () =>
                 {
                     collection.Apps.Children.Remove(newApp);
                     collection.AtualizarArquivo(app.Name);
+                    App.Master.AppsJaAdicionados.Remove(app.Name);
                 };
-
                 collection.Apps.Children.Add(newApp);
+
+                App.Master.AppsJaAdicionados.Add(app.Name);
             }
 
             writer.Close();
+        }
+
+        public bool VerificarSeAplicativoJaFoiAdicionado(string appName)
+        {
+            string? app = App.Master.AppsJaAdicionados.Find(name => name == appName);
+            if (app is not null) return true;
+            else return false;
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -126,12 +113,6 @@ namespace InstallyApp
             }
         }
 
-        private void TopBar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (WindowState == WindowState.Normal) WindowState = WindowState.Maximized;
-            else WindowState = WindowState.Normal;
-        }
-
         private void TopBar_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -151,7 +132,6 @@ namespace InstallyApp
                 MoveWindowToMousePosition();
             }
         }
-
         private void MoveWindowToMousePosition()
         {
             if (WindowState == WindowState.Maximized)
