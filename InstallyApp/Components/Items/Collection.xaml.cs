@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace InstallyApp.Components.Items
 {
@@ -129,23 +130,23 @@ namespace InstallyApp.Components.Items
 
         public void ChangeIcon()
         {
-            App.Master.Main.MouseEnter += (object sender, MouseEventArgs e) => { EditPen.Visibility = System.Windows.Visibility.Visible; };
+            App.Master.Main.MouseEnter += (object sender, MouseEventArgs e) => { EditPen.Visibility = Visibility.Visible; };
 
-            if (CollectionTextBox.IsEnabled) EditPen.Visibility = System.Windows.Visibility.Visible;
-            if (!CollectionTextBox.IsEnabled) EditPen.Visibility = System.Windows.Visibility.Collapsed;
+            if (CollectionTextBox.IsEnabled) EditPen.Visibility = Visibility.Visible;
+            if (!CollectionTextBox.IsEnabled) EditPen.Visibility = Visibility.Collapsed;
         }
 
         private void CollectionButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            EditPen.Visibility = System.Windows.Visibility.Visible;
+            EditPen.Visibility = Visibility.Visible;
         }
 
         private void CollectionButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            if(!CollectionTextBox.IsEnabled) EditPen.Visibility = System.Windows.Visibility.Collapsed;
+            if(!CollectionTextBox.IsEnabled) EditPen.Visibility = Visibility.Collapsed;
         }
 
-        private void AtualizarNome()
+        private async void AtualizarNome()
         {
             CollectionTextBox.IsEnabled = false;
             ChangeIcon();
@@ -156,16 +157,18 @@ namespace InstallyApp.Components.Items
 
             DirectoryInfo dirCollections = new(dirName);
 
-            if(dirCollections.GetFiles($"{newTitle}.txt").Length > 0)
+            if (dirCollections.GetFiles($"{newTitle}.txt").Length > 0)
             {
                 CollectionTextBox.Text = oldTitle;
-                return;
             }
 
             Title = newTitle;
 
-            File.Move(collectionFile, $@"{dirName}\{CollectionTextBox.Text}.txt");
-            File.Delete($@"{dirName}\{oldTitle}.txt");
+            if (!File.Exists($@"{dirName}\{newTitle}.txt"))
+            {
+                File.Move($@"{dirName}\{oldTitle}.txt", $@"{dirName}\{Title}.txt");
+                File.Delete($@"{dirName}\{oldTitle}.txt");
+            }
         }
 
         private void VerOpcoesConfiguracao()
@@ -192,13 +195,17 @@ namespace InstallyApp.Components.Items
             {
                 int ColunaAtual = Grid.GetColumn(this);
 
-                CollectionRemoveButton.Content = "Removendo...";
+                CollectionRemoveButton.Content = "Removing...";
                 CollectionRemoveButton.Opacity = .6;
                 CollectionRemoveButton.Cursor = Cursors.Wait;
 
-                File.Delete(collectionFile);
+                if (File.Exists($@"{dirName}\{Title}.txt"))
+                {
+                    File.Delete($@"{dirName}\{Title}.txt");
+                }
 
-                await Task.Delay(3000);
+                await Task.Delay(100);
+                Thread.Sleep(3000);
                 if (File.Exists(collectionFile)) throw new Exception("Erro, o arquivo ainda não foi excluído!");
 
                 App.Master.Main.CollectionList.Children.Remove(this);

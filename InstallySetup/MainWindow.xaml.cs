@@ -145,7 +145,7 @@ namespace InstallySetup
         {
             try
             {
-                string installedAppPath = System.IO.Path.Combine(Configs.AppPath, Configs.AppFileExe);
+                string installedAppPath = Path.Combine(Configs.AppPath, Configs.AppFileExe);
                 var p = new Process();
                 p.StartInfo = new ProcessStartInfo(installedAppPath);
                 p.Start();
@@ -200,27 +200,25 @@ namespace InstallySetup
             {
                 if (!Directory.Exists(Configs.AppUtilsPath)) Directory.CreateDirectory(Configs.AppUtilsPath);
 
-                if (!Winget.Verificar())
+                if (!await Winget.Verificar())
                 {
-                    bool install = await SystemDLLs.Instalar();
+                    bool install = await Winget.Instalar();
                     if (!install) throw new Exception();
                 }
 
-                /*
                 if (!DotNetRuntime.Verificar())
                 {
                     bool install = await DotNetRuntime.Instalar();
                     if (!install) throw new Exception();
                 }
-                */
 
-                /*
                 if (!SystemDLLs.Verificar())
                 {
                     bool install = await SystemDLLs.Instalar();
                     if (!install) throw new Exception();
                 }
 
+                /*
                 if (!Database.Verificar())
                 {
                     bool install = await Database.Instalar();

@@ -67,7 +67,6 @@ namespace InstallyApp.Resources.Winget
                 {
                     Text = pkg.Name[0].ToString().ToUpper(),
                     Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
-                    Margin = new Thickness(0, 0, 5, 0),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     FontSize = 30,
@@ -81,12 +80,9 @@ namespace InstallyApp.Resources.Winget
 
                 Image image = new Image()
                 {
-                    Margin = new Thickness(0, 0, 5, 0),
                     Name = "IconImage",
                     Height = 30,
                     Width = 30,
-                    ClipToBounds = true,
-                    Stretch = Stretch.Fill,
                 };
 
                 BitmapImage bitmap = new BitmapImage();
@@ -95,7 +91,7 @@ namespace InstallyApp.Resources.Winget
                 bitmap.EndInit();
 
                 image.Source = bitmap;
-                
+
                 return image;
             }
         }

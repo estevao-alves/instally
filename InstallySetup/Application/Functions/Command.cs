@@ -25,32 +25,40 @@ namespace InstallySetup.Application.Functions
             }
         }
 
-        public static async Task<string> Executar(string fileName, string arguments)
+        public static string Executar(string fileName, string arguments)
         {
-            Process p = new Process()
+            try
             {
-                StartInfo = new ProcessStartInfo()
+                Process p = new Process()
                 {
-                    FileName = fileName,
-                    Arguments = arguments,
+                    StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = fileName,
+                        Arguments = arguments,
 
-                    //UseShellExecute = true,
-                    RedirectStandardOutput = true,
+                        //UseShellExecute = true,
+                        RedirectStandardOutput = true,
 
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    CreateNoWindow = true
-                }
-            };
-            p.Start();
-            string? output = p.StandardOutput.ReadToEnd();
-            p.WaitForExit();
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        CreateNoWindow = true
+                    }
+                };
+                p.Start();
+                string? output = p.StandardOutput.ReadToEnd();
+                p.WaitForExit();
 
-            return await Task.FromResult(output);
+                return output;
+            }
+            catch(Exception ex)
+            {
+                // Lidar
+                return "Erro ao executar o comando";
+            }
         }
 
-        public static async Task<string> ExecutarSQL(string MySqlInstallationDirectory, string user, string password, string query)
+        public static string ExecutarSQL(string MySqlInstallationDirectory, string user, string password, string query)
         {
-            return await Executar(MySqlInstallationDirectory + @"\bin\mysql", $@"-u {user} --password=""{password}"" --execute=""{query}""");
+            return Executar(MySqlInstallationDirectory + @"\bin\mysql", $@"-u {user} --password=""{password}"" --execute=""{query}""");
         }
 
         public static void FinalizarProcessos(string processNameWithoutExtension)

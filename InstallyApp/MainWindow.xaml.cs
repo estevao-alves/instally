@@ -38,6 +38,7 @@ namespace InstallyApp
             if(!dirCollections.Exists) Directory.CreateDirectory("Collections");
 
             FileInfo[] collections = dirCollections.GetFiles();
+            ElementCollectionAdd.collectionNumber = collections.Length;
 
             if (collections.Length < 1)
             {

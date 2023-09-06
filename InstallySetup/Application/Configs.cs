@@ -27,7 +27,7 @@ namespace InstallySetup.Application
         public static string AppUtilsPath = AppPath + @"\Utils\";
 
         public static string AppName = "Instally";
-        public static string AppFileExe = "Instally.exe";
+        public static string AppFileExe = "InstallyApp.exe";
 
         public static string AppSlogan = "Instally com um click!";
 

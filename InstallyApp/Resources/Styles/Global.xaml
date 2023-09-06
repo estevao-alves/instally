@@ -12,9 +12,10 @@
                         <TextBlock
                         Foreground="#FFF"
                         Text="{TemplateBinding Content}"
-                        FontSize="14"
+                        FontSize="{TemplateBinding FontSize}"
                         FontWeight="SemiBold"
                         Margin="10 5"
+                        VerticalAlignment="Center"
                         HorizontalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>

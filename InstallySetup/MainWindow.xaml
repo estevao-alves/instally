@@ -4,27 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:layout="clr-namespace:InstallySetup.UI.Components.Layout"
-        
         mc:Ignorable="d"
         
         FontFamily="{StaticResource FontFamily}"
         Title="InstallySetup"
         
+        Background="Transparent"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         ResizeMode="NoResize"
+        AllowsTransparency="True"
         
         MinHeight="460"
         MinWidth="700"
-        
         Height="460"
         Width="700"
         
         StateChanged="Window_StateChanged"
-        
-        AllowsTransparency="True"
-        
-        Background="Transparent"
         >
 
     <Grid Name="LayoutMain">
@@ -55,7 +51,7 @@
                             <Border.Clip>
                                 <RectangleGeometry Rect="0,0,650,180" RadiusX="8" RadiusY="8" />
                             </Border.Clip>
-
+                            
                             <Image Source="UI/Assets/banner.png" Stretch="Fill" />
                         </Border>
 

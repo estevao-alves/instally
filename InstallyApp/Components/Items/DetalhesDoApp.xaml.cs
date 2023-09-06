@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using InstallyApp.Resources.Winget;
@@ -10,6 +11,17 @@ namespace InstallyApp.Components.Items
         public DetalhesDoApp()
         {
             InitializeComponent();
+            DataContext = this;
+
+            ocultarShowMore();
+        }
+
+        public void ocultarShowMore()
+        {
+            if (Description.Text.Length < 80)
+            {
+                BorderShowMore.Visibility = Visibility.Collapsed;
+            }
         }
 
         public void AtualizarInformacoes(Package pkg)
@@ -27,9 +39,9 @@ namespace InstallyApp.Components.Items
             }
 
             // Carregar as informações do pacote em tela
-            UIElement icon = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name);
-
-            WrapperIcon.Child = icon;
+            UIElement appIcon = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name);
+            appIcon.RenderTransform = new TranslateTransform(-2.5F, 0.0F);
+            WrapperIcon.Child = appIcon;
             WrapperIcon.Padding = new Thickness(5, 0, 0, 0);
 
             Description.Text = pkg.Description;
@@ -52,7 +64,6 @@ namespace InstallyApp.Components.Items
 
                 TagsList.Children.Add(border);
             }
-
         }
 
         public void Description_ChangeShowText(bool? setDefault)
@@ -72,6 +83,19 @@ namespace InstallyApp.Components.Items
             }
         }
 
-        private void BorderShowMore_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => Description_ChangeShowText(null);
+        private void BorderShowMore_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Description_ChangeShowText(null);
+        }
+
+        private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Debug.WriteLine(Description.Text.Length);
+
+            if (Description.Text.Length == 80)
+            {
+                BorderShowMore.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }

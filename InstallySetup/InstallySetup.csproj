@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <Resource Include="UI\Assets\banner.png" />
 	  <Resource Include="UI\Assets\favicon.ico" />
 	  <Resource Include="UI\Fonts\Poppins-Black.ttf" />
 	  <Resource Include="UI\Fonts\Poppins-Bold.ttf" />

@@ -36,9 +36,9 @@ namespace InstallyApp.Components.Items
         public void CarregarInformacoesDoApp(string pkgName)
         {
             UIElement appIcon = App.Master.Winget.CapturarFaviconDoPacote(pkgName);
+            appIcon.RenderTransform = new TranslateTransform(-2.5F, 0.0F);
             WrapperIcon.Child = appIcon;
             WrapperIcon.Padding = new Thickness(5, 0, 0, 0);
-            Debug.WriteLine(appIcon);
 
             Titulo.Text = pkgName;
         }

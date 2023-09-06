@@ -18,6 +18,10 @@
 		<Resource Include="Resources\Fonts\Poppins-Regular.ttf" />
 		<Resource Include="Resources\Fonts\Poppins-SemiBold.ttf" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="bin\Debug\net6.0-windows\" />
+	</ItemGroup>
 	
 </Project>
 

@@ -32,8 +32,6 @@
                 </Grid.RowDefinitions>
 
                 <Grid Name="GridParaArredondarImagem">
-                    
-
                     <Border
                         Background="{DynamicResource PrimaryColor}"
                         Name="IconBackgroundCircle"
@@ -42,7 +40,7 @@
                         CornerRadius="50"
                         Margin="0 0 0 20"
                         >
-
+                        <!--
                         <Grid>
                             <Grid.OpacityMask>
                                 <VisualBrush>
@@ -53,9 +51,10 @@
                                     </VisualBrush.Visual>
                                 </VisualBrush>
                             </Grid.OpacityMask>
-                        
-                            <Border Name="WrapperIcon" />
                         </Grid>
+                        -->
+                        
+                        <Border Name="WrapperIcon" />
                     </Border>
                 </Grid>
 
@@ -80,17 +79,13 @@
                     VerticalAlignment="Top"
                     HorizontalAlignment="Left"
                     Margin="0 -10 -10 0"
-                    Width="20"
-                    Height="20"
+                    Width="15"
+                    Height="15"
                     Visibility="Visible"
                     >
                     <Grid>
-                        <Path Data="M9.371 7.48404C9.371 8.54531 8.50986 8.95835 7.4486 8.95835H2.53861C1.47735 8.95835 0.616211 8.09721 0.616211 7.03595V2.50863C0.616211 1.44737 1.47735 0.586227 2.53861 0.586227H7.91109L9.371 2.10508V3.57937"
-                              Fill="#6247AA"/>
-                        <Path Data="M7.4486 8.95835C8.50986 8.95835 9.371 8.54531 9.371 7.48404V2.10508L7.91109 0.586227H2.53861C1.47735 0.586227 0.616211 1.44737 0.616211 2.50863V7.03595C0.616211 8.09721 1.47735 8.95835 2.53861 8.95835H7.4486Z"
-                              Stroke="white" StrokeEndLineCap="round" StrokeStartLineCap="round"  StrokeLineJoin="round"/>
-                        <Path Data="M6.2065 0.586227H3.78076V3.2416H6.2065V0.586227Z"
-                              Stroke="white" StrokeLineJoin="round"/>
+                        <Path Data="M15.78 0H2.22C1.63203 0.00263 1.06889 0.23737 0.65313 0.65313C0.23737 1.06889 0.00263 1.63203 0 2.22V16.79C0.00525 17.3762 0.24115 17.9368 0.65663 18.3504C1.07211 18.764 1.63375 18.9974 2.22 19C2.6371 18.9972 3.04537 18.8796 3.4 18.66L8.88 15.23C8.9168 15.2099 8.9581 15.1993 9 15.1993C9.0419 15.1993 9.0832 15.2099 9.12 15.23L14.6 18.66C14.9352 18.8704 15.3205 18.9873 15.7161 18.9987C16.1117 19.0101 16.5031 18.9155 16.8499 18.7248C17.1966 18.5341 17.4861 18.2541 17.6883 17.914C17.8905 17.5738 17.9981 17.1857 18 16.79V2.22C17.9974 1.63203 17.7626 1.06889 17.3469 0.65313C16.9311 0.23737 16.368 0.00263 15.78 0Z"
+                              Fill="{DynamicResource PurpleViolet}"/>
                     </Grid>
                 </Viewbox>
             </Grid>

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,6 +9,7 @@ namespace InstallyApp.Components.Items
 {
     public partial class CollectionAdd : UserControl
     {
+        public int collectionNumber { get; set; } = 0;
         public CollectionAdd()
         {
             InitializeComponent();
@@ -17,7 +19,15 @@ namespace InstallyApp.Components.Items
             DirectoryInfo dirCollections = new("Collections");
             FileInfo[] collections = dirCollections.GetFiles();
 
-            Collection collection = new($"My Collection {collections.Length + 1}");
+            collectionNumber += 1;
+
+            string collectionName = $"My Collection {collectionNumber}";
+            if(collections.Where(file => file.Name == $"{collectionName}.txt").Any()) {
+                collectionName = $"My Collection {collectionNumber+1}";
+            }
+
+            Collection collection = new(collectionName);
+
             App.Master.Main.CollectionList.Children.Add(collection);
             Grid.SetColumn(collection, collections.Length);
 

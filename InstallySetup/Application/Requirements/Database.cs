@@ -114,13 +114,13 @@ namespace InstallySetup.Application.Requirements
 
         public static async Task<string> DesligarServico()
         {
-            string output = await Command.Executar("cmd.exe", "/c; sc stop MySQL");
+            string output = Command.Executar("cmd.exe", "/c; sc stop MySQL");
             return await Task.FromResult(output);
         }
 
         public static async Task<string> RemoverServico()
         {
-            string output = await Command.Executar("cmd.exe", "/c; sc delete MySQL");
+            string output = Command.Executar("cmd.exe", "/c; sc delete MySQL");
             return await Task.FromResult(output);
         }
     }

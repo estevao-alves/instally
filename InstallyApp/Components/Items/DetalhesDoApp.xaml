@@ -20,6 +20,7 @@
             MaxWidth="300"
             Padding="28"
             CornerRadius="12"
+            MouseDown="UserControl_MouseDown"
             >
             <Grid>
                 <Grid.RowDefinitions>
@@ -66,7 +67,7 @@
                         TextWrapping="Wrap"
                         TextTrimming="CharacterEllipsis"
                         ClipToBounds="True"
-                        Text="Blender is the free and open source 3D creation suite. It supports the entirety of the 3D pipeline—modeling, rigging, animation, simulation, rendering, compositing and motion tracking, video editing and 2D animation pipeline. Blender is the free and open source 3D creation suite. It supports the entirety of the 3D pipeline—modeling, rigging, animation, simulation, rendering, compositing and motion tracking, video editing and 2D animation pipeline."
+                        Text="Blender is the f simulation, rendering, compositing and motion tracking, video editing and 2D animation pipeline. Blender is the free and open source 3D creation suite. It supports the entirety of the 3D pipeline—modeling, rigging, animation, simulation, rendering, compositing and motion tracking, video editing and 2D animation pipeline."
                     />
 
                     <Border Cursor="Hand" Background="Transparent" Name="BorderShowMore" MouseDown="BorderShowMore_MouseDown">
@@ -133,6 +134,8 @@
                     </WrapPanel>
                 </Grid>
 
+                <!--
+                
                 <Grid Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
@@ -141,10 +144,11 @@
 
                     <Viewbox Width="18" Height="18">
                         <Grid>
-                            <Path Data="M5.94448 0.300828L7.19564 2.83265C7.27236 2.98019 7.414 3.08642 7.57925 3.11003L10.3707 3.51725C10.7839 3.57626 10.955 4.0897 10.654 4.37888L8.63565 6.35004C8.51762 6.46808 8.4645 6.63332 8.48811 6.79857L8.96614 9.57826C9.03696 9.99138 8.60024 10.3101 8.22843 10.1094L5.73202 8.79334C5.58448 8.71662 5.40743 8.71662 5.25989 8.79334L2.76348 10.1094C2.39167 10.3042 1.95495 9.99138 2.02577 9.57826L2.5038 6.79857C2.53331 6.63332 2.4802 6.46808 2.35626 6.35004L0.337887 4.37888C0.0369007 4.0838 0.202148 3.57626 0.621167 3.51725L3.41266 3.11003C3.57791 3.08642 3.71955 2.98019 3.79627 2.83265L5.04742 0.300828C5.23038 -0.0768793 5.76743 -0.0768793 5.95628 0.300828H5.94448Z"
-                          Fill="#FAFF00"/>
+                            <Path Data="M0.501465 4.43797C0.501465 4.43797 2.15284 3.98088 2.89045 3.23201C3.63235 2.47878 4.08522 0.785295 4.08522 0.785295C4.08522 0.785295 4.54309 2.47879 5.28663 3.23201C6.02341 3.97838 7.66898 4.43797 7.66898 4.43797C7.66898 4.43797 6.02492 4.80331 5.28663 5.51807C4.49511 6.28435 4.08522 8.09065 4.08522 8.09065C4.08522 8.09065 3.68033 6.28446 2.89045 5.51807C2.15123 4.80081 0.501465 4.43797 0.501465 4.43797Z"
+                                Fill="#FAFF00"/>
                         </Grid>
                     </Viewbox>
+
                     <TextBlock Grid.Column="1" Margin="10 0 0 0" FontWeight="SemiBold">My Favorites</TextBlock>
                 </Grid>
 
@@ -160,6 +164,8 @@
                     </Viewbox>
                     <TextBlock Name="UpdatedAt" Grid.Column="1" Margin="5 0 0 0" FontSize="11" Foreground="{DynamicResource LightGray}">Last updated Mar 16, 2023</TextBlock>
                 </Grid>
+                
+                -->
             </Grid>
         </Border>
     </ScrollViewer>

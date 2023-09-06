@@ -75,10 +75,9 @@
         
         <layout:Footer Grid.Row="2" Grid.Column="1" x:Name="Footer" />
 
-        <popup:WingetAvisoDeInstalacao x:Name="WingetAvisoDeInstalacao" Visibility="Collapsed" Grid.Row="1" Grid.Column="1" />
-
         <Border Grid.RowSpan="3" Grid.ColumnSpan="2" Name="LayoutBackgroundColor">
-            <Grid Grid.RowSpan="3" Grid.ColumnSpan="2" Name="AreaDePopups" />
+            <Grid Grid.RowSpan="3" Grid.ColumnSpan="2" Name="AreaDePopups">
+            </Grid>
         </Border>
     </Grid>
 </Window>

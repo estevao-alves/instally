@@ -36,22 +36,21 @@
 
                     <Grid MouseDown="EditName_MouseDown">
                         <TextBox
-                                Name="CollectionTextBox"
-                                Background="Transparent"
-                                Foreground="White"
-                                Padding="4 4 20 4"
-                                Grid.Row="0"
-                                FontSize="14"
-                                FontWeight="SemiBold"
-                                TextAlignment="Center"
-                                BorderThickness="0"
-                                Text="My Collection"
-                                KeyUp="CollectionTextBox_KeyUp"
-                                Cursor="Hand"
-                                CaretBrush="White"
-                                IsEnabled="False"
-                                MouseLeave="CollectionTextBox_MouseLeave"
-                                />
+                            Name="CollectionTextBox"
+                            Background="Transparent"
+                            Foreground="White"
+                            Padding="4 4 20 4"
+                            Grid.Row="0"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            TextAlignment="Center"
+                            BorderThickness="0"
+                            Text="My Collection"
+                            KeyUp="CollectionTextBox_KeyUp"
+                            CaretBrush="White"
+                            IsEnabled="False"
+                            MouseLeave="CollectionTextBox_MouseLeave"
+                            />
 
                         <Grid Name="EditPen" Visibility="Collapsed" Height="10" HorizontalAlignment="Right" Margin="0 0 5 0">
                             <Viewbox>
@@ -66,19 +65,30 @@
 
                     </Grid>
                 </Button>
-
+                
                 <Button
-                        Name="AddButton"
-                        Grid.Column="1"
-                        Click="AdicionarApp_Click"
-                        Style="{DynamicResource Button}"
-                        Content="Adicionar" />
+                    Name="AddButton"
+                    Grid.Column="1"
+                    Click="AdicionarApp_Click"
+                    Style="{DynamicResource Button}"
+                    Cursor="Hand"
+                    Width="30"
+                    Height="30"
+                    >
+                </Button>
 
+                <Viewbox Grid.Column="1" Height="14">
+                    <Grid>
+                        <Path Data="M3.0799 0.938664C3.0799 0.573297 3.37609 0.277107 3.74146 0.277107C4.10683 0.277107 4.40302 0.573296 4.40302 0.938664V6.81179C4.40302 7.17715 4.10683 7.47334 3.74146 7.47334C3.37609 7.47334 3.0799 7.17715 3.0799 6.81179V0.938664Z"
+                              Fill="white"/>
+                        <Path Data="M6.67799 3.21367C7.04336 3.21367 7.33955 3.50986 7.33955 3.87523C7.33955 4.24059 7.04336 4.53678 6.67799 4.53678L0.804868 4.53678C0.4395 4.53678 0.143311 4.24059 0.143311 3.87523C0.143311 3.50986 0.439499 3.21367 0.804867 3.21367L6.67799 3.21367Z"
+                              Fill="white"/>
+                    </Grid>
+                </Viewbox>
+                
             </Grid>
 
             <Rectangle Height="1" Fill="#000000" Opacity=".2" />
-
-
 
             <StackPanel Margin="5">
                 <StackPanel Name="Apps">
@@ -94,34 +104,35 @@
             Grid.Row="1"
             Name="CollectionGearButton"
             Background="{DynamicResource PrimaryColor}"
-            Height="40"
+            Height="38"
             CornerRadius="6"
             HorizontalAlignment="Right"
             >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Cursor="Hand" Margin="0 0 5 0">
                 <Button
                     Style="{DynamicResource Button}"
                     Name="CollectionRemoveButton"
                     Click="RemoveCollection_Click"
                     Background="#C26161"
-                    Padding="4 0"
+                    Padding="3 0"
                     Content="Remove"
+                    FontSize="14"
                     VerticalAlignment="Center"
-                    Margin="5 0 0 0"
+                    Margin="10 0 0 0"
                     >
                 </Button>
-                    
+
                 <Button
                     Name="GearButton"
-                    Height="40"
-                    Width="40"
+                    Height="30"
+                    Width="30"
                     Margin="5 0 0 0"
                     HorizontalAlignment="Right"
                     Background="{DynamicResource PrimaryColor}"
                     Click="GearButton_Click"
                     Style="{DynamicResource HoverEffect}"
                     >
-                    <Viewbox Margin="10">
+                    <Viewbox Margin="6">
                         <Path Data="M6.81089 4.30343L7.29214 3.03287C7.08214 2.64617 6.99464 2.48966 6.78464 2.11217L5.49839 1.90961C5.37589 1.8912 5.27089 1.82675 5.20089 1.72547L4.38714 0.657461H3.38089L2.57589 1.72547C2.49714 1.82675 2.39214 1.8912 2.27839 1.90961L0.983391 2.11217C0.773391 2.48966 0.685891 2.64617 0.475891 3.03287L0.957141 4.30343C1.00964 4.42313 1.00964 4.55202 0.957141 4.66251L0.475891 5.94228C0.685891 6.31977 0.773391 6.4855 0.983391 6.86298L2.27839 7.05633C2.39214 7.07474 2.49714 7.13919 2.57589 7.24047L3.38089 8.31769H4.38714L5.20089 7.24047C5.27089 7.13919 5.37589 7.07474 5.49839 7.05633L6.78464 6.86298C6.99464 6.4855 7.08214 6.31977 7.29214 5.94228L6.81089 4.66251C6.76714 4.55202 6.76714 4.42313 6.81089 4.30343ZM3.88839 5.98832C3.10089 5.98832 2.45339 5.31621 2.45339 4.48758C2.45339 3.65895 3.10089 2.98683 3.88839 2.98683C4.67589 2.98683 5.31464 3.65895 5.31464 4.48758C5.31464 5.31621 4.67589 5.98832 3.88839 5.98832Z"
                         Fill="{DynamicResource LightGray}"/>
                     </Viewbox>

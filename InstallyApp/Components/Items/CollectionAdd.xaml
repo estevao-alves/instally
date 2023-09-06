@@ -6,30 +6,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="280">
     <Border
-                Background="Transparent"
-                Grid.Column="2"
-                BorderThickness="4"
-                MouseEnter="NewCollection_MouseEnter"
-                MouseLeave="NewCollection_MouseLeave"
-                >
+        Background="Transparent"
+        Grid.Column="2"
+        BorderThickness="4"
+        MouseEnter="NewCollection_MouseEnter"
+        MouseLeave="NewCollection_MouseLeave"
+        >
 
         <Grid>
             <Rectangle
-                        StrokeDashArray="4 2"
-                        StrokeThickness="4"
-                        Stroke="{DynamicResource SecondaryColor}"
-                        RadiusX="8"
-                        RadiusY="8"
-                        >
+                StrokeDashArray="4 2"
+                StrokeThickness="4"
+                Stroke="{DynamicResource SecondaryColor}"
+                RadiusX="8"
+                RadiusY="8"
+                >
             </Rectangle>
 
             <Button
-                        Click="AddCollection_Click"
-                        Cursor="Hand"
-                        Background="{DynamicResource PrimaryColor}"
-                        Style="{StaticResource HoverEffect}"
-                        Opacity=".1"
-                        >
+                Click="AddCollection_Click"
+                Cursor="Hand"
+                Background="{DynamicResource PrimaryColor}"
+                Style="{StaticResource HoverEffect}"
+                Opacity=".1"
+                >
             </Button>
 
             <Border Panel.ZIndex="-1" Name="BorderIconAddCollection" Width="40" Height="40" Padding="10" Background="Transparent" CornerRadius="20">
