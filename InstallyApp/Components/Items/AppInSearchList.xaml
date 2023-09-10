@@ -75,7 +75,7 @@
                 <icons:Info x:Name="InfoIcon" IsActive="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 -10 -10 0" Width="20" MouseDown="InfoIcon_MouseDown" />
 
                 <Viewbox 
-                    Name="IconJaAdicionado"
+                    Name="IconIsAdded"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Left"
                     Margin="0 -10 -10 0"

@@ -21,7 +21,7 @@ namespace InstallyApp.Components.Popups
 
         public event System.EventHandler<ScrollChangedEventArgs> ViewChanged;
 
-        List<AppParaInstalar> ListaDeAppsParaColecionar;
+        public List<AppParaInstalar> ListaDeAppsParaColecionar;
 
         public PesquisaDeApps()
         {
@@ -31,9 +31,6 @@ namespace InstallyApp.Components.Popups
             AppList.Children.Clear();
 
             TextoPadraoSearch = SearchTextBox.Text;
-
-            ListaDeAppsParaColecionar = new();
-            PesquisarPacotes();
 
             BarraDeRolagem.ScrollChanged += BarraDeRolagem_ScrollChanged;
         }
@@ -134,7 +131,7 @@ namespace InstallyApp.Components.Popups
 
         public Button AdicionarApp(Package pkg)
         {
-            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.Id));
+            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.Id, App.Master.Main.ColecaoSelecionada.Title));
 
             Button borderWrapper = new()
             {
@@ -161,6 +158,9 @@ namespace InstallyApp.Components.Popups
         private void Add_MouseDown(object sender, MouseButtonEventArgs e)
         {
             App.Master.Main.AdicionarAplicativosACollection(ListaDeAppsParaColecionar, App.Master.Main.ColecaoSelecionada);
+
+            App.Master.Main.JanelaDePesquisa.ListaDeInstalacao.Children.Clear();
+
             App.Master.Main.AreaDePopups.Children.Clear();
         }
 

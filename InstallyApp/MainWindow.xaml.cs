@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using InstallyApp.Application.Contexts;
 using InstallyApp.Components;
 using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
@@ -22,6 +23,7 @@ namespace InstallyApp
             InitializeComponent();
             DataContext = this;
 
+            JanelaDePesquisa = new();
             CarregarCollections();
         }
 
@@ -71,16 +73,16 @@ namespace InstallyApp
             {
                 writer.WriteLine(app.Name);
                 
-                MenuAppItem newApp = new(app.Name);
+                MenuAppItem newApp = new(app.Name, collection.Title);
                 newApp.OnExcluir += () =>
                 {
                     collection.Apps.Children.Remove(newApp);
                     collection.AtualizarArquivo(app.Name);
-                    App.Master.AppsJaAdicionados.Remove(app.Name);
+                    ListaDeAplicativosAdicionados.Remover(app.Name);
                 };
                 collection.Apps.Children.Add(newApp);
 
-                App.Master.AppsJaAdicionados.Add(app.Name);
+                ListaDeAplicativosAdicionados.Adicionar(app.Name);
             }
 
             writer.Close();
@@ -88,30 +90,15 @@ namespace InstallyApp
 
         public bool VerificarSeAplicativoJaFoiAdicionado(string appName)
         {
-            string? app = App.Master.AppsJaAdicionados.Find(name => name == appName);
+            string? app = ListaDeAplicativosAdicionados.Apps.Find(name => name == appName);
             if (app is not null) return true;
             else return false;
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
-            if(WindowState == WindowState.Maximized) LayoutMain.Margin = new Thickness(7);
+            if(WindowState == WindowState.Maximized) LayoutMain.Margin = new Thickness(5);
             else LayoutMain.Margin = new Thickness(0);
-
-            if (WindowState == WindowState.Maximized || ActualHeight == SystemParameters.WorkArea.Height)
-            {
-                LayoutMainOpacityMask.RadiusX = 0;
-                LayoutMainOpacityMask.RadiusY = 0;
-
-                LayoutMain.Margin = new Thickness(7);
-            }
-            else
-            {
-                LayoutMainOpacityMask.RadiusX = 10;
-                LayoutMainOpacityMask.RadiusY = 10;
-
-                LayoutMain.Margin = new Thickness(0);
-            }
         }
 
         private void TopBar_MouseMove(object sender, MouseEventArgs e)

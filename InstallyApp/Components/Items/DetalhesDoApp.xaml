@@ -20,7 +20,6 @@
             MaxWidth="300"
             Padding="28"
             CornerRadius="12"
-            MouseDown="UserControl_MouseDown"
             >
             <Grid>
                 <Grid.RowDefinitions>
@@ -60,7 +59,7 @@
 
                 <StackPanel Margin="0 0 0 18" Grid.Row="1">
                     <TextBlock
-                        MaxHeight="46"
+                        MaxHeight="80"
                         Name="Description"
                         Margin="0 14 0 0"
                         VerticalAlignment="Top"

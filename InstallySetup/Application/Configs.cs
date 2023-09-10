@@ -8,7 +8,6 @@ namespace InstallySetup.Application
         public string BoasVindas { get; set; }
         public string AplicativoJaInstalado { get; set; }
         public string InstalacaoSucesso { get; set; }
-
         public string Instalando { get; set; }
         public string Reparando { get; set; }
         public string Desinstalando { get; set; }
@@ -23,7 +22,7 @@ namespace InstallySetup.Application
         public static string CdnUtilsUrl = "https://storage.googleapis.com/app-solutions/Utils";
         public static string CdnDLLsUrl = "https://storage.googleapis.com/app-solutions/Utils/DLLs";
 
-        public static string AppPath = @"c:\Saturnia\Instally";
+        public static string AppPath = @"c:\Saturnia\Instally\";
         public static string AppUtilsPath = AppPath + @"\Utils\";
 
         public static string AppName = "Instally";

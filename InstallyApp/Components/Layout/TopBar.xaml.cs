@@ -1,14 +1,12 @@
 ﻿using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows;
-using System.Windows.Media;
 using System.Diagnostics;
 
 namespace InstallyApp.Components.Layout
 {
     public partial class TopBar : UserControl
     {
-        public bool IsIconActive = false;
         public TopBar()
         {
             InitializeComponent();

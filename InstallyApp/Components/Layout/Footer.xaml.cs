@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using InstallyApp.Application.Functions;
 using InstallyApp.Components.Popups;
 using InstallyApp.Resources.Winget;
 
@@ -15,11 +16,13 @@ namespace InstallyApp.Components.Layout
     {
         public string Name;
         public string CodeId;
+        public string CollectionName;
 
-        public AppParaInstalar(string name, string wingetCode)
+        public AppParaInstalar(string name, string wingetCode, string collectionName)
         {
             Name = name;
             CodeId = wingetCode;
+            CollectionName = collectionName;
         }
     }
 
@@ -31,6 +34,7 @@ namespace InstallyApp.Components.Layout
         public bool isInstalling = false;
         public string titleStatus = "Installing...";
         public string textProgressDetail { get; set; }
+
         public Footer()
         {
             InitializeComponent();
@@ -38,30 +42,63 @@ namespace InstallyApp.Components.Layout
             this.DataContext = this;
         }
 
-        public Button AdicionarApp(Package pkg)
+        private Button ConstruirAppIconeRodape(string pkgName)
         {
-            ListaDeAppParaInstalar.Add(new AppParaInstalar(pkg.Name, pkg.Id));
-
+            // Constroi o icone visualmente para ficar na lista do rodapé
             Button borderWrapper = new()
             {
                 Background = (SolidColorBrush)App.Current.Resources["PrimaryColor"],
                 Style = (Style)App.Current.Resources["HoverEffect"],
                 Width = 40,
                 Height = 40,
-                Content = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name),
+                Content = App.Master.Winget.CapturarFaviconDoPacote(pkgName),
                 Padding = new Thickness(6),
                 Margin = new Thickness(8, 0, 0, 0)
             };
 
-            ListaDeInstalacao.Children.Add(borderWrapper);
-
             return borderWrapper;
         }
-                    
-        public void RemoverApp(Button appItemWithBorder, string wingetId)
+
+        public Button AdicionarApp(Package pkg, string collectionName)
         {
-            ListaDeAppParaInstalar = ListaDeAppParaInstalar.FindAll(item => item.CodeId != wingetId);
-            ListaDeInstalacao.Children.Remove(appItemWithBorder);
+            // Adiciona na variavel lista de apps
+            ListaDeAppParaInstalar.Add(new AppParaInstalar(pkg.Name, pkg.Id, collectionName));
+
+            // Adiciona visualmente nos icones do rodape
+            Button Icone = ConstruirAppIconeRodape(pkg.Name);
+            ListaDeInstalacao.Children.Add(Icone);
+
+            return Icone;
+        }
+                    
+        public void RemoverApp(string appName)
+        {
+            // Remove da variavel lista de apps
+            ListaDeAppParaInstalar = ListaDeAppParaInstalar.FindAll(item => item.Name != appName);
+
+            // Atualiza visualmente os icones selecionados no rodapé
+            AtualizarListaRodape();
+        }
+
+        public void RemoverAppsPorColecao(string collectionName)
+        {
+            // Atualiza na variável lista de apps
+            ListaDeAppParaInstalar = ListaDeAppParaInstalar.FindAll(item => item.CollectionName != collectionName);
+
+            // Atualiza visualmente os icones selecionados no rodapé
+            AtualizarListaRodape();
+        }
+
+        private void AtualizarListaRodape()
+        {
+            // Atualiza visualmente os icones selecionados no rodapé
+            ListaDeInstalacao.Children.Clear();
+
+            foreach (AppParaInstalar app in ListaDeAppParaInstalar)
+            {
+                Button Icone = ConstruirAppIconeRodape(app.Name);
+                ListaDeInstalacao.Children.Add(Icone);
+            }
         }
 
         public async void VerificarApps_MouseDown(object sender, MouseButtonEventArgs e)
@@ -101,7 +138,7 @@ namespace InstallyApp.Components.Layout
                         {
                             janelaDeInstalacao.Titulo.Text = titleStatus;
 
-                            string result = await Task.Run(() => ExecutarCommand($"winget list -q {appCodeId}"));
+                            string result = await Task.Run(() => Command.Executar("cmd.exe", $"/c; {Command.wingetExe} list -q {appCodeId}"));
 
                             // Se já tiver instalado, então...
                             if (result.Contains(appCodeId)) appsJaInstalados.Add(appCodeId);
@@ -192,7 +229,7 @@ namespace InstallyApp.Components.Layout
                     // Verificar se o app já está instalado
                     janelaDeInstalacao.BarraDeProgresso.IsIndeterminate = true;
                     janelaDeInstalacao.TextoDetalhes.Text = $"{appName} ({i-1}/{apps.Count})";
-                    string result = await Task.Run(() => ExecutarCommand($"winget install {appCodeId}"));
+                    string result = await Task.Run(() => Command.Executar("cmd.exe", $"/c; {Command.wingetExe} install {appCodeId}"));
 
                     // Se der algum erro na instalacao
                     if (appsJaInstalados.Count > 0) throw new Exception($"Error installing {appName}.");
@@ -227,34 +264,6 @@ namespace InstallyApp.Components.Layout
             }
 
             isInstalling = false;
-        }
-
-        public string ExecutarCommand(string command)
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = "cmd.exe",
-                Arguments = $@"/c powershell; {command}",
-
-                //UseShellExecute = true,
-                RedirectStandardOutput = true,
-
-                WindowStyle = ProcessWindowStyle.Hidden,
-                CreateNoWindow = true
-            };
-
-            Process process = new();
-
-            process.StartInfo = startInfo;
-            process.Start();
-
-            string? output = process.StandardOutput.ReadToEnd();
-
-            process.WaitForExit();
-
-            Debug.WriteLine(output);
-
-            return output;
         }
     }
 }

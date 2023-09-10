@@ -21,7 +21,7 @@ namespace InstallyApp.Components.Items
 
             collectionNumber += 1;
 
-            string collectionName = $"My Collection {collectionNumber}";
+            string collectionName = $"My Collection {collectionNumber+1}";
             if(collections.Where(file => file.Name == $"{collectionName}.txt").Any()) {
                 collectionName = $"My Collection {collectionNumber+1}";
             }

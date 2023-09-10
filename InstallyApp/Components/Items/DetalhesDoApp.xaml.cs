@@ -8,30 +8,28 @@ namespace InstallyApp.Components.Items
 {
     public partial class DetalhesDoApp : UserControl
     {
+        bool showMoreActive = true;
         public DetalhesDoApp()
         {
             InitializeComponent();
             DataContext = this;
-
-            ocultarShowMore();
-        }
-
-        public void ocultarShowMore()
-        {
-            if (Description.Text.Length < 80)
-            {
-                BorderShowMore.Visibility = Visibility.Collapsed;
-            }
         }
 
         public void AtualizarInformacoes(Package pkg)
         {
-            Description_ChangeShowText(true);
-
             // Remover IsActive (InfoIcon) de todos os outros pacotes
             foreach (AppInSearchList appItem in App.Master.Main.JanelaDePesquisa.AppList.Children)
             {
-                if(appItem.Titulo.Text != pkg.Name)
+                if (pkg.Description.Length < 80)
+                {
+                    BorderShowMore.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    BorderShowMore.Visibility = Visibility.Visible;
+                }
+
+                if (appItem.Titulo.Text != pkg.Name)
                 {
                     appItem.InfoIcon.IsActive = false;
                     appItem.InfoIcon.Visibility = Visibility.Collapsed;
@@ -66,9 +64,14 @@ namespace InstallyApp.Components.Items
             }
         }
 
-        public void Description_ChangeShowText(bool? setDefault)
+        public void Description_ChangeShowText(bool? showMoreActive)
         {
-            if(setDefault is null && TextShowDescription.Text == "Full Description")
+            if (Description.Text.Length > 80)
+            {
+                BorderShowMore.Visibility = Visibility.Visible;
+            }
+
+            if (showMoreActive is true && TextShowDescription.Text == "Full Description")
             {
                 Description.MaxHeight = double.PositiveInfinity;
 
@@ -76,7 +79,7 @@ namespace InstallyApp.Components.Items
                 IconShowDescription.RenderTransform = new RotateTransform(180);
             } else
             {
-                Description.MaxHeight = 46;
+                Description.MaxHeight = 80;
 
                 TextShowDescription.Text = "Full Description";
                 IconShowDescription.RenderTransform = new RotateTransform(0);
@@ -85,16 +88,14 @@ namespace InstallyApp.Components.Items
 
         private void BorderShowMore_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Description_ChangeShowText(null);
-        }
-
-        private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            Debug.WriteLine(Description.Text.Length);
-
-            if (Description.Text.Length == 80)
+            if(!showMoreActive)
             {
-                BorderShowMore.Visibility = Visibility.Collapsed;
+                showMoreActive = false;
+                Description_ChangeShowText(showMoreActive);
+            }
+            {
+                showMoreActive = true;
+                Description_ChangeShowText(showMoreActive);
             }
         }
     }

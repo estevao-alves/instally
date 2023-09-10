@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InstallyApp.Application.Contexts;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -7,7 +8,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace InstallyApp.Components.Items
 {
@@ -57,17 +57,17 @@ namespace InstallyApp.Components.Items
 
                 while ((line = reader.ReadLine()) != null)
                 {
-                    MenuAppItem newApp = new(line);
+                    MenuAppItem newApp = new(line, Title);
 
                     newApp.OnExcluir += () =>
                     {
                         Apps.Children.Remove(newApp);
-                        AtualizarArquivo(line);
-                        App.Master.AppsJaAdicionados.Remove(line);
+                        AtualizarArquivo(newApp.AppName);
+                        ListaDeAplicativosAdicionados.Remover(newApp.AppName);
                     };
 
                     Apps.Children.Add(newApp);
-                    App.Master.AppsJaAdicionados.Add(line);
+                    ListaDeAplicativosAdicionados.Adicionar(line);
                 }
 
                 reader.Close();
@@ -98,10 +98,12 @@ namespace InstallyApp.Components.Items
 
         private void AdicionarApp_Click(object sender, RoutedEventArgs e)
         {
-            App.Master.Main.JanelaDePesquisa = new();
             App.Master.Main.ColecaoSelecionada = this;
-
             App.Master.Main.AreaDePopups.Children.Add(App.Master.Main.JanelaDePesquisa);
+
+            App.Master.Main.JanelaDePesquisa.AppList.Children.Clear();
+            App.Master.Main.JanelaDePesquisa.BuscarPorCategoria("all");
+            App.Master.Main.JanelaDePesquisa.ListaDeAppsParaColecionar = new();
         }
 
         private async void EditName_MouseDown(object sender, MouseButtonEventArgs e)
@@ -152,23 +154,24 @@ namespace InstallyApp.Components.Items
             ChangeIcon();
             Keyboard.ClearFocus();
 
-            string oldTitle = Title;
             string newTitle = CollectionTextBox.Text;
 
             DirectoryInfo dirCollections = new(dirName);
 
             if (dirCollections.GetFiles($"{newTitle}.txt").Length > 0)
             {
-                CollectionTextBox.Text = oldTitle;
+                CollectionTextBox.Text = Title;
+                return;
+            }
+
+            if (!File.Exists(@$"{dirName}\{newTitle}.txt"))
+            {
+                File.Move($@"{dirName}\{Title}.txt", $@"{dirName}\{newTitle}.txt");
+                File.Delete($@"{dirName}\{Title}.txt");
             }
 
             Title = newTitle;
-
-            if (!File.Exists($@"{dirName}\{newTitle}.txt"))
-            {
-                File.Move($@"{dirName}\{oldTitle}.txt", $@"{dirName}\{Title}.txt");
-                File.Delete($@"{dirName}\{oldTitle}.txt");
-            }
+            collectionFile = @$"{dirName}\{newTitle}.txt";
         }
 
         private void VerOpcoesConfiguracao()
@@ -199,21 +202,35 @@ namespace InstallyApp.Components.Items
                 CollectionRemoveButton.Opacity = .6;
                 CollectionRemoveButton.Cursor = Cursors.Wait;
 
-                if (File.Exists($@"{dirName}\{Title}.txt"))
+                StreamReader reader = new(collectionFile);
+                if (!reader.BaseStream.CanRead) throw new Exception("O arquivo da coleção não pode ser lido!");
+
+                using (reader)
                 {
-                    File.Delete($@"{dirName}\{Title}.txt");
+                    string? line;
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        MenuAppItem newApp = new(line, Title);
+                        Apps.Children.Remove(newApp);
+
+                        ListaDeAplicativosAdicionados.Remover(newApp.AppName);
+                    }
+
+                    reader.Close();
                 }
 
                 await Task.Delay(100);
                 Thread.Sleep(3000);
-                if (File.Exists(collectionFile)) throw new Exception("Erro, o arquivo ainda não foi excluído!");
 
+                File.Delete(collectionFile);
+
+                App.Master.Main.Footer.RemoverAppsPorColecao(Title);
                 App.Master.Main.CollectionList.Children.Remove(this);
 
                 foreach (UIElement coll in App.Master.Main.CollectionList.Children)
                 {
                     int colunaDoElemento = Grid.GetColumn(coll);
-
                     if (colunaDoElemento > ColunaAtual) Grid.SetColumn(coll, colunaDoElemento - 1);
                 }
 
@@ -225,8 +242,18 @@ namespace InstallyApp.Components.Items
             }
             catch(Exception ex)
             {
+                await Task.Delay(1000);
+                CollectionRemoveButton.Content = "Remove";
+                CollectionRemoveButton.Opacity = 1;
+                CollectionRemoveButton.Cursor = Cursors.Hand;
+
                 Debug.WriteLine(ex.Message);
             }
+        }
+
+        private void CollectionTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

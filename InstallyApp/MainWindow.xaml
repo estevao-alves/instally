@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         
         Background="Transparent"
-        Title="MainWindow"
+        Title="Instally"
         Height="700"
         Width="1200"
         MinHeight="540"

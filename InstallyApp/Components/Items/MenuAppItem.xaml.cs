@@ -3,15 +3,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using InstallyApp.Resources.Winget;
-using System.Diagnostics;
+using InstallyApp.Application.Contexts;
 
 namespace InstallyApp.Components
 {
     public partial class MenuAppItem : UserControl
     {
         string appName;
-        Button BorderAppFooter;
-        Package PacoteWingetSelecionado;
+        public Package PacoteWingetSelecionado;
 
         public delegate void ExcluirDaColecao();
         public event ExcluirDaColecao OnExcluir;
@@ -26,6 +25,8 @@ namespace InstallyApp.Components
             }
         }
 
+        public string CollectionName { get; set; }
+
         public bool IsActive { get; set; }
 
         public MenuAppItem()
@@ -34,10 +35,12 @@ namespace InstallyApp.Components
             DataContext = this;
         }
 
-        public MenuAppItem(string name)
+        public MenuAppItem(string name, string collectionName)
         {
             InitializeComponent();
+
             AppName = name;
+            CollectionName = collectionName;
             AdicionarIcone();
         }
 
@@ -55,13 +58,14 @@ namespace InstallyApp.Components
 
                 // Adicionar ao rodapé de instalação
                 PacoteWingetSelecionado = App.Master.Winget.CapturarPacote(AppName);
-                BorderAppFooter = App.Master.Main.Footer.AdicionarApp(PacoteWingetSelecionado);
+                App.Master.Main.Footer.AdicionarApp(PacoteWingetSelecionado, CollectionName);
             }
             else
             {
                 BorderWrapper.Background = (SolidColorBrush)new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                
                 // Remover do rodapé de instalação
-                if (PacoteWingetSelecionado is not null) App.Master.Main.Footer.RemoverApp(BorderAppFooter, PacoteWingetSelecionado.Id);
+                if (PacoteWingetSelecionado is not null) App.Master.Main.Footer.RemoverApp(PacoteWingetSelecionado.Name);
             }
         }
 
@@ -69,7 +73,10 @@ namespace InstallyApp.Components
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
+            // Remover do rodapé de existir
             AdicionarRemoverItemDoRodape(false);
+
+            // Excluir da coleção
             OnExcluir();
         }
 

@@ -45,14 +45,13 @@
             
             <Viewbox Grid.Column="1" Width="10" Margin="5 0 0 0" Visibility="{Binding IsActive}">
                 <Path Data="M1.31274 0.552477L4.03406 3.85649L6.89343 0.552477"
-                                      Stroke="#B5B2B2" StrokeEndLineCap="round" StrokeStartLineCap="round" StrokeLineJoin="round"/>
+                        Stroke="#B5B2B2" StrokeEndLineCap="round" StrokeStartLineCap="round" StrokeLineJoin="round"/>
             </Viewbox>
         </Grid>
 
         <Canvas Panel.ZIndex="-1" Name="CanvasArea">
 
             <Border
-                Name="ButtonDropDown"
                 Background="{DynamicResource PrimaryColor}"
                 CornerRadius="12"
                 MinHeight="40"

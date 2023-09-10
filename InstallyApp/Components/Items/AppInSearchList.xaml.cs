@@ -1,11 +1,9 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using InstallyApp.Resources.Winget;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace InstallyApp.Components.Items
 {
@@ -13,7 +11,7 @@ namespace InstallyApp.Components.Items
     {
         public bool IsActive = false;
 
-        string appName;
+        public string AppName;
         Button appInListaDeInstalacao;
 
         public AppInSearchList()
@@ -25,12 +23,16 @@ namespace InstallyApp.Components.Items
         public AppInSearchList(string pacoteName, bool pacoteJaAdicionado)
         {
             InitializeComponent();
-
-            appName = pacoteName;
             InfoIcon.Visibility = Visibility.Collapsed;
-            IconJaAdicionado.Visibility = pacoteJaAdicionado ? Visibility.Visible : Visibility.Collapsed;
-            
+
+            AppName = pacoteName;
             CarregarInformacoesDoApp(pacoteName);
+            IconeJaAdicionado(pacoteJaAdicionado);
+        }
+
+        public void IconeJaAdicionado(bool state)
+        {
+            IconIsAdded.Visibility = state ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void CarregarInformacoesDoApp(string pkgName)
@@ -45,7 +47,7 @@ namespace InstallyApp.Components.Items
 
         private async void WrapperAppItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(appName))
+            if (App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(AppName))
             {
                 this.AlertDropdownText.Text = $"App already added in: {App.Master.Main.ColecaoSelecionada.Title}";
 
@@ -56,7 +58,7 @@ namespace InstallyApp.Components.Items
                 return;
             }
 
-            Package pkg = App.Master.Winget.CapturarPacote(appName);
+            Package pkg = App.Master.Winget.CapturarPacote(AppName);
 
             if (IsActive) {
                 IsActive = false;
@@ -88,7 +90,7 @@ namespace InstallyApp.Components.Items
         {
             if (InfoIcon.IsActive)
             {
-                Package pkg = App.Master.Winget.CapturarPacote(appName);
+                Package pkg = App.Master.Winget.CapturarPacote(AppName);
                 App.Master.Main.JanelaDePesquisa.DetalhesDoApp.AtualizarInformacoes(pkg);
 
                 App.Master.Main.JanelaDePesquisa.DetalhesDoApp.Visibility = Visibility.Visible;

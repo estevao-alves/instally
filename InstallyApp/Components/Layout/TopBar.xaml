@@ -113,6 +113,6 @@
             </Grid>
         </Grid>
 
-        <Rectangle Height="1" Fill="#000000" Opacity=".2" VerticalAlignment="Bottom"/>
+        <Border Height="0.5" Background="#232323" VerticalAlignment="Bottom" />
     </Grid>
 </UserControl>

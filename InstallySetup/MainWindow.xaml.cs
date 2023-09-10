@@ -8,6 +8,7 @@ using System.IO.Compression;
 using InstallySetup.Application.Requirements;
 using InstallySetup.Application.Functions;
 using InstallySetup.Application;
+using System.Windows.Interop;
 
 namespace InstallySetup
 {
@@ -138,15 +139,21 @@ namespace InstallySetup
                 Master.InstallationStatus = "Feche o aplicativo para continuar a reparação.";
             }
         }
-
         private void BtnConcluir_Click(object sender, RoutedEventArgs e) => Close();
 
-        private void AbrirApp(object sender, RoutedEventArgs e)
+        private async void AbrirApp(object sender, RoutedEventArgs e)
         {
             try
             {
-                string installedAppPath = Path.Combine(Configs.AppPath, Configs.AppFileExe);
+                string result = await Task.Run(() => Command.Executar("cmd.exe", @$"/c; start C:\Saturnia\Instally\InstallyApp.exe"));
+                
+                string installedAppPath = Path.Combine(Configs.AppPath + Configs.AppFileExe);
+
+                Debug.WriteLine(Configs.AppPath + Configs.AppFileExe);
+                Debug.WriteLine(result);
+
                 var p = new Process();
+
                 p.StartInfo = new ProcessStartInfo(installedAppPath);
                 p.Start();
                 p.WaitForExit();
@@ -200,7 +207,7 @@ namespace InstallySetup
             {
                 if (!Directory.Exists(Configs.AppUtilsPath)) Directory.CreateDirectory(Configs.AppUtilsPath);
 
-                if (!await Winget.Verificar())
+                if (!Winget.Verificar())
                 {
                     bool install = await Winget.Instalar();
                     if (!install) throw new Exception();
@@ -263,27 +270,22 @@ namespace InstallySetup
 
                 File.Delete(sourceArquiveFileName);
 
+                Master.InstallationStatus = Configs.Phrases.InstalacaoSucesso;
+
+                string installedAppPath = Path.Combine(Configs.AppPath, Configs.AppFileExe);
+
+                if (File.Exists(installedAppPath)) BtnConcluir.Click += AbrirApp;
+
+                createShortcut();
+
                 // Finally
                 MainProgressBar.IsIndeterminate = false;
                 MainProgressBar.Value = 100;
 
                 BtnCancelar.Visibility = Visibility.Collapsed;
                 BtnConcluir.Visibility = Visibility.Visible;
-                BtnConcluir.Content = "Abrir";
+                BtnConcluir.Content = "Abrir INSTALLY";
 
-                Master.InstallationStatus = Configs.Phrases.InstalacaoSucesso;
-
-                string installedAppPath = Path.Combine(Configs.AppPath, Configs.AppFileExe);
-
-                createShortcut();
-
-                if (File.Exists(installedAppPath)) BtnConcluir.Click += (object sender, RoutedEventArgs e) =>
-                {
-                    var p = new Process();
-                    p.StartInfo = new ProcessStartInfo(installedAppPath);
-                    p.Start();
-                    p.WaitForExit();
-                };
             }
             catch (Exception ex)
             {
