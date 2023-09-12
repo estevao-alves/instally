@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace InstallyApp.Application.Functions
 {
@@ -7,29 +9,39 @@ namespace InstallyApp.Application.Functions
     {
         public static string wingetExe = @"%LOCALAPPDATA%\Microsoft\WindowsApps\winget.exe";
 
-        public static string Executar(string fileName, string arguments)
+        public static async Task<string> Executar(string fileName, string arguments)
         {
             try
             {
-                Process p = new Process()
+                string? result = await Task.Run(() =>
                 {
-                    StartInfo = new ProcessStartInfo()
+                    Process p = new Process()
                     {
-                        FileName = fileName,
-                        Arguments = arguments,
+                        StartInfo = new ProcessStartInfo()
+                        {
+                            FileName = fileName,
+                            Arguments = arguments,
 
-                        //UseShellExecute = true,
+                            //UseShellExecute = true,
 
-                        RedirectStandardOutput = true,
-                        WindowStyle = ProcessWindowStyle.Hidden,
-                        CreateNoWindow = true
-                    }
-                };
-                p.Start();
-                string? output = p.StandardOutput.ReadToEnd();
-                p.WaitForExit();
+                            RedirectStandardOutput = true,
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            CreateNoWindow = true,
 
-                return output;
+                            // Encoding UTF-8
+                            StandardOutputEncoding = Encoding.Default
+                        }
+                    };
+                    p.Start();
+                    string? output = p.StandardOutput.ReadToEnd();
+                    p.WaitForExit();
+
+                    return output;
+                });
+
+                if (App.Master.Debug is not null) App.Master.Debug.CreateInfo(result);
+
+                return result;
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace InstallySetup.Application.Functions
@@ -40,7 +41,10 @@ namespace InstallySetup.Application.Functions
                         RedirectStandardOutput = true,
 
                         WindowStyle = ProcessWindowStyle.Hidden,
-                        CreateNoWindow = true
+                        CreateNoWindow = true,
+
+                        // Encoding UTF-8
+                        StandardOutputEncoding = Encoding.Default
                     }
                 };
                 p.Start();

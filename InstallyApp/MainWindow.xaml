@@ -23,6 +23,8 @@
         StateChanged="Window_StateChanged"
         
         FontFamily="{StaticResource FontFamily}"
+        
+        KeyDown="MainWindow_KeyDown"
         >
 
     <WindowChrome.WindowChrome>

@@ -103,7 +103,6 @@ namespace InstallyApp.Components.Layout
 
         public async void VerificarApps_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Debug.WriteLine(ListaDeAppParaInstalar);
 
             janelaDeInstalacao = new();
             App.Master.Main.AreaDePopups.Children.Add(janelaDeInstalacao);
@@ -138,7 +137,7 @@ namespace InstallyApp.Components.Layout
                         {
                             janelaDeInstalacao.Titulo.Text = titleStatus;
 
-                            string result = await Task.Run(() => Command.Executar("cmd.exe", $"/c; {Command.wingetExe} list -q {appCodeId}"));
+                            string result = await Command.Executar("cmd.exe", $"/c; {Command.wingetExe} list -q {appCodeId}");
 
                             // Se já tiver instalado, então...
                             if (result.Contains(appCodeId)) appsJaInstalados.Add(appCodeId);
@@ -229,7 +228,7 @@ namespace InstallyApp.Components.Layout
                     // Verificar se o app já está instalado
                     janelaDeInstalacao.BarraDeProgresso.IsIndeterminate = true;
                     janelaDeInstalacao.TextoDetalhes.Text = $"{appName} ({i-1}/{apps.Count})";
-                    string result = await Task.Run(() => Command.Executar("cmd.exe", $"/c; {Command.wingetExe} install {appCodeId}"));
+                    string result = await Command.Executar("cmd.exe", $"/c; {Command.wingetExe} install {appCodeId}");
 
                     // Se der algum erro na instalacao
                     if (appsJaInstalados.Count > 0) throw new Exception($"Error installing {appName}.");
@@ -262,7 +261,6 @@ namespace InstallyApp.Components.Layout
                     janelaDeInstalacao.TextoDetalhes.Text = "Installing...";
                 };
             }
-
             isInstalling = false;
         }
     }

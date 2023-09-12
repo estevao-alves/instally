@@ -147,14 +147,15 @@ namespace InstallySetup
             {
                 string result = await Task.Run(() => Command.Executar("cmd.exe", @$"/c; start C:\Saturnia\Instally\InstallyApp.exe"));
                 
-                string installedAppPath = Path.Combine(Configs.AppPath + Configs.AppFileExe);
+                // string installedAppPath = Path.Combine(Configs.AppPath + Configs.AppFileExe);
+
 
                 Debug.WriteLine(Configs.AppPath + Configs.AppFileExe);
                 Debug.WriteLine(result);
 
                 var p = new Process();
 
-                p.StartInfo = new ProcessStartInfo(installedAppPath);
+                p.StartInfo = new ProcessStartInfo(Configs.AppFileExe);
                 p.Start();
                 p.WaitForExit();
             }
@@ -170,7 +171,6 @@ namespace InstallySetup
             BtnReparar.Visibility = Visibility.Collapsed;
             BtnConcluir.Visibility = Visibility.Collapsed;
             BtnConcluir.Content = "Fechar";
-            BtnConcluir.MouseDown -= AbrirApp;
 
             ExibirBotaoCancelar();
             Desinstalar();
@@ -273,10 +273,7 @@ namespace InstallySetup
                 Master.InstallationStatus = Configs.Phrases.InstalacaoSucesso;
 
                 string installedAppPath = Path.Combine(Configs.AppPath, Configs.AppFileExe);
-
-                if (File.Exists(installedAppPath)) BtnConcluir.Click += AbrirApp;
-
-                createShortcut();
+                if (File.Exists(installedAppPath)) createShortcut(installedAppPath);
 
                 // Finally
                 MainProgressBar.IsIndeterminate = false;
@@ -332,6 +329,7 @@ namespace InstallySetup
 
                 BtnCancelar.Visibility = Visibility.Collapsed;
                 BtnConcluir.Visibility = Visibility.Visible;
+                BtnConcluir.Click -= AbrirApp;
                 BtnConcluir.Content = "Fechar";
             }
             catch (Exception ex)
@@ -351,11 +349,12 @@ namespace InstallySetup
             }
         }
 
-        public void createShortcut()
+        public void createShortcut(string applicationExe)
         {
-            string exePath = $@"{Configs.AppPath}\{Configs.AppFileExe}";
-            Shortcut.Criar(Configs.AppName, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs"), exePath, Configs.AppSlogan);
-            Shortcut.Criar(Configs.AppName, Environment.GetFolderPath(Environment.SpecialFolder.Desktop), exePath, Configs.AppSlogan);
+            Shortcut.Criar(Configs.AppName, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs"), applicationExe, Configs.AppSlogan);
+            Shortcut.Criar(Configs.AppName, Environment.GetFolderPath(Environment.SpecialFolder.Desktop), applicationExe, Configs.AppSlogan);
+            
+            BtnConcluir.Click += AbrirApp;
         }
 
     }

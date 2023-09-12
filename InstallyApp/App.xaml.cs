@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using InstallyApp.Application.Contexts;
-using InstallyApp.Resources.Winget;
+﻿using InstallyApp.Resources.Winget;
 
 namespace InstallyApp
 {
@@ -8,18 +6,19 @@ namespace InstallyApp
     {
         public static class Master
         {
-            public static MainWindow Main;
+            public static DebugStatus Debug;
             public static WingetData Winget;
+            public static MainWindow Main;
         }
 
-        public App() {
-            InitializeComponent();
-
+        private void Application_Startup(object sender, System.Windows.StartupEventArgs e)
+        {
             Master.Winget = new();
 
             Master.Main = new();
             Master.Main.Show();
         }
+
 
     }
 }

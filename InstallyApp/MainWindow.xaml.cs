@@ -131,5 +131,17 @@ namespace InstallyApp
                 Top = mouse.Y - (TopBar.Height / 2);
             }
         }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (((Keyboard.Modifiers & ModifierKeys.Control) > 0) && (Keyboard.Modifiers & ModifierKeys.Shift) > 0)
+            {
+                if (e.Key == Key.T)
+                {
+                    App.Master.Debug = new();
+                    App.Master.Debug.Show();
+                }
+            }
+        }
     }
 }

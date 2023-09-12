@@ -10,6 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Resource Include="Resources\favicon.ico" />
 		<Resource Include="Resources\Fonts\Poppins-Black.ttf" />
 		<Resource Include="Resources\Fonts\Poppins-Bold.ttf" />
 		<Resource Include="Resources\Fonts\Poppins-ExtraBold.ttf" />
