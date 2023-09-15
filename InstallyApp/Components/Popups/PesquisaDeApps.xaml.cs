@@ -2,13 +2,13 @@
 using System.Windows.Input;
 using System.Windows.Controls;
 using InstallyApp.Components.Items;
-using InstallyApp.Resources.Winget;
 using InstallyApp.Components.Layout;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Diagnostics;
 using InstallyApp.Components.Selectors;
+using InstallyApp.Application.Functions;
 
 namespace InstallyApp.Components.Popups
 {

@@ -1,4 +1,5 @@
-﻿using InstallyApp.Resources.Winget;
+﻿using InstallyApp.Application.Functions;
+using System.Threading.Tasks;
 
 namespace InstallyApp
 {
@@ -10,9 +11,9 @@ namespace InstallyApp
             public static MainWindow Main;
         }
 
-        private void Application_Startup(object sender, System.Windows.StartupEventArgs e)
+        private async void Application_Startup(object sender, System.Windows.StartupEventArgs e)
         {
-            WingetData.CarregarPacotesDaAPI();
+            await WingetData.CarregarPacotesDaAPI();
 
             Master.Main = new();
             Master.Main.Show();

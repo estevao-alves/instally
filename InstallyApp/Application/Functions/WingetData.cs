@@ -1,10 +1,8 @@
-﻿using InstallyApp.Application.Functions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace InstallyApp.Resources.Winget
+namespace InstallyApp.Application.Functions
 {
     public class Package
     {
@@ -31,39 +29,40 @@ namespace InstallyApp.Resources.Winget
     {
         public static List<Package> Packages { get; set; }
 
-        public static async void CarregarPacotesDaAPI()
+        public static async Task<bool> CarregarPacotesDaAPI()
         {
             string responseBody = await API.Get("/packages");
             Packages = JsonSerializer.Deserialize<List<Package>>(responseBody);
 
-            await Task.Delay(5000);
-            foreach(Package pkg in Packages)
-            {
-                if (pkg.Site is null) return;
+            return true;
 
-                var urlDoFavicon = $"https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={pkg.Site}&size=256";
-                string dest = @"C:\Favicons";
-
-                if (!Directory.Exists(dest)) Directory.CreateDirectory(dest);
-                if (!Directory.Exists(Path.Combine(dest, "ico"))) Directory.CreateDirectory(Path.Combine(dest, "ico"));
-                if (!Directory.Exists(Path.Combine(dest, "png"))) Directory.CreateDirectory(Path.Combine(dest, "png"));
-
-                try
-                {
-                    await Task.Run(() => Command.Download(urlDoFavicon, Path.Combine(dest, "ico", $"{pkg.Name}.ico")));
-                    await Task.Run(() => Command.Download(urlDoFavicon, Path.Combine(dest, "png", $"{pkg.Name}.png")));
-                    Debug.WriteLine(pkg.Name + " foi baixado!");
-                }
-                catch(Exception ex)
-                {
-                    return;
-                }
-            }
+            // Baixar favicons
+            // foreach (Package pkg in Packages) DownloadFavicon(pkg.Site, "96", pkg.Id, "png");
         }
 
-        public static Package CapturarPacote(string NomeDoPacote)
+        public static async void DownloadFavicon(string? url, string size, string fileName, string extension)
         {
-            Package pkg = Packages.Find(pkg => pkg.Name.ToLower() == NomeDoPacote.ToLower());
+            if (url is null) return;
+
+            var urlDoFavicon = $"https://www.google.com/s2/favicons?domain={url}&sz={size}";
+            string dest = @"C:\Favicons";
+
+            string pathDest = Path.Combine(dest, extension);
+            string fileDestPath = Path.Combine(dest, extension, $"{fileName}.{extension}");
+
+            if (!Directory.Exists(pathDest)) Directory.CreateDirectory(pathDest);
+            if (!File.Exists(fileDestPath))
+            {
+                await Command.Download(urlDoFavicon, fileDestPath);
+                Debug.WriteLine(fileName + " foi baixado!");
+            }
+
+            await Task.Delay(10);
+        }
+
+        public static Package? CapturarPacote(string NomeDoPacote)
+        {
+            Package? pkg = Packages.Find(pkg => pkg.Name.ToLower() == NomeDoPacote.ToLower());
             return pkg;
         }
 
@@ -73,8 +72,9 @@ namespace InstallyApp.Resources.Winget
 
             if (ParteDoNomeDoPacote is not null) BuscaPorNome = ParteDoNomeDoPacote;
 
-            bool Filter(Package? pkg) {
-                if(categoria is not null) return pkg.Name.ToLower().Contains(BuscaPorNome.ToLower()) && pkg.Tags.Contains(categoria);
+            bool Filter(Package pkg)
+            {
+                if (categoria is not null) return pkg.Name.ToLower().Contains(BuscaPorNome.ToLower()) && pkg.Tags.Contains(categoria);
                 return pkg.Name.ToLower().Contains(BuscaPorNome.ToLower());
             }
 
@@ -83,11 +83,14 @@ namespace InstallyApp.Resources.Winget
             return pkgs;
         }
 
-        public static UIElement CapturarFaviconDoPacote(string NomeDoPacote)
+        public static UIElement? CapturarFaviconDoPacote(string NomeDoPacote)
         {
-            Package pkg = CapturarPacote(NomeDoPacote);
+            if (Packages is null) return null;
 
-            if(pkg.Site is null)
+            Package? pkg = CapturarPacote(NomeDoPacote);
+            if (pkg is null) return null;
+
+            if (pkg.Site is null)
             {
                 TextBlock textBlock = new TextBlock()
                 {
@@ -102,7 +105,7 @@ namespace InstallyApp.Resources.Winget
             }
             else
             {
-                var urlDoFavicon = $"https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={pkg.Site}&size=256";
+                var urlDoFavicon = $"{API.SiteUrl}/icons/{pkg.Id}.png";
 
                 Image image = new Image()
                 {

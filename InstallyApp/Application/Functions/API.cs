@@ -5,7 +5,8 @@ namespace InstallyApp.Application.Functions
 {
     public static class API
     {
-        public static string BaseUrl = "https://instally.app/api";
+        public static string SiteUrl = "https://instally.app";
+        public static string BaseUrl = $"{SiteUrl}/api";
 
         public static async Task<string> Get(string pathname)
         {

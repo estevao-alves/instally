@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using InstallyApp.Resources.Winget;
+using InstallyApp.Application.Functions;
 
 namespace InstallyApp.Components.Items
 {
@@ -37,10 +37,13 @@ namespace InstallyApp.Components.Items
 
         public void CarregarInformacoesDoApp(string pkgName)
         {
-            UIElement appIcon = WingetData.CapturarFaviconDoPacote(pkgName);
-            appIcon.RenderTransform = new TranslateTransform(-2.5F, 0.0F);
-            WrapperIcon.Child = appIcon;
-            WrapperIcon.Padding = new Thickness(5, 0, 0, 0);
+            UIElement? appIcon = WingetData.CapturarFaviconDoPacote(pkgName);
+            if(appIcon is not null)
+            {
+                appIcon.RenderTransform = new TranslateTransform(-2.5F, 0.0F);
+                WrapperIcon.Child = appIcon;
+                WrapperIcon.Padding = new Thickness(5, 0, 0, 0);
+            }
 
             Titulo.Text = pkgName;
         }

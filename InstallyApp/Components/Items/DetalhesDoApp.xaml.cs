@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using InstallyApp.Resources.Winget;
+using InstallyApp.Application.Functions;
 
 namespace InstallyApp.Components.Items
 {

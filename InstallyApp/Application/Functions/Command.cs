@@ -29,31 +29,31 @@ namespace InstallyApp.Application.Functions
         {
             try
             {
+                Process p = new Process()
+                {
+                    StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = fileName,
+                        Arguments = arguments,
+
+                        //UseShellExecute = true,
+
+                        RedirectStandardOutput = true,
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        CreateNoWindow = true,
+
+                        // Encoding UTF-8
+                        StandardOutputEncoding = Encoding.Default
+                    }
+                };
+
                 string? result = await Task.Run(() =>
                 {
-                    Process p = new Process()
-                    {
-                        StartInfo = new ProcessStartInfo()
-                        {
-                            FileName = fileName,
-                            Arguments = arguments,
-
-                            //UseShellExecute = true,
-
-                            RedirectStandardOutput = true,
-                            WindowStyle = ProcessWindowStyle.Hidden,
-                            CreateNoWindow = true,
-
-                            // Encoding UTF-8
-                            StandardOutputEncoding = Encoding.Default
-                        }
-                    };
                     p.Start();
-                    string? output = p.StandardOutput.ReadToEnd();
-                    p.WaitForExit();
-
-                    return output;
+                    return p.StandardOutput.ReadToEndAsync();
                 });
+
+                p.WaitForExit();
 
                 if (App.Master.Debug is not null) App.Master.Debug.CreateInfo(result);
 
@@ -61,8 +61,7 @@ namespace InstallyApp.Application.Functions
             }
             catch (Exception ex)
             {
-                // Lidar
-                Debug.WriteLine(ex.Message);
+                if (App.Master.Debug is not null) App.Master.Debug.CreateInfo("Erro ao executar um comando:\nDetalhes: " + ex.Message);
                 return "Erro ao executar o comando";
             }
 

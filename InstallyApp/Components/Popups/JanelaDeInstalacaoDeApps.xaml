@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="InstallyApp.Components.Popups.InstalacaoDeApps"
+﻿<UserControl x:Class="InstallyApp.Components.Popups.JanelaDeInstalacaoDeApps"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -35,7 +35,7 @@
                         Name="Titulo"
                         Foreground="#FFFFFF"
                         Grid.Row="0"
-                        Text="Installing...."
+                        Text="Checking...."
                         FontSize="20"
                         Margin="0 0 0 10"
                         TextAlignment="Center"
@@ -43,7 +43,7 @@
                     <ProgressBar
                         Name="BarraDeProgresso"
                         Grid.Row="1"
-                        Margin="0 10"
+                        Margin="0 10 0 15"
                         Height="10"
                         BorderThickness="0"
                         IsIndeterminate="True"
@@ -53,7 +53,7 @@
                         Name="TextoDetalhes"
                         Foreground="#FFFFFF"
                         Grid.Row="2"
-                        FontSize="14"
+                        FontSize="13"
                         TextAlignment="Center"
                         TextWrapping="Wrap"
                         />
@@ -88,7 +88,7 @@
                         </Grid>
                     </Viewbox>
 
-                    <Viewbox Name="CloseLine" Width="10" Visibility="Collapsed">
+                    <Viewbox Name="Minimize" Width="10" Visibility="Collapsed">
                         <Grid>
                             <Path Data="M7.2682 0.213669C7.63357 0.213669 7.92976 0.509858 7.92976 0.875226C7.92976 1.24059 7.63357 1.53678 7.2682 1.53678L1.39508 1.53678C1.02971 1.53678 0.73352 1.24059 0.733521 0.875225C0.733521 0.509858 1.02971 0.213669 1.39508 0.213669L7.2682 0.213669Z"
                               Fill="#B5B2B2"/>
