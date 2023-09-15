@@ -51,7 +51,7 @@ namespace InstallyApp.Components.Layout
                 Style = (Style)App.Current.Resources["HoverEffect"],
                 Width = 40,
                 Height = 40,
-                Content = App.Master.Winget.CapturarFaviconDoPacote(pkgName),
+                Content = WingetData.CapturarFaviconDoPacote(pkgName),
                 Padding = new Thickness(6),
                 Margin = new Thickness(8, 0, 0, 0)
             };

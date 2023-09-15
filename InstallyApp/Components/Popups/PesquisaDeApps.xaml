@@ -44,6 +44,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBox
+                                    Name="SearchTextBox"
                                     Background="Transparent"
                                     Foreground="{DynamicResource LightGray}"
                                     BorderThickness="0"
@@ -51,7 +52,6 @@
                                     VerticalAlignment="Center"
                                     KeyUp="SearchTextBox_KeyUp"
                                     TextChanged="SearchTextBox_TextChanged"
-                                    Name="SearchTextBox"
                                     CaretBrush="White"
                                     MouseLeave="SearchTextBox_MouseLeave"
                                     />

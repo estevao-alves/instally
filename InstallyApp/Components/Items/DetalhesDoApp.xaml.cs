@@ -37,7 +37,7 @@ namespace InstallyApp.Components.Items
             }
 
             // Carregar as informações do pacote em tela
-            UIElement appIcon = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name);
+            UIElement appIcon = WingetData.CapturarFaviconDoPacote(pkg.Name);
             appIcon.RenderTransform = new TranslateTransform(-2.5F, 0.0F);
             WrapperIcon.Child = appIcon;
             WrapperIcon.Padding = new Thickness(5, 0, 0, 0);
@@ -66,7 +66,7 @@ namespace InstallyApp.Components.Items
 
         public void Description_ChangeShowText(bool? showMoreActive)
         {
-            if (Description.Text.Length > 80)
+            if (Description.Text.Length > 200)
             {
                 BorderShowMore.Visibility = Visibility.Visible;
             }

@@ -192,13 +192,13 @@ namespace InstallyApp.Components.Items
 
         private void GearButton_Click(object sender, RoutedEventArgs e) => VerOpcoesConfiguracao();
 
-        private async void RemoveCollection_Click(object sender, RoutedEventArgs e)
+        private async void RemoveCollection_MouseDown(object sender, MouseButtonEventArgs e)
         {
             try
             {
                 int ColunaAtual = Grid.GetColumn(this);
 
-                CollectionRemoveButton.Content = "Removing...";
+                TextBlock textBlock = new TextBlock() { Text = "Removing..." };
                 CollectionRemoveButton.Opacity = .6;
                 CollectionRemoveButton.Cursor = Cursors.Wait;
 
@@ -243,7 +243,7 @@ namespace InstallyApp.Components.Items
             catch(Exception ex)
             {
                 await Task.Delay(1000);
-                CollectionRemoveButton.Content = "Remove";
+                TextBlock textBlock = new TextBlock() { Text = "Removing..." };
                 CollectionRemoveButton.Opacity = 1;
                 CollectionRemoveButton.Cursor = Cursors.Hand;
 

@@ -1,9 +1,12 @@
-﻿using System;
+﻿using InstallyApp.Application.Functions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -21,43 +24,66 @@ namespace InstallyApp.Resources.Winget
         public string Site { get; set; }
         public int VersionsLength { get; set; }
         public string LatestVersion { get; set; }
-
         public double Score { get; set; }
     }
 
-    public class WingetData
+    public static class WingetData
     {
-        public List<Package> Packages { get; set; }
+        public static List<Package> Packages { get; set; }
 
-        public WingetData()
+        public static async void CarregarPacotesDaAPI()
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "packages.json";
-            Debug.WriteLine(path);
-            string text = File.ReadAllText("./packages.json");
-            
-            // string text = File.ReadAllText(@"./packages.json");
-            Packages = JsonSerializer.Deserialize<List<Package>>(text);
+            string responseBody = await API.Get("/packages");
+            Packages = JsonSerializer.Deserialize<List<Package>>(responseBody);
+
+            await Task.Delay(5000);
+            foreach(Package pkg in Packages)
+            {
+                if (pkg.Site is null) return;
+
+                var urlDoFavicon = $"https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={pkg.Site}&size=256";
+                string dest = @"C:\Favicons";
+
+                if (!Directory.Exists(dest)) Directory.CreateDirectory(dest);
+                if (!Directory.Exists(Path.Combine(dest, "ico"))) Directory.CreateDirectory(Path.Combine(dest, "ico"));
+                if (!Directory.Exists(Path.Combine(dest, "png"))) Directory.CreateDirectory(Path.Combine(dest, "png"));
+
+                try
+                {
+                    await Task.Run(() => Command.Download(urlDoFavicon, Path.Combine(dest, "ico", $"{pkg.Name}.ico")));
+                    await Task.Run(() => Command.Download(urlDoFavicon, Path.Combine(dest, "png", $"{pkg.Name}.png")));
+                    Debug.WriteLine(pkg.Name + " foi baixado!");
+                }
+                catch(Exception ex)
+                {
+                    return;
+                }
+            }
         }
 
-        public Package CapturarPacote(string NomeDoPacote)
+        public static Package CapturarPacote(string NomeDoPacote)
         {
             Package pkg = Packages.Find(pkg => pkg.Name.ToLower() == NomeDoPacote.ToLower());
             return pkg;
         }
 
-        public List<Package> CapturarPacotes(string? ParteDoNomeDoPacote, string? categoria)
+        public static List<Package> CapturarPacotes(string? ParteDoNomeDoPacote, string? categoria, int offset, int limit)
         {
-            List<Package> pkgs;
+            string BuscaPorNome = "";
 
-            if (ParteDoNomeDoPacote is null) ParteDoNomeDoPacote = "";
+            if (ParteDoNomeDoPacote is not null) BuscaPorNome = ParteDoNomeDoPacote;
 
-            if (categoria is not null) pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower()) && pkg.Tags.Contains(categoria)).OrderByDescending(pkg => pkg.VersionsLength).OrderByDescending(pkg => pkg.Score).ToList();
-            else pkgs = Packages.FindAll(pkg => pkg.Name.ToLower().Contains(ParteDoNomeDoPacote.ToLower())).OrderByDescending(pkg => pkg.VersionsLength).OrderByDescending(pkg => pkg.Score).ToList();
+            bool Filter(Package? pkg) {
+                if(categoria is not null) return pkg.Name.ToLower().Contains(BuscaPorNome.ToLower()) && pkg.Tags.Contains(categoria);
+                return pkg.Name.ToLower().Contains(BuscaPorNome.ToLower());
+            }
+
+            List<Package> pkgs = Packages.FindAll(Filter).OrderByDescending(pkg => pkg.VersionsLength).OrderByDescending(pkg => pkg.Score).Skip(offset).Take(limit).ToList();
 
             return pkgs;
         }
 
-        public UIElement CapturarFaviconDoPacote(string NomeDoPacote)
+        public static UIElement CapturarFaviconDoPacote(string NomeDoPacote)
         {
             Package pkg = CapturarPacote(NomeDoPacote);
 
@@ -76,7 +102,7 @@ namespace InstallyApp.Resources.Winget
             }
             else
             {
-                var urlDoFavicon = $"https://www.google.com/s2/favicons?sz=32&domain_url={pkg.Site}";
+                var urlDoFavicon = $"https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={pkg.Site}&size=256";
 
                 Image image = new Image()
                 {
@@ -86,6 +112,7 @@ namespace InstallyApp.Resources.Winget
                 };
 
                 BitmapImage bitmap = new BitmapImage();
+
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(urlDoFavicon, UriKind.Absolute);
                 bitmap.EndInit();

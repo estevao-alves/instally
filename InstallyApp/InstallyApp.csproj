@@ -6,6 +6,7 @@
         <RootNamespace>InstallyApp</RootNamespace>
         <nullable>enable</nullable>
         <UseWPF>true</UseWPF>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
         <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
 	</PropertyGroup>
 

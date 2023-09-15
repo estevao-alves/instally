@@ -46,7 +46,7 @@ namespace InstallyApp.Components
 
         public void AdicionarIcone()
         {
-            UIElement image = App.Master.Winget.CapturarFaviconDoPacote(AppName);
+            UIElement image = WingetData.CapturarFaviconDoPacote(AppName);
             WrapperAppIcon.Child = image;
         }
 
@@ -57,7 +57,7 @@ namespace InstallyApp.Components
                 BorderWrapper.Background = (SolidColorBrush)App.Current.Resources["PrimaryColor"];
 
                 // Adicionar ao rodapé de instalação
-                PacoteWingetSelecionado = App.Master.Winget.CapturarPacote(AppName);
+                PacoteWingetSelecionado = WingetData.CapturarPacote(AppName);
                 App.Master.Main.Footer.AdicionarApp(PacoteWingetSelecionado, CollectionName);
             }
             else

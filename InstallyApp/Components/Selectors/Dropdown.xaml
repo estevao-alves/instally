@@ -42,8 +42,8 @@
                 TextTrimming="CharacterEllipsis"
                 MaxWidth="160"
                 />
-            
-            <Viewbox Grid.Column="1" Width="10" Margin="5 0 0 0" Visibility="{Binding IsActive}">
+
+            <Viewbox Name="Arrow" Grid.Column="1" Width="10" Margin="5 0 0 0" Visibility="{Binding IsActive}" RenderTransformOrigin="0.5 0.5">
                 <Path Data="M1.31274 0.552477L4.03406 3.85649L6.89343 0.552477"
                         Stroke="#B5B2B2" StrokeEndLineCap="round" StrokeStartLineCap="round" StrokeLineJoin="round"/>
             </Viewbox>

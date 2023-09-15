@@ -109,18 +109,27 @@
             HorizontalAlignment="Right"
             >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Cursor="Hand" Margin="0 0 5 0">
-                <Button
-                    Style="{DynamicResource Button}"
+                <Border
                     Name="CollectionRemoveButton"
-                    Click="RemoveCollection_Click"
-                    Background="#C26161"
-                    Padding="3 0"
-                    Content="Remove"
-                    FontSize="14"
+                    MouseDown="RemoveCollection_MouseDown"
+                    Background="{DynamicResource Red}"
+                    Padding="5"
+                    CornerRadius="6"
                     VerticalAlignment="Center"
                     Margin="10 0 0 0"
                     >
-                </Button>
+                    <Grid Name="CollectionRemoveGrid">
+                        <Viewbox Width="19" Height="19">
+                            <Grid Margin="0 0 0.5 0">
+                                <Path Data="M13.4073 3.35547V10.911C13.4073 12.7629 11.8813 14.2666 9.99244 14.2666H5.71096C3.82207 14.2666 2.29614 12.7629 2.29614 10.911V3.35547" Stroke="white" StrokeThickness="1.5" StrokeMiterLimit="10"/>
+                                <Path Data="M6.7666 0.925537H8.93697" Stroke="white" StrokeThickness="1.5" StrokeMiterLimit="10" StrokeStartLineCap="round" StrokeEndLineCap="round"/>
+                                <Path Data="M1.18506 2.74805H14.5184" Stroke="white" StrokeThickness="1.5" StrokeMiterLimit="10" StrokeStartLineCap="round" StrokeEndLineCap="round"/>
+                                <Path Data="M5.99988 5.71826V9.71826" Stroke="white" StrokeThickness="1.5" StrokeMiterLimit="10" StrokeStartLineCap="round" StrokeEndLineCap="round"/>
+                                <Path Data="M9.70361 5.71826V9.71826" Stroke="white" StrokeThickness="1.5" StrokeMiterLimit="10" StrokeStartLineCap="round" StrokeEndLineCap="round"/>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                </Border>
 
                 <Button
                     Name="GearButton"

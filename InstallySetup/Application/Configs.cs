@@ -18,7 +18,7 @@ namespace InstallySetup.Application
     public static class Configs
     {
         // Recursos
-        public static string CdnUrl = "https://storage.googleapis.com/app-solutions/Instally.zip";
+        public static string CdnUrl = "https://storage.googleapis.com/app-solutions/Instally/Instally.zip";
         public static string CdnUtilsUrl = "https://storage.googleapis.com/app-solutions/Utils";
         public static string CdnDLLsUrl = "https://storage.googleapis.com/app-solutions/Utils/DLLs";
 

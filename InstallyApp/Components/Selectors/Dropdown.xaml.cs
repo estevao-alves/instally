@@ -54,22 +54,11 @@ namespace InstallyApp.Components.Selectors
                     Style = (Style)App.Current.Resources["HoverEffect"],
                 };
 
-                borderWrapper.PreviewMouseDown += (object sender,MouseButtonEventArgs e) =>
+                borderWrapper.PreviewMouseDown += (object sender, MouseButtonEventArgs e) =>
                 {
                     DropDownTitle.Text = item.ToUpper();
                     Callback(item);
-
-                    // Close DropDown
-                    if (!isActive)
-                    {
-                        ListItems.Visibility = Visibility.Collapsed;
-                        isActive = false;
-                    }
-                    else
-                    {
-                        ListItems.Visibility = Visibility.Visible;
-                        isActive = true;
-                    }
+                    Fechar();
                 };
 
                 TextBlock textBlock = new()
@@ -86,20 +75,24 @@ namespace InstallyApp.Components.Selectors
             }
         }
 
+        public void Abrir()
+        {
+            ListItems.Visibility = Visibility.Visible;
+            isActive = true;
+            Arrow.RenderTransform = new RotateTransform(180);
+        }
+
+        public void Fechar()
+        {
+            ListItems.Visibility = Visibility.Collapsed;
+            isActive = false;
+            Arrow.RenderTransform = new RotateTransform(0);
+        }
+
         private void TagButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Debug.WriteLine($"MouseDown isActive: {isActive}");
-
-            if (isActive)
-            {
-                ListItems.Visibility = Visibility.Collapsed;
-                isActive = false;
-            }
-            else
-            {
-                ListItems.Visibility = Visibility.Visible;
-                isActive = true;
-            }
+            if (isActive) Fechar();
+            else Abrir();
         }
     }
 }

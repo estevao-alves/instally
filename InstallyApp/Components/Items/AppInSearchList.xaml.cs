@@ -37,7 +37,7 @@ namespace InstallyApp.Components.Items
 
         public void CarregarInformacoesDoApp(string pkgName)
         {
-            UIElement appIcon = App.Master.Winget.CapturarFaviconDoPacote(pkgName);
+            UIElement appIcon = WingetData.CapturarFaviconDoPacote(pkgName);
             appIcon.RenderTransform = new TranslateTransform(-2.5F, 0.0F);
             WrapperIcon.Child = appIcon;
             WrapperIcon.Padding = new Thickness(5, 0, 0, 0);
@@ -58,7 +58,7 @@ namespace InstallyApp.Components.Items
                 return;
             }
 
-            Package pkg = App.Master.Winget.CapturarPacote(AppName);
+            Package pkg = WingetData.CapturarPacote(AppName);
 
             if (IsActive) {
                 IsActive = false;
@@ -90,7 +90,7 @@ namespace InstallyApp.Components.Items
         {
             if (InfoIcon.IsActive)
             {
-                Package pkg = App.Master.Winget.CapturarPacote(AppName);
+                Package pkg = WingetData.CapturarPacote(AppName);
                 App.Master.Main.JanelaDePesquisa.DetalhesDoApp.AtualizarInformacoes(pkg);
 
                 App.Master.Main.JanelaDePesquisa.DetalhesDoApp.Visibility = Visibility.Visible;

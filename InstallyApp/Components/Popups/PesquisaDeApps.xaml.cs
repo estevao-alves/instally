@@ -7,6 +7,8 @@ using InstallyApp.Components.Layout;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using System.Diagnostics;
+using InstallyApp.Components.Selectors;
 
 namespace InstallyApp.Components.Popups
 {
@@ -46,6 +48,7 @@ namespace InstallyApp.Components.Popups
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             App.Master.Main.AreaDePopups.Children.Clear();
+            ListaDeInstalacao.Children.Clear();
         }
 
         public void PesquisarPacotes()
@@ -53,8 +56,8 @@ namespace InstallyApp.Components.Popups
             string TextoDigitado = SearchTextBox.Text;
             string? filtro = TextoDigitado.Length > 0 ? (TextoDigitado != TextoPadraoSearch ? TextoDigitado : null) : null;
 
-            PacotesEncontrados = App.Master.Winget.CapturarPacotes(filtro, CategoriaEscolhida).Skip(LimiteDeResultados).Take(42).ToList();
-            LimiteDeResultados = PacotesEncontrados.Count;
+            PacotesEncontrados = WingetData.CapturarPacotes(filtro, CategoriaEscolhida, LimiteDeResultados, 42);
+            LimiteDeResultados += 42;
 
             foreach (Package pacote in PacotesEncontrados)
             {
@@ -65,8 +68,9 @@ namespace InstallyApp.Components.Popups
 
         public void BuscarPorCategoria(string categoriaEscolhida)
         {
-            LimiteDeResultados = 0;
             AppList.Children.Clear();
+
+            LimiteDeResultados = 0;
 
             if (categoriaEscolhida == "all") CategoriaEscolhida = null;
             else CategoriaEscolhida = categoriaEscolhida;
@@ -91,8 +95,6 @@ namespace InstallyApp.Components.Popups
                 Placeholder.Visibility = Visibility.Visible;
             else
                 Placeholder.Visibility = Visibility.Collapsed;
-        
-            SearchTextBox.Select(SearchTextBox.Text.Length, 0);
         }
 
         private void SearchTextBox_KeyUp(object sender, KeyEventArgs e)
@@ -140,7 +142,7 @@ namespace InstallyApp.Components.Popups
                 Width = 40,
                 Height = 40,
                 Style = (Style)App.Current.Resources["HoverEffect"],
-                Content = App.Master.Winget.CapturarFaviconDoPacote(pkg.Name),
+                Content = WingetData.CapturarFaviconDoPacote(pkg.Name),
                 Padding = new Thickness(6, 6, 0, 6),
             };
 
@@ -177,8 +179,11 @@ namespace InstallyApp.Components.Popups
         {
             if (DropdownCategoria.isActive)
             {
-                DropdownCategoria.ListItems.Visibility = Visibility.Collapsed;
-                DropdownCategoria.isActive = false;
+                // Verificar se o objeto clicado é um componente dropdown
+                Dropdown objClicado = e.Source as Dropdown;
+
+                // Se não for, fechar o componente dropdown
+                if (objClicado is null) DropdownCategoria.Fechar();
             }
         }
     }
