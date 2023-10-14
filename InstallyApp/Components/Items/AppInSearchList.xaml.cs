@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,6 +13,7 @@ namespace InstallyApp.Components.Items
         public bool IsActive = false;
 
         public string AppName;
+        public string AppId;
         Button appInListaDeInstalacao;
 
         public AppInSearchList()
@@ -20,12 +22,13 @@ namespace InstallyApp.Components.Items
             InfoIcon.Visibility = Visibility.Collapsed;
         }
 
-        public AppInSearchList(string pacoteName, bool pacoteJaAdicionado)
+        public AppInSearchList(string pacoteName, string pacoteId, bool pacoteJaAdicionado)
         {
             InitializeComponent();
             InfoIcon.Visibility = Visibility.Collapsed;
 
             AppName = pacoteName;
+            AppId = pacoteId;
             CarregarInformacoesDoApp(pacoteName);
             IconeJaAdicionado(pacoteJaAdicionado);
         }
@@ -50,9 +53,9 @@ namespace InstallyApp.Components.Items
 
         private async void WrapperAppItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(AppName))
+            if (App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(AppId))
             {
-                this.AlertDropdownText.Text = $"App already added in: {App.Master.Main.ColecaoSelecionada.Title}";
+                this.AlertDropdownText.Text = $"App already added in: {App.Master.Main.ColecaoSelecionada.collection.Title}";
 
                 AlertDropdownCanvas.Visibility = Visibility.Visible;
                 await Task.Delay(3000);
@@ -61,7 +64,7 @@ namespace InstallyApp.Components.Items
                 return;
             }
 
-            Package pkg = WingetData.CapturarPacote(AppName);
+            Package pkg = WingetData.CapturarPacotePorId(AppId);
 
             if (IsActive) {
                 IsActive = false;
@@ -73,7 +76,7 @@ namespace InstallyApp.Components.Items
             {
                 IsActive = true;
                 WrapperAppItem.Background = (SolidColorBrush)App.Current.Resources["PrimaryColor"];
-                
+
                 // Adicionar a lista de instalação
                 appInListaDeInstalacao = App.Master.Main.JanelaDePesquisa.AdicionarApp(pkg);
             }
@@ -93,7 +96,7 @@ namespace InstallyApp.Components.Items
         {
             if (InfoIcon.IsActive)
             {
-                Package pkg = WingetData.CapturarPacote(AppName);
+                Package pkg = WingetData.CapturarPacote(AppId);
                 App.Master.Main.JanelaDePesquisa.DetalhesDoApp.AtualizarInformacoes(pkg);
 
                 App.Master.Main.JanelaDePesquisa.DetalhesDoApp.Visibility = Visibility.Visible;

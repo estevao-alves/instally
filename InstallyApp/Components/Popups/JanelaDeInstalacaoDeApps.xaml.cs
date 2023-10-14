@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows;
-using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.Generic;
 using InstallyApp.Application.Functions;
 using InstallyApp.Components.Layout;
+using System.Diagnostics;
 
 namespace InstallyApp.Components.Popups
 {
@@ -66,9 +66,9 @@ namespace InstallyApp.Components.Popups
                 }
                 catch (Exception ex)
                 {
-                    Titulo.Text = ex.Message;
+                    TextoDetalhes.Text = ex.Message;
+                    TextoDetalhes.FontSize = 20;
                     BarraDeProgresso.Visibility = Visibility.Collapsed;
-                    TextoDetalhes.Visibility = Visibility.Collapsed;
                     Botoes.Visibility = Visibility.Visible;
                     Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) =>
                     {

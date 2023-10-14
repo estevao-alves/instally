@@ -95,7 +95,14 @@
                             Margin="20 0"
                             x:Name="DropdownCategoria"
                             Titulo="Categories"
-                            Opcoes="all,gaming,music,web,utility,develop"
+                            Opcoes="ALL,
+                            GAMES gaming game launcher,
+                            MUSIC audio song playlist radio podcast recording,
+                            ART design drawing svg vector-graphics paint photo image 3d,
+                            WEB chat mail wifi cloud network security connection browser,
+                            UTILITY dictionary education productivity display tool publisher customization disk notes word compression document keyboardmanager boot conversion,
+                            DEVELOP ide development developer-tools code sqlite python runtime terminal javascript jetbrains
+                            "
                             Callback="BuscarPorCategoria"
                             />
 

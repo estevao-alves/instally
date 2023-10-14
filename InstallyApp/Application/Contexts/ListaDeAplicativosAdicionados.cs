@@ -1,5 +1,6 @@
 ﻿using InstallyApp.Components.Items;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace InstallyApp.Application.Contexts
 {
@@ -7,25 +8,27 @@ namespace InstallyApp.Application.Contexts
     {
         public static List<string> Apps = new();
 
-        public static void Adicionar(string appName)
+        public static void Adicionar(string appId)
         {
-            Apps.Add(appName);
+            Apps.Add(appId);
 
             if (App.Master.Main is null) return;
 
             foreach (AppInSearchList app in App.Master.Main.JanelaDePesquisa.AppList.Children)
             {
-                if (app.AppName == appName) app.IconeJaAdicionado(true);
+                Debug.WriteLine(app.AppId);
+                if (app.AppId == appId) app.IconeJaAdicionado(true);
             }
         }
 
-        public static void Remover(string appName)
+        public static void Remover(string appId)
         {
-            Apps.Remove(appName);
+            Apps.Remove(appId);
 
             foreach (AppInSearchList app in App.Master.Main.JanelaDePesquisa.AppList.Children)
             {
-                if (app.AppName == appName) app.IconeJaAdicionado(false);
+                Debug.WriteLine(app.AppId);
+                if (app.AppId == appId) app.IconeJaAdicionado(false);
             }
         }
         

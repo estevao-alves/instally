@@ -3,18 +3,16 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using System.Diagnostics;
 using InstallyApp.Components.Selectors;
 using InstallyApp.Application.Functions;
+using System.Diagnostics;
 
 namespace InstallyApp.Components.Popups
 {
     public partial class PesquisaDeApps : UserControl
     {
-        
         string? TextoPadraoSearch;
         string? CategoriaEscolhida;
 
@@ -61,7 +59,7 @@ namespace InstallyApp.Components.Popups
 
             foreach (Package pacote in PacotesEncontrados)
             {
-                AppInSearchList app = new(pacote.Name, App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(pacote.Name));
+                AppInSearchList app = new(pacote.Name, pacote.Id, App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(pacote.Id));
                 AppList.Children.Add(app);
             }
         }
@@ -71,6 +69,8 @@ namespace InstallyApp.Components.Popups
             AppList.Children.Clear();
 
             LimiteDeResultados = 0;
+
+            categoriaEscolhida = categoriaEscolhida.ToLower();
 
             if (categoriaEscolhida == "all") CategoriaEscolhida = null;
             else CategoriaEscolhida = categoriaEscolhida;
@@ -133,7 +133,7 @@ namespace InstallyApp.Components.Popups
 
         public Button AdicionarApp(Package pkg)
         {
-            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.Id, App.Master.Main.ColecaoSelecionada.Title));
+            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.Id, App.Master.Main.ColecaoSelecionada.collection.Title));
 
             Button borderWrapper = new()
             {
@@ -175,6 +175,7 @@ namespace InstallyApp.Components.Popups
         {
             SearchTextBox.Focusable = true;
         }
+
         private void DropdownCategoria_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (DropdownCategoria.isActive)

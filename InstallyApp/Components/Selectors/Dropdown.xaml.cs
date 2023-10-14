@@ -1,9 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace InstallyApp.Components.Selectors
 {
@@ -25,7 +27,15 @@ namespace InstallyApp.Components.Selectors
             {
                 if (value.Split(",") is not null)
                 {
-                    items = value.Split(",").ToArray();
+                    List<string> itemsHandled = new();
+
+                    foreach(string categoryItems in value.Split(","))
+                    {
+                        string item = categoryItems.Trim();
+                        itemsHandled.Add(item);
+                    }
+                    
+                    items = itemsHandled.ToArray();
                     CarregarLista();
                 }
             }
@@ -45,8 +55,11 @@ namespace InstallyApp.Components.Selectors
         {
             ListItems.Children.Clear();
 
-            foreach(string item in items)
+            foreach (string item in items)
             {
+
+                string firstItem = item.Split(" ")[0];
+
                 Button borderWrapper = new()
                 {
                     Margin = new Thickness(2, 0, 2, 2),
@@ -56,8 +69,9 @@ namespace InstallyApp.Components.Selectors
 
                 borderWrapper.PreviewMouseDown += (object sender, MouseButtonEventArgs e) =>
                 {
-                    DropDownTitle.Text = item.ToUpper();
+                    DropDownTitle.Text = firstItem.ToUpper();
                     Callback(item);
+                    
                     Fechar();
                 };
 
@@ -66,7 +80,7 @@ namespace InstallyApp.Components.Selectors
                     Foreground = new SolidColorBrush(Colors.White),
                     Padding = new Thickness(15, 10, 15, 10),
                     FontWeight = FontWeights.SemiBold,
-                    Text = item.ToUpper()
+                    Text = firstItem.ToUpper()
                 };
 
                 borderWrapper.Content = textBlock;

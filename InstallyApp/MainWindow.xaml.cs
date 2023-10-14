@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using InstallyApp.Application.Contexts;
+using InstallyApp.Application.Functions;
 using InstallyApp.Components;
 using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
@@ -35,62 +36,45 @@ namespace InstallyApp
             ElementCollectionAdd.Visibility = Visibility.Collapsed;
             CollectionList.Children.Add(ElementCollectionAdd);
 
-            DirectoryInfo dirCollections = new("Collections");
+            List<InstallyCollection> collections = InstallyCollections.CarregarLista();
 
-            if(!dirCollections.Exists) Directory.CreateDirectory("Collections");
-
-            FileInfo[] collections = dirCollections.GetFiles();
-            ElementCollectionAdd.collectionNumber = collections.Length;
-
-            if (collections.Length < 1)
+            if (collections.Count < 1)
             {
-                Collection collection = new Collection("My Collection");
+                // Backend collection
+                InstallyCollection coll = new InstallyCollection("My Collection");
+                InstallyCollections.All.Add(coll);
+                InstallyCollections.AtualizarColecao(coll, 0);
+
+                // Frontend collection
+                Collection collection = new Collection(coll, 0);
                 CollectionList.Children.Add(collection);
             }
             else
             {
-                for(int i = 0; i < collections.Length; i++)
+                for(int i = 0; i < collections.Count; i++)
                 {
-                    Collection collection = new Collection(collections[i].Name.Replace(collections[i].Extension, ""));
+                    Collection collection = new Collection(collections[i], i);
                     CollectionList.Children.Add(collection);
 
                     Grid.SetColumn(collection, i);
                 }
             }
 
-            if(dirCollections.GetFiles().Length < 4)
+            if(collections.Count < 4)
             {
                 ElementCollectionAdd.Visibility = Visibility.Visible;
-                Grid.SetColumn(ElementCollectionAdd, dirCollections.GetFiles().Length);
+                Grid.SetColumn(ElementCollectionAdd, collections.Count);
             }
         }
 
-        public void AdicionarAplicativosACollection(List<AppParaInstalar> list, Collection collection)
+        public void AdicionarAplicativosACollection(List<AppParaInstalar> list, Collection componentCollection)
         {
-            StreamWriter writer = new StreamWriter(@$"{collection.dirName}\{collection.Title}.txt", true);
-
-            foreach (AppParaInstalar app in list)
-            {
-                writer.WriteLine(app.Name);
-                
-                MenuAppItem newApp = new(app.Name, collection.Title);
-                newApp.OnExcluir += () =>
-                {
-                    collection.Apps.Children.Remove(newApp);
-                    collection.AtualizarArquivo(app.Name);
-                    ListaDeAplicativosAdicionados.Remover(app.Name);
-                };
-                collection.Apps.Children.Add(newApp);
-
-                ListaDeAplicativosAdicionados.Adicionar(app.Name);
-            }
-
-            writer.Close();
+            foreach (AppParaInstalar app in list) componentCollection.AnexarAplicativoAColecao(app.Name, app.CodeId, true);
         }
 
-        public bool VerificarSeAplicativoJaFoiAdicionado(string appName)
+        public bool VerificarSeAplicativoJaFoiAdicionado(string appId)
         {
-            string? app = ListaDeAplicativosAdicionados.Apps.Find(name => name == appName);
+            string? app = ListaDeAplicativosAdicionados.Apps.Find(name => name == appId);
             if (app is not null) return true;
             else return false;
         }

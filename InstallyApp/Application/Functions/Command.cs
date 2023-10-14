@@ -20,7 +20,6 @@ namespace InstallyApp.Application.Functions
             }
             catch (Exception)
             {
-                Debug.WriteLine("Erro no download.");
                 return false;
             }
         }

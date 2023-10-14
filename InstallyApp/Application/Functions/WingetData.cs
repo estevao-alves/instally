@@ -32,12 +32,12 @@ namespace InstallyApp.Application.Functions
         public static async Task<bool> CarregarPacotesDaAPI()
         {
             string responseBody = await API.Get("/packages");
-            Packages = JsonSerializer.Deserialize<List<Package>>(responseBody);
-
-            return true;
+            Packages = Json.JsonParaClasse<List<Package>>(responseBody);
 
             // Baixar favicons
-            // foreach (Package pkg in Packages) DownloadFavicon(pkg.Site, "96", pkg.Id, "png");
+            // foreach (Package pkg in Packages) DownloadFavicon(pkg.Site, "256", pkg.Id, "png");
+
+            return true;
         }
 
         public static async void DownloadFavicon(string? url, string size, string fileName, string extension)
@@ -66,6 +66,12 @@ namespace InstallyApp.Application.Functions
             return pkg;
         }
 
+        public static Package? CapturarPacotePorId(string id)
+        {
+            Package? pkg = Packages.Find(pkg => pkg.Id == id);
+            return pkg;
+        }
+
         public static List<Package> CapturarPacotes(string? ParteDoNomeDoPacote, string? categoria, int offset, int limit)
         {
             string BuscaPorNome = "";
@@ -74,8 +80,17 @@ namespace InstallyApp.Application.Functions
 
             bool Filter(Package pkg)
             {
-                if (categoria is not null) return pkg.Name.ToLower().Contains(BuscaPorNome.ToLower()) && pkg.Tags.Contains(categoria);
-                return pkg.Name.ToLower().Contains(BuscaPorNome.ToLower());
+                bool pkgFilteredByName = pkg.Name.ToLower().Contains(BuscaPorNome.ToLower());
+
+                if (categoria is not null) {
+                    string[] categorias = categoria.Split(' ');
+
+                    bool pkgFilteredByTag = pkg.Tags.Where(tag => categorias.Contains(tag)).Count() > 0;
+
+                    return pkgFilteredByName && pkgFilteredByTag;
+                }
+
+                return pkgFilteredByName;
             }
 
             List<Package> pkgs = Packages.FindAll(Filter).OrderByDescending(pkg => pkg.VersionsLength).OrderByDescending(pkg => pkg.Score).Skip(offset).Take(limit).ToList();

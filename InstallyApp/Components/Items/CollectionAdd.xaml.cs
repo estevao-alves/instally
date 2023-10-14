@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using InstallyApp.Application.Functions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,33 +10,36 @@ namespace InstallyApp.Components.Items
 {
     public partial class CollectionAdd : UserControl
     {
-        public int collectionNumber { get; set; } = 0;
         public CollectionAdd()
         {
             InitializeComponent();
         }
+
         private void AddCollection_Click(object sender, RoutedEventArgs e)
         {
-            DirectoryInfo dirCollections = new("Collections");
-            FileInfo[] collections = dirCollections.GetFiles();
+            string newCollectionName = $"My Collection";
 
-            collectionNumber += 1;
+            int defaultsName = InstallyCollections.All.Where(coll => coll.Title.ToLower().Contains(newCollectionName.ToLower())).ToList().Count;
 
-            string collectionName = $"My Collection {collectionNumber+1}";
-            if(collections.Where(file => file.Name == $"{collectionName}.txt").Any()) {
-                collectionName = $"My Collection {collectionNumber+1}";
+            if (defaultsName > 0) {
+                newCollectionName = $"My Collection {defaultsName + 1}";
             }
 
-            Collection collection = new(collectionName);
+            int newCollectionIndex = InstallyCollections.All.Count - 1;
+            InstallyCollection newCollection = new InstallyCollection(newCollectionName);
+            InstallyCollections.All.Add(newCollection);
+            InstallyCollections.AtualizarArquivo();
+
+            Collection collection = new(newCollection, newCollectionIndex);
 
             App.Master.Main.CollectionList.Children.Add(collection);
-            Grid.SetColumn(collection, collections.Length);
+            Grid.SetColumn(collection, newCollectionIndex+1);
 
             collection.Apps.Children.Clear();
 
-            Grid.SetColumn(this, collections.Length+1);
+            Grid.SetColumn(this, InstallyCollections.All.Count);
 
-            if ((collections.Length + 1) > 3)
+            if (InstallyCollections.All.Count > 3)
             {
                 Visibility = Visibility.Collapsed;
                 return;

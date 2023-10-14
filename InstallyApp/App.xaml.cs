@@ -18,7 +18,5 @@ namespace InstallyApp
             Master.Main = new();
             Master.Main.Show();
         }
-
-
     }
 }
