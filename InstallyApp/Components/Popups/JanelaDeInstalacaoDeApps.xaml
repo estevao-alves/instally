@@ -62,40 +62,34 @@
                         <Border Name="Confirmar" Background="#7251B5" Style="{DynamicResource ActionButton}">
                             <TextBlock Name="ConfirmarTextBlock" FontSize="16" Text="✔️" />
                         </Border>
+                        <Border Name="Negar" Background="#E15A5A" Style="{DynamicResource ActionButton}" Visibility="Visible">
+                            <TextBlock Name="NegarTextBlock" FontSize="16" Text="Confirmar" />
+                        </Border>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <Button
-                Name="CloseButton"
-                Cursor="Hand"
-                Click="Close_Click"
-                Background="{DynamicResource SecondaryColor}"
-                Style="{DynamicResource HoverEffect}"
-                Width="30"
-                Height="30"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Margin="10"
-                >
-                <Grid>
-                    <Viewbox Name="CloseX" Width="10">
-                        <Grid>
-                            <Path Data="M11.3954 1.0921C11.7224 0.765098 12.2526 0.765098 12.5796 1.0921C12.9066 1.4191 12.9066 1.94927 12.5796 2.27627L2.01883 12.837C1.69183 13.164 1.16166 13.164 0.834659 12.837C0.507659 12.51 0.507659 11.9798 0.834659 11.6528L11.3954 1.0921Z"
-                                  Fill="#B5B2B2"/>
-                            <Path Data="M0.815369 2.21828C0.499044 1.90196 0.499044 1.38909 0.815369 1.07277C1.13169 0.756444 1.64456 0.756444 1.96088 1.07277L12.3336 11.4455C12.6499 11.7618 12.6499 12.2747 12.3336 12.591C12.0173 12.9073 11.5044 12.9073 11.1881 12.591L0.815369 2.21828Z"
-                                  Fill="#B5B2B2"/>
-                        </Grid>
-                    </Viewbox>
+            <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                    <Viewbox Name="Minimize" Width="10" Visibility="Collapsed">
-                        <Grid>
-                            <Path Data="M7.2682 0.213669C7.63357 0.213669 7.92976 0.509858 7.92976 0.875226C7.92976 1.24059 7.63357 1.53678 7.2682 1.53678L1.39508 1.53678C1.02971 1.53678 0.73352 1.24059 0.733521 0.875225C0.733521 0.509858 1.02971 0.213669 1.39508 0.213669L7.2682 0.213669Z"
-                              Fill="#B5B2B2"/>
-                        </Grid>
-                    </Viewbox>
-                </Grid>
-            </Button>
+                <Button Grid.Column="0" Name="MinimizeButton" Click="MinimizeButton_Click" Margin="0 4" Background="{DynamicResource SecondaryColor}" Style="{StaticResource HoverEffect}">
+                    <Grid Height="2" Margin="12">
+                        <Path Data="M13 1H1" Stroke="{DynamicResource White}" StrokeThickness="2" StrokeEndLineCap="round" StrokeStartLineCap="round" StrokeLineJoin="round"/>
+                    </Grid>
+                </Button>
+
+                <Button Grid.Column="1" Name="CloseButton" Click="CloseButton_Click" Margin="4" Background="{DynamicResource SecondaryColor}" Style="{StaticResource HoverEffect}">
+                    <Grid Height="14" Margin="12">
+                        <Path VerticalAlignment="Center" Data="M11.1527 0.592086C11.4797 0.265086 12.0099 0.265086 12.3369 0.592086C12.6639 0.919086 12.6639 1.44926 12.3369 1.77626L1.77615 12.337C1.44915 12.664 0.918983 12.664 0.591983 12.337C0.264983 12.01 0.264983 11.4798 0.591983 11.1528L11.1527 0.592086Z"
+                            Fill="{DynamicResource White}"/>
+                        <Path VerticalAlignment="Center" Data="M0.572693 1.71827C0.256368 1.40195 0.256368 0.889083 0.572693 0.572758C0.889019 0.256433 1.40188 0.256433 1.71821 0.572758L12.0909 10.9455C12.4073 11.2618 12.4073 11.7747 12.0909 12.091C11.7746 12.4073 11.2618 12.4073 10.9454 12.091L0.572693 1.71827Z"
+                            Fill="{DynamicResource White}"/>
+                    </Grid>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

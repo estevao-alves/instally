@@ -10,6 +10,7 @@ namespace InstallyApp.Components
     public partial class MenuAppItem : UserControl
     {
         string appName;
+        string AppId;
         public Package PacoteWingetSelecionado;
 
         public delegate void ExcluirDaColecao();
@@ -35,11 +36,12 @@ namespace InstallyApp.Components
             DataContext = this;
         }
 
-        public MenuAppItem(string name, string collectionName)
+        public MenuAppItem(string appName, string appId, string collectionName)
         {
             InitializeComponent();
 
-            AppName = name;
+            AppName = appName;
+            AppId = appId;
             CollectionName = collectionName;
             AdicionarIcone();
         }
@@ -75,6 +77,8 @@ namespace InstallyApp.Components
         {
             // Remover do rodapé de existir
             AdicionarRemoverItemDoRodape(false);
+
+            ListaDeAplicativosAdicionados.Remover(AppId);
 
             // Excluir da coleção
             OnExcluir();

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using InstallyApp.Application.Contexts;
 using InstallyApp.Application.Functions;
-using InstallyApp.Components;
 using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
 using InstallyApp.Components.Popups;

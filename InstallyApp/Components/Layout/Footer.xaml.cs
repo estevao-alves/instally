@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Input;
 using InstallyApp.Application.Functions;
 using InstallyApp.Components.Popups;
 
@@ -89,7 +90,7 @@ namespace InstallyApp.Components.Layout
             }
         }
 
-        private void VerificarApps_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void InstallyButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             janelaDeInstalacao.IniciarVerificacao();
         }

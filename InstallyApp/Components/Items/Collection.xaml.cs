@@ -55,7 +55,7 @@ namespace InstallyApp.Components.Items
             Package? pkg = WingetData.CapturarPacotePorId(appId);
             if (pkg is null) return;
 
-            MenuAppItem newApp = new(pkg.Name, collection.Title);
+            MenuAppItem newApp = new(pkg.Name, appId, collection.Title);
 
             newApp.OnExcluir += () =>
             {

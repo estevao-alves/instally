@@ -96,7 +96,7 @@ namespace InstallyApp.Components.Items
         {
             if (InfoIcon.IsActive)
             {
-                Package pkg = WingetData.CapturarPacote(AppId);
+                Package pkg = WingetData.CapturarPacote(AppName);
                 App.Master.Main.JanelaDePesquisa.DetalhesDoApp.AtualizarInformacoes(pkg);
 
                 App.Master.Main.JanelaDePesquisa.DetalhesDoApp.Visibility = Visibility.Visible;
