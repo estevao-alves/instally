@@ -1,7 +1,4 @@
-﻿using InstallyApp.Application.Functions;
-using System.Threading.Tasks;
-
-namespace InstallyApp
+﻿namespace InstallyApp
 {
     public partial class App : System.Windows.Application
     {

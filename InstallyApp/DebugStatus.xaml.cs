@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-
-namespace InstallyApp
+﻿namespace InstallyApp
 {
     public partial class DebugStatus : Window
     {

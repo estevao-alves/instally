@@ -1,12 +1,4 @@
-﻿using InstallyApp.Application.Functions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-
-namespace InstallyApp.Components.Items
+﻿namespace InstallyApp.Components.Items
 {
     public partial class CollectionAdd : UserControl
     {

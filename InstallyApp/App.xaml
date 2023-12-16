@@ -30,7 +30,6 @@
                 <ResourceDictionary Source="Resources/Styles/HoverEffect.xaml" />
                 <ResourceDictionary Source="Resources/Styles/ActionButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>

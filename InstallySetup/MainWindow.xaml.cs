@@ -8,7 +8,6 @@ using System.IO.Compression;
 using InstallySetup.Application.Requirements;
 using InstallySetup.Application.Functions;
 using InstallySetup.Application;
-using System.Windows.Interop;
 
 namespace InstallySetup
 {

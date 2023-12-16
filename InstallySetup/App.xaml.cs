@@ -1,6 +1,4 @@
-﻿using InstallySetup.Application;
-
-namespace InstallySetup
+﻿namespace InstallySetup
 {
     public static class Master
     {

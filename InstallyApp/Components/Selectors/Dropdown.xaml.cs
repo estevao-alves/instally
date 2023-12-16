@@ -1,13 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace InstallyApp.Components.Selectors
+﻿namespace InstallyApp.Components.Selectors
 {
     public partial class Dropdown : UserControl
     {

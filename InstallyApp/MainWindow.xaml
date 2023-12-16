@@ -20,15 +20,13 @@
         AllowsTransparency="True"
         ResizeMode="CanResize"
         
-        StateChanged="Window_StateChanged"
-        
         FontFamily="{StaticResource FontFamily}"
         
         KeyDown="MainWindow_KeyDown"
         >
-
+    
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="0" ResizeBorderThickness="8" GlassFrameThickness="8"/>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="20"/>
     </WindowChrome.WindowChrome>
 
     <Grid Name="LayoutMain">
@@ -74,7 +72,7 @@
                 <items:CollectionAdd Grid.Column="1" />
             </Grid>
         </Border>
-        
+
         <layout:Footer Grid.Row="2" Grid.Column="1" x:Name="Footer" />
 
         <Border Grid.RowSpan="3" Grid.ColumnSpan="2" Name="LayoutBackgroundColor">

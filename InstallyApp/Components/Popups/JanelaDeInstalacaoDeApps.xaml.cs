@@ -1,11 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Collections.Generic;
-using InstallyApp.Application.Functions;
-using InstallyApp.Components.Layout;
-using System.Diagnostics;
+﻿using InstallyApp.Components.Layout;
 
 namespace InstallyApp.Components.Popups
 {
@@ -14,12 +7,13 @@ namespace InstallyApp.Components.Popups
 
         public List<AppParaInstalar> ListaDeAppParaInstalar { get; set; }
 
-        public List<string> AppsJaInstalados { get; set; }
+
+        public EnumState currentState { get; set; }
 
         public enum EnumState
         {
             Checking,
-            Confirmation,
+            Waiting,
             Installing,
             Error
         }
@@ -31,113 +25,76 @@ namespace InstallyApp.Components.Popups
             ListaDeAppParaInstalar = new();
         }
 
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        public void InstalacaoEstado(EnumState state, string textoDetalhes="", bool inProgress=true)
         {
-            App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Visible;
-            App.Master.Main.Footer.InstallyButton.Visibility = Visibility.Collapsed;
-            App.Master.Main.AreaDePopups.Children.Clear();
-        }
+            currentState = state;
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            /*
-            InstallationState(EnumState.Confirmation, "Cancel installation?", false);
-            ConfirmarTextBlock.Text = "Sim";
-            Botoes.Visibility = Visibility.Visible;
-            ConfirmarTextBlock.Visibility = Visibility.Visible;
-            NegarTextBlock.Visibility = Visibility.Visible;
-            */
-
-            Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) =>
-            {
-                Command.Executar("cmd.exe", "/c; powershell; Stop-Process -Name 'winget' -Force");
-
-                App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Collapsed;
-                App.Master.Main.Footer.InstallyButton.Visibility = Visibility.Visible;
-                App.Master.Main.AreaDePopups.Children.Clear();
-            };
-        }
-
-        public void InstallationState(EnumState state, string textDetalhes="", bool inProgress=true)
-        {
             switch (state.ToString())
             {
                 case "Checking":
-
-                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) =>
-                    {
-                        List<AppParaInstalar> appsPermitidosParaInstalar = new();
-
-                        foreach (AppParaInstalar app in ListaDeAppParaInstalar)
-                        {
-                            string? exit = AppsJaInstalados.Find(appStringCodeId => appStringCodeId == app.CodeId);
-                            if (exit is null) appsPermitidosParaInstalar.Add(app);
-                        }
-
-                        IniciarInstalacao(appsPermitidosParaInstalar);
-                    };
-
-                    TextoDetalhes.Text = textDetalhes;
-                    TextoDetalhes.FontSize = 20;
-                    BarraDeProgresso.Visibility = Visibility.Collapsed;
-                    Botoes.Visibility = Visibility.Visible;
+                    Titulo.Visibility = Visibility.Visible;
+                    Titulo.Text = "Checking...";
+                    TextoDetalhes.Text = textoDetalhes;
+                    TextoDetalhes.FontSize = 14;
+                    BarraDeProgresso.Visibility = Visibility.Visible;
+                    Botoes.Visibility = Visibility.Collapsed;
 
                     break;
 
-                case "Confirmation":
+                case "Waiting":
+                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => App.Master.Main.AreaDePopups.Children.Clear();
+                    CloseButton.Click += (object sender, RoutedEventArgs e) => App.Master.Main.AreaDePopups.Children.Clear();
+                    MinimizeButton.Click += (object sender, RoutedEventArgs e) => App.Master.Main.AreaDePopups.Children.Clear();
 
-                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => Visibility = Visibility.Collapsed;
+                    MinimizeButton.Visibility = Visibility.Collapsed;
 
                     Titulo.Visibility = Visibility.Collapsed;
-                    TextoDetalhes.Text = textDetalhes;
-                    TextoDetalhes.FontSize = 16;
+                    TextoDetalhes.Text = textoDetalhes;
+                    TextoDetalhes.FontSize = 18;
+
                     Botoes.Visibility = Visibility.Visible;
+                    Confirmar.Visibility = Visibility.Visible;
                     ConfirmarTextBlock.Text = "✔️";
 
-                    if (!inProgress)
-                    {
-                        BarraDeProgresso.Visibility = Visibility.Collapsed;
-                        TextoDetalhes.FontSize = 18;
-                        TextoDetalhes.Width = 300;
-                    }
+                    BarraDeProgresso.Visibility = Visibility.Collapsed;
 
                     break;
 
                 case "Installing":
+                    MinimizeButton.Click += (object sender, RoutedEventArgs e) =>
+                    {
+                        App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Visible;
+
+                        Debug.WriteLine(textoDetalhes);
+                        App.Master.Main.Footer.InstallyButton.Text = textoDetalhes;
+                        App.Master.Main.AreaDePopups.Children.Clear();
+                    };
+
+                    CloseButton.Click += (object sender, RoutedEventArgs e) =>
+                    {
+                        Command.Executar("cmd.exe", "/c; powershell; Stop-Process -Name 'winget' -Force");
+
+                        App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Collapsed;
+                        App.Master.Main.Footer.InstallyButton.Text = "Instally";
+                        App.Master.Main.AreaDePopups.Children.Clear();
+                    };
 
                     Titulo.Text = "Installing...";
 
+                    TextoDetalhes.FontSize = 14;
+                    MinimizeButton.Visibility = Visibility.Visible;
                     Titulo.Visibility = Visibility.Visible;
                     Botoes.Visibility = Visibility.Collapsed;
                     BarraDeProgresso.Visibility = Visibility.Visible;
-                    BarraDeProgresso.IsIndeterminate = false;
-                    BarraDeProgresso.Value = 0;
-
-                    if (!inProgress)
-                    {
-                        Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => Visibility = Visibility.Collapsed;
-                        
-                        Titulo.Text = "All apps successfully installed!";
-                        TextoDetalhes.Visibility = Visibility.Collapsed;
-                        Botoes.Visibility = Visibility.Visible;
-                        ConfirmarTextBlock.Text = "✔️";
-                    }
 
                     break;
 
                 case "Error":
                     Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => App.Master.Main.AreaDePopups.Children.Clear();
-                    {
-                        // Continuar a instalação ?
-                        Botoes.Visibility = Visibility.Collapsed;
-                        Titulo.Text = "Installing...";
-                        BarraDeProgresso.Visibility = Visibility.Visible;
-                        TextoDetalhes.Text = "Installing...";
-                    };
 
                     Titulo.Text = "Installation error";
                     BarraDeProgresso.Visibility = Visibility.Collapsed;
-                    TextoDetalhes.Text = textDetalhes;
+                    TextoDetalhes.Text = textoDetalhes;
                     Botoes.Visibility = Visibility.Visible;
                 break;
             }
@@ -145,62 +102,73 @@ namespace InstallyApp.Components.Popups
 
         public async void IniciarVerificacao()
         {
-            List<string> appsJaInstalados = new();
             App.Master.Main.AreaDePopups.Children.Add(this);
+            
+            if (currentState != EnumState.Installing) InstalacaoEstado(EnumState.Checking);
+
+            List<string> appsJaInstalados = new();
 
             if (ListaDeAppParaInstalar.Count > 0)
             {
+                for (int i = 0; i < ListaDeAppParaInstalar.Count; i++)
+                {
+                    string appCodeId = ListaDeAppParaInstalar[i].CodeId;
+                    string appName = ListaDeAppParaInstalar[i].Name;
+
+                    // Verificar se o app já está instalado
+                    TextoDetalhes.Text = $"{appName} ({i + 1}/{ListaDeAppParaInstalar.Count})";
+                    string result = await Command.Executar("cmd.exe", $"/c; {Command.wingetExe} list -q {appCodeId}");
+
+                    // Se já tiver instalado, então...
+                    if (result.Contains(appCodeId)) appsJaInstalados.Add(appCodeId);
+                }
+
+                Debug.WriteLine("In verificação:" + appsJaInstalados.Count());
+
                 try
                 {
-                    for (int i = 0; i < ListaDeAppParaInstalar.Count; i++)
-                    {
-                        string appCodeId = ListaDeAppParaInstalar[i].CodeId;
-                        string appName = ListaDeAppParaInstalar[i].Name;
-
-                        // Verificar se o app já está instalado
-                        TextoDetalhes.Text = $"{appName} ({i + 1}/{ListaDeAppParaInstalar.Count})";
-                        string result = await Command.Executar("cmd.exe", $"/c; {Command.wingetExe} list -q {appCodeId}");
-
-                        // Se já tiver instalado, então...
-                        if (result.Contains(appCodeId)) appsJaInstalados.Add(appCodeId);
-                    }
-
                     if (ListaDeAppParaInstalar.Count == appsJaInstalados.Count)
                     {
-                        string textoDetalhes = "All selected apps are already installed and updated";
-                        InstallationState(EnumState.Confirmation, textoDetalhes);
-                   
+                        string textoDetalhes = "All selected apps are already installed";
                         throw new Exception(textoDetalhes);
                     }
 
                     if (appsJaInstalados.Count > 0) {
 
-                        AppsJaInstalados = appsJaInstalados;
+                        Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) =>
+                        {
+                            List<AppParaInstalar> appsPermitidosParaInstalar = new();
+
+                            foreach (AppParaInstalar app in ListaDeAppParaInstalar)
+                            {
+                                string? exit = appsJaInstalados.Find(appStringCodeId => appStringCodeId == app.CodeId);
+                                if (exit is null) appsPermitidosParaInstalar.Add(app);
+                            }
+
+                            IniciarInstalacao(appsPermitidosParaInstalar);
+                        };
 
                         string textoDetalhes = $"{appsJaInstalados.Count} app{(appsJaInstalados.Count > 1 ? "s" : "")} is already installed \n continue the installation?";
-                        InstallationState(EnumState.Confirmation, textoDetalhes);
-
                         throw new Exception(textoDetalhes);
                     };
 
-                    IniciarInstalacao(ListaDeAppParaInstalar);
                 }
-                catch (Exception ex)
-                {
-                    InstallationState(EnumState.Checking, ex.Message);
+                catch (Exception ex) {
+                    InstalacaoEstado(EnumState.Waiting, ex.Message);
+
+                    IniciarInstalacao(ListaDeAppParaInstalar);
                 }
             }
             else
             {
                 string textoDetalhes = "Select at least one app to install";
-
-                InstallationState(EnumState.Confirmation, textoDetalhes, false);
+                InstalacaoEstado(EnumState.Waiting, textoDetalhes);
             }
         }
 
         public async void IniciarInstalacao(List<AppParaInstalar> apps)
         {
-            InstallationState(EnumState.Installing);
+            InstalacaoEstado(EnumState.Installing);
 
             List<string> appsJaInstalados = new();
 
@@ -211,24 +179,35 @@ namespace InstallyApp.Components.Popups
                     string appCodeId = apps[i - 1].CodeId;
                     string appName = apps[i - 1].Name;
 
+                    InstalacaoEstado(currentState, $"{appName} ({i - 1}/{apps.Count})");
+
                     // Verificar se o app já está instalado
                     BarraDeProgresso.IsIndeterminate = true;
                     TextoDetalhes.Text = $"{appName} ({i - 1}/{apps.Count})";
                     string result = await Command.Executar("cmd.exe", $"/c; {Command.wingetExe} install {appCodeId}");
 
-                    // Se der algum erro na instalacao
-                    if (appsJaInstalados.Count > 0) throw new Exception($"Error installing {appName}.");
-
-                    BarraDeProgresso.IsIndeterminate = false;
                     BarraDeProgresso.Value = (i * 100) / apps.Count;
-                    TextoDetalhes.Text = $"{appName} ({i}/{apps.Count})";
                 }
 
-                InstallationState(EnumState.Installing);
+                for (int i = 0; i < ListaDeAppParaInstalar.Count; i++)
+                {
+                    string appCodeId = ListaDeAppParaInstalar[i].CodeId;
+                    string appName = ListaDeAppParaInstalar[i].Name;
+
+                    // Verificar se o app já está instalado
+                    TextoDetalhes.Text = $"{appName} ({i + 1}/{ListaDeAppParaInstalar.Count})";
+                    string result = await Command.Executar("cmd.exe", $"/c; {Command.wingetExe} list -q {appCodeId}");
+
+                    // Se já tiver instalado, então...
+                    if (result.Contains(appCodeId)) InstalacaoEstado(EnumState.Waiting, "All apps were successfully installed! 💫");
+                    
+                    // Se der algum erro na instalacao
+                    else throw new Exception($"Error installing {appName}.");
+                }
             }
             catch (Exception ex)
             {
-                InstallationState(EnumState.Error, ex.Message);
+                InstalacaoEstado(EnumState.Error, ex.Message);
             }
         }
     }

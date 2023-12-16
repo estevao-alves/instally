@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using System.IO;
 using InstallySetup.Application.Functions;
 
 namespace InstallySetup.Application.Requirements

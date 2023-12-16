@@ -1,7 +1,4 @@
-﻿using System.Windows.Input;
-using System;
-
-namespace InstallySetup.Application
+﻿namespace InstallySetup.Application
 {
     public class PhrasesDictionary
     {

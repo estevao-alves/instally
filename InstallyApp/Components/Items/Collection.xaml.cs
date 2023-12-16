@@ -1,16 +1,4 @@
-﻿using InstallyApp.Application.Contexts;
-using InstallyApp.Application.Functions;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-
-namespace InstallyApp.Components.Items
+﻿namespace InstallyApp.Components.Items
 {
     public partial class Collection : UserControl
     {

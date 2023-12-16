@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using InstallyApp.Application.Contexts;
-using InstallyApp.Application.Functions;
-using InstallyApp.Components.Items;
+﻿using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
 using InstallyApp.Components.Popups;
 
@@ -77,10 +70,18 @@ namespace InstallyApp
             else return false;
         }
 
-        private void Window_StateChanged(object sender, EventArgs e)
+        private void Window_SizeChanged(object sender, EventArgs e)
         {
-            if(WindowState == WindowState.Maximized) LayoutMain.Margin = new Thickness(5);
-            else LayoutMain.Margin = new Thickness(0);
+            if (WindowState == WindowState.Maximized)
+            {
+                LayoutMain.Margin = new Thickness(5);
+                LayoutMainOpacityMask.RadiusX = 0;
+                LayoutMainOpacityMask.RadiusY = 0;
+            }
+            {
+                LayoutMainOpacityMask.RadiusX = 10;
+                LayoutMainOpacityMask.RadiusY = 10;
+            }
         }
 
         private void TopBar_MouseMove(object sender, MouseEventArgs e)

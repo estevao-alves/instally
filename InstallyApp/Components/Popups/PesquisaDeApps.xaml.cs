@@ -1,13 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Windows.Input;
-using System.Windows.Controls;
-using InstallyApp.Components.Items;
+﻿using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
-using System.Windows;
-using System.Windows.Media;
 using InstallyApp.Components.Selectors;
-using InstallyApp.Application.Functions;
-using System.Diagnostics;
 
 namespace InstallyApp.Components.Popups
 {

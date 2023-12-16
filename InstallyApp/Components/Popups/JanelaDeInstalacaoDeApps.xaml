@@ -35,7 +35,7 @@
                         Name="Titulo"
                         Foreground="#FFFFFF"
                         Grid.Row="0"
-                        Text="Checking...."
+                        Text="Checking..."
                         FontSize="20"
                         Margin="0 0 0 10"
                         TextAlignment="Center"
@@ -62,7 +62,7 @@
                         <Border Name="Confirmar" Background="#7251B5" Style="{DynamicResource ActionButton}">
                             <TextBlock Name="ConfirmarTextBlock" FontSize="16" Text="✔️" />
                         </Border>
-                        <Border Name="Negar" Background="#E15A5A" Style="{DynamicResource ActionButton}" Visibility="Visible">
+                        <Border Name="Negar" Background="#E15A5A" Style="{DynamicResource ActionButton}" Visibility="Collapsed">
                             <TextBlock Name="NegarTextBlock" FontSize="16" Text="Confirmar" />
                         </Border>
                     </StackPanel>
@@ -75,13 +75,13 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Name="MinimizeButton" Click="MinimizeButton_Click" Margin="0 4" Background="{DynamicResource SecondaryColor}" Style="{StaticResource HoverEffect}">
+                <Button Grid.Column="0" Name="MinimizeButton" Margin="0 4" Background="{DynamicResource SecondaryColor}" Style="{StaticResource HoverEffect}">
                     <Grid Height="2" Margin="12">
                         <Path Data="M13 1H1" Stroke="{DynamicResource White}" StrokeThickness="2" StrokeEndLineCap="round" StrokeStartLineCap="round" StrokeLineJoin="round"/>
                     </Grid>
                 </Button>
 
-                <Button Grid.Column="1" Name="CloseButton" Click="CloseButton_Click" Margin="4" Background="{DynamicResource SecondaryColor}" Style="{StaticResource HoverEffect}">
+                <Button Grid.Column="1" Name="CloseButton" Margin="4" Background="{DynamicResource SecondaryColor}" Style="{StaticResource HoverEffect}">
                     <Grid Height="14" Margin="12">
                         <Path VerticalAlignment="Center" Data="M11.1527 0.592086C11.4797 0.265086 12.0099 0.265086 12.3369 0.592086C12.6639 0.919086 12.6639 1.44926 12.3369 1.77626L1.77615 12.337C1.44915 12.664 0.918983 12.664 0.591983 12.337C0.264983 12.01 0.264983 11.4798 0.591983 11.1528L11.1527 0.592086Z"
                             Fill="{DynamicResource White}"/>

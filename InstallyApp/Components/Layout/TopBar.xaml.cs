@@ -1,9 +1,4 @@
-﻿using System.Windows.Input;
-using System.Windows.Controls;
-using System.Windows;
-using System.Diagnostics;
-
-namespace InstallyApp.Components.Layout
+﻿namespace InstallyApp.Components.Layout
 {
     public partial class TopBar : UserControl
     {

@@ -1,11 +1,4 @@
-﻿using System.Windows.Input;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using InstallyApp.Application.Contexts;
-using InstallyApp.Application.Functions;
-
-namespace InstallyApp.Components
+﻿namespace InstallyApp.Components
 {
     public partial class MenuAppItem : UserControl
     {

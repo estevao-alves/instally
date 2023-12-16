@@ -1,10 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using InstallyApp.Application.Functions;
-
-namespace InstallyApp.Components.Items
+﻿namespace InstallyApp.Components.Items
 {
     public partial class DetalhesDoApp : UserControl
     {

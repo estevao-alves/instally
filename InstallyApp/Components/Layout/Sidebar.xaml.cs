@@ -1,7 +1,4 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
-
-namespace InstallyApp.Components.Layout
+﻿namespace InstallyApp.Components.Layout
 {
     public partial class Sidebar : UserControl
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Windows.Media;
-
-namespace InstallyApp.Resources.Icons
+﻿namespace InstallyApp.Resources.Icons
 {
     public partial class Info : UserControl
     {
