@@ -32,8 +32,6 @@
 
         private void CarregarApps()
         {
-            Console.WriteLine(collection.Packages);
-
             var appName = "Blender";
             foreach (string appId in collection.Packages) AnexarAplicativoAColecao(appName, appId, false);
         }
@@ -188,7 +186,7 @@
                 CollectionRemoveButton.Opacity = 1;
                 CollectionRemoveButton.Cursor = Cursors.Hand;
 
-                Debug.WriteLine(ex.Message);
+                WriteLine(ex.Message);
             }
         }
     }

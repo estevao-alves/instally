@@ -149,8 +149,8 @@ namespace InstallySetup
                 // string installedAppPath = Path.Combine(Configs.AppPath + Configs.AppFileExe);
 
 
-                Debug.WriteLine(Configs.AppPath + Configs.AppFileExe);
-                Debug.WriteLine(result);
+                WriteLine(Configs.AppPath + Configs.AppFileExe);
+                WriteLine(result);
 
                 var p = new Process();
 

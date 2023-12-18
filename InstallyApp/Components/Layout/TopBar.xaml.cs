@@ -31,7 +31,7 @@
 
         private void MaximizeMinimize_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            Debug.WriteLine("MouseClick");
+            WriteLine("MouseClick");
             if (App.Master.Main.WindowState == WindowState.Normal) App.Master.Main.WindowState = WindowState.Maximized;
             else App.Master.Main.WindowState = WindowState.Normal;
         }

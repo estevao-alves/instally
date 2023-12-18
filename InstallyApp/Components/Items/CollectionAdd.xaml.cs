@@ -11,10 +11,10 @@
         {
             string newCollectionName = $"My Collection";
 
-            int defaultsName = InstallyCollections.All.Where(coll => coll.Title.ToLower().Contains(newCollectionName.ToLower())).ToList().Count;
+            int defaultName = InstallyCollections.All.Where(coll => coll.Title.ToLower().Contains(newCollectionName.ToLower())).ToList().Count;
 
-            if (defaultsName > 0) {
-                newCollectionName = $"My Collection {defaultsName + 1}";
+            if (defaultName > 0) {
+                newCollectionName = $"My Collection {defaultName + 1}";
             }
 
             int newCollectionIndex = InstallyCollections.All.Count - 1;

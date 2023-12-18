@@ -20,7 +20,7 @@ namespace InstallySetup.Application.Functions
             }
             catch(Exception)
             {
-                Debug.WriteLine("Erro no download.");
+                WriteLine("Erro no download.");
                 return false;
             }
         }

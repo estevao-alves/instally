@@ -1,10 +1,13 @@
 ﻿using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace InstallyApp.Application.Functions
 {
     public static class Command
     {
+        public static CancellationTokenSource CancellationTokenSource { get; set; } = new();
+
         public static string wingetExe = @"%LOCALAPPDATA%\Microsoft\WindowsApps\winget.exe";
 
         public static async Task<bool> Download(string url, string pathDest)
@@ -32,7 +35,7 @@ namespace InstallyApp.Application.Functions
                         FileName = fileName,
                         Arguments = arguments,
 
-                        //UseShellExecute = true,
+                        // UseShellExecute = true,
 
                         RedirectStandardOutput = true,
                         WindowStyle = ProcessWindowStyle.Hidden,

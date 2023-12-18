@@ -1,4 +1,5 @@
 ﻿using InstallyApp.Components.Layout;
+using System.Threading;
 
 namespace InstallyApp.Components.Popups
 {
@@ -6,7 +7,6 @@ namespace InstallyApp.Components.Popups
     {
 
         public List<AppParaInstalar> ListaDeAppParaInstalar { get; set; }
-
 
         public EnumState currentState { get; set; }
 
@@ -61,24 +61,6 @@ namespace InstallyApp.Components.Popups
                     break;
 
                 case "Installing":
-                    MinimizeButton.Click += (object sender, RoutedEventArgs e) =>
-                    {
-                        App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Visible;
-
-                        Debug.WriteLine(textoDetalhes);
-                        App.Master.Main.Footer.InstallyButton.Text = textoDetalhes;
-                        App.Master.Main.AreaDePopups.Children.Clear();
-                    };
-
-                    CloseButton.Click += (object sender, RoutedEventArgs e) =>
-                    {
-                        Command.Executar("cmd.exe", "/c; powershell; Stop-Process -Name 'winget' -Force");
-
-                        App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Collapsed;
-                        App.Master.Main.Footer.InstallyButton.Text = "Instally";
-                        App.Master.Main.AreaDePopups.Children.Clear();
-                    };
-
                     Titulo.Text = "Installing...";
 
                     TextoDetalhes.FontSize = 14;
@@ -103,7 +85,7 @@ namespace InstallyApp.Components.Popups
         public async void IniciarVerificacao()
         {
             App.Master.Main.AreaDePopups.Children.Add(this);
-            
+
             if (currentState != EnumState.Installing) InstalacaoEstado(EnumState.Checking);
 
             List<string> appsJaInstalados = new();
@@ -116,14 +98,14 @@ namespace InstallyApp.Components.Popups
                     string appName = ListaDeAppParaInstalar[i].Name;
 
                     // Verificar se o app já está instalado
+                    WriteLine(ListaDeAppParaInstalar.Count);
+
                     TextoDetalhes.Text = $"{appName} ({i + 1}/{ListaDeAppParaInstalar.Count})";
                     string result = await Command.Executar("cmd.exe", $"/c; {Command.wingetExe} list -q {appCodeId}");
 
                     // Se já tiver instalado, então...
-                    if (result.Contains(appCodeId)) appsJaInstalados.Add(appCodeId);
+                    if (!result.Contains(appCodeId)) appsJaInstalados.Add(appCodeId);
                 }
-
-                Debug.WriteLine("In verificação:" + appsJaInstalados.Count());
 
                 try
                 {
@@ -209,6 +191,23 @@ namespace InstallyApp.Components.Popups
             {
                 InstalacaoEstado(EnumState.Error, ex.Message);
             }
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Visible;
+
+            // App.Master.Main.Footer.InstallyButton.Text = textoDetalhes;
+            App.Master.Main.AreaDePopups.Children.Clear();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Command.Executar("cmd.exe", "/c; powershell; Stop-Process -Name 'winget' -Force");
+
+            App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Collapsed;
+            App.Master.Main.Footer.InstallyButton.Text = "Instally";
+            App.Master.Main.AreaDePopups.Children.Clear();
         }
     }
 }

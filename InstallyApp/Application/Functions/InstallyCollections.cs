@@ -3,7 +3,6 @@
 namespace InstallyApp.Application.Functions
 {
     // Arquivo de classe que contém a inteligência das coleções
-
     public class InstallyCollection
     {
         public string Title { get; set; }

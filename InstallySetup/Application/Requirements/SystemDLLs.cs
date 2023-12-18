@@ -44,7 +44,7 @@ namespace InstallySetup.Application.Requirements
             }
             catch(Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                WriteLine(ex.Message);
                 return false;
             }
         }

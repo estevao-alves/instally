@@ -14,7 +14,7 @@ namespace InstallyApp.Application.Contexts
 
             foreach (AppInSearchList app in App.Master.Main.JanelaDePesquisa.AppList.Children)
             {
-                Debug.WriteLine(app.AppId);
+                WriteLine(app.AppId);
                 if (app.AppId == appId) app.IconeJaAdicionado(true);
             }
         }
@@ -25,7 +25,7 @@ namespace InstallyApp.Application.Contexts
 
             foreach (AppInSearchList app in App.Master.Main.JanelaDePesquisa.AppList.Children)
             {
-                Debug.WriteLine(app.AppId);
+                WriteLine(app.AppId);
                 if (app.AppId == appId) app.IconeJaAdicionado(false);
             }
         }
