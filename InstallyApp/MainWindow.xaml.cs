@@ -21,6 +21,7 @@ namespace InstallyApp
 
         public void CarregarCollections()
         {
+            /*
             CollectionList.Children.Clear();
 
             ElementCollectionAdd = new();
@@ -56,6 +57,7 @@ namespace InstallyApp
                 ElementCollectionAdd.Visibility = Visibility.Visible;
                 Grid.SetColumn(ElementCollectionAdd, collections.Count);
             }
+            */
         }
 
         public void AdicionarAplicativosACollection(List<AppParaInstalar> list, Collection componentCollection)
@@ -98,7 +100,7 @@ namespace InstallyApp
 
             if (e.ChangedButton == MouseButton.Left)
             {
-                this.DragMove();
+                DragMove();
 
                 MoveWindowToMousePosition();
             }
@@ -121,8 +123,8 @@ namespace InstallyApp
             {
                 if (e.Key == Key.T)
                 {
-                    App.Master.Debug = new();
-                    App.Master.Debug.Show();
+                    Master.Debug = new();
+                    Master.Debug.Show();
                 }
             }
         }

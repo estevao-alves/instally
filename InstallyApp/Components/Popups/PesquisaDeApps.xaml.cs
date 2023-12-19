@@ -38,7 +38,7 @@ namespace InstallyApp.Components.Popups
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Master.Main.AreaDePopups.Children.Clear();
+            Master.Main.AreaDePopups.Children.Clear();
             ListaDeInstalacao.Children.Clear();
         }
 
@@ -52,7 +52,7 @@ namespace InstallyApp.Components.Popups
 
             foreach (Package pacote in PacotesEncontrados)
             {
-                AppInSearchList app = new(pacote.Name, pacote.Id, App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(pacote.Id));
+                AppInSearchList app = new(pacote.Name, pacote.Id, Master.Main.VerificarSeAplicativoJaFoiAdicionado(pacote.Id));
                 AppList.Children.Add(app);
             }
         }
@@ -126,7 +126,7 @@ namespace InstallyApp.Components.Popups
 
         public Button AdicionarApp(Package pkg)
         {
-            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.Id, App.Master.Main.ColecaoSelecionada.collection.Title));
+            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.Id, Master.Main.ColecaoSelecionada.collection.Title));
 
             Button borderWrapper = new()
             {
@@ -152,16 +152,16 @@ namespace InstallyApp.Components.Popups
 
         private void Add_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            App.Master.Main.AdicionarAplicativosACollection(ListaDeAppsParaColecionar, App.Master.Main.ColecaoSelecionada);
+            Master.Main.AdicionarAplicativosACollection(ListaDeAppsParaColecionar, Master.Main.ColecaoSelecionada);
 
-            App.Master.Main.JanelaDePesquisa.ListaDeInstalacao.Children.Clear();
+            Master.Main.JanelaDePesquisa.ListaDeInstalacao.Children.Clear();
 
-            App.Master.Main.AreaDePopups.Children.Clear();
+            Master.Main.AreaDePopups.Children.Clear();
         }
 
         private void SearchTextBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            App.Master.Main.MouseDown += (object sender, MouseButtonEventArgs e) => { SearchTextBox.Focusable = false; BarraDeRolagem.Focus(); };
+            Master.Main.MouseDown += (object sender, MouseButtonEventArgs e) => { SearchTextBox.Focusable = false; BarraDeRolagem.Focus(); };
         }
 
         private void SearchTextBox_MouseEnter(object sender, MouseEventArgs e)

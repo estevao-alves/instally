@@ -54,13 +54,13 @@ namespace InstallyApp.Application.Functions
 
                 p.WaitForExit();
 
-                if (App.Master.Debug is not null) App.Master.Debug.CreateInfo(result);
+                if (Master.Debug is not null) Master.Debug.CreateInfo(result);
 
                 return result;
             }
             catch (Exception ex)
             {
-                if (App.Master.Debug is not null) App.Master.Debug.CreateInfo("Erro ao executar um comando:\nDetalhes: " + ex.Message);
+                if (Master.Debug is not null) Master.Debug.CreateInfo("Erro ao executar um comando:\nDetalhes: " + ex.Message);
                 return "Erro ao executar o comando";
             }
 

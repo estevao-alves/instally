@@ -7,7 +7,7 @@ global using System.Windows;
 global using System.Windows.Media;
 global using System.Collections.Generic;
 global using System.Diagnostics;
-global using static System.Diagnostics.Debug;
 
+global using InstallyApp.Application;
 global using InstallyApp.Application.Functions;
 global using InstallyApp.Application.Contexts;

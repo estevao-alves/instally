@@ -12,7 +12,7 @@
         public void AtualizarInformacoes(Package pkg)
         {
             // Remover IsActive (InfoIcon) de todos os outros pacotes
-            foreach (AppInSearchList appItem in App.Master.Main.JanelaDePesquisa.AppList.Children)
+            foreach (AppInSearchList appItem in Master.Main.JanelaDePesquisa.AppList.Children)
             {
                 if (pkg.Description.Length < 80)
                 {

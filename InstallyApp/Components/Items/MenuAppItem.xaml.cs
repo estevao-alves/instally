@@ -53,14 +53,14 @@
 
                 // Adicionar ao rodapé de instalação
                 PacoteWingetSelecionado = WingetData.CapturarPacote(AppName);
-                App.Master.Main.Footer.AdicionarApp(PacoteWingetSelecionado, CollectionName);
+                Master.Main.Footer.AdicionarApp(PacoteWingetSelecionado, CollectionName);
             }
             else
             {
                 BorderWrapper.Background = (SolidColorBrush)new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                 
                 // Remover do rodapé de instalação
-                if (PacoteWingetSelecionado is not null) App.Master.Main.Footer.RemoverApp(PacoteWingetSelecionado.Name);
+                if (PacoteWingetSelecionado is not null) Master.Main.Footer.RemoverApp(PacoteWingetSelecionado.Name);
             }
         }
 

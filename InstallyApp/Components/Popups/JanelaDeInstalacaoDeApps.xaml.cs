@@ -42,9 +42,9 @@ namespace InstallyApp.Components.Popups
                     break;
 
                 case "Waiting":
-                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => App.Master.Main.AreaDePopups.Children.Clear();
-                    CloseButton.Click += (object sender, RoutedEventArgs e) => App.Master.Main.AreaDePopups.Children.Clear();
-                    MinimizeButton.Click += (object sender, RoutedEventArgs e) => App.Master.Main.AreaDePopups.Children.Clear();
+                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => Master.Main.AreaDePopups.Children.Clear();
+                    CloseButton.Click += (object sender, RoutedEventArgs e) => Master.Main.AreaDePopups.Children.Clear();
+                    MinimizeButton.Click += (object sender, RoutedEventArgs e) => Master.Main.AreaDePopups.Children.Clear();
 
                     MinimizeButton.Visibility = Visibility.Collapsed;
 
@@ -72,7 +72,7 @@ namespace InstallyApp.Components.Popups
                     break;
 
                 case "Error":
-                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => App.Master.Main.AreaDePopups.Children.Clear();
+                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => Master.Main.AreaDePopups.Children.Clear();
 
                     Titulo.Text = "Installation error";
                     BarraDeProgresso.Visibility = Visibility.Collapsed;
@@ -84,7 +84,7 @@ namespace InstallyApp.Components.Popups
 
         public async void IniciarVerificacao()
         {
-            App.Master.Main.AreaDePopups.Children.Add(this);
+            Master.Main.AreaDePopups.Children.Add(this);
 
             if (currentState != EnumState.Installing) InstalacaoEstado(EnumState.Checking);
 
@@ -98,7 +98,7 @@ namespace InstallyApp.Components.Popups
                     string appName = ListaDeAppParaInstalar[i].Name;
 
                     // Verificar se o app já está instalado
-                    WriteLine(ListaDeAppParaInstalar.Count);
+                    Debug.WriteLine(ListaDeAppParaInstalar.Count);
 
                     TextoDetalhes.Text = $"{appName} ({i + 1}/{ListaDeAppParaInstalar.Count})";
                     string result = await Command.Executar("cmd.exe", $"/c; {Command.wingetExe} list -q {appCodeId}");
@@ -195,19 +195,19 @@ namespace InstallyApp.Components.Popups
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Visible;
+            Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Visible;
 
-            // App.Master.Main.Footer.InstallyButton.Text = textoDetalhes;
-            App.Master.Main.AreaDePopups.Children.Clear();
+            // Master.Main.Footer.InstallyButton.Text = textoDetalhes;
+            Master.Main.AreaDePopups.Children.Clear();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Command.Executar("cmd.exe", "/c; powershell; Stop-Process -Name 'winget' -Force");
 
-            App.Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Collapsed;
-            App.Master.Main.Footer.InstallyButton.Text = "Instally";
-            App.Master.Main.AreaDePopups.Children.Clear();
+            Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Collapsed;
+            Master.Main.Footer.InstallyButton.Text = "Instally";
+            Master.Main.AreaDePopups.Children.Clear();
         }
     }
 }

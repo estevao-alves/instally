@@ -1,4 +1,6 @@
-﻿namespace InstallyApp.Components.Items
+﻿using InstallyApp.Application.Queries;
+
+namespace InstallyApp.Components.Items
 {
     public partial class Collection : UserControl
     {
@@ -72,12 +74,12 @@
 
         private void AdicionarApp_Click(object sender, RoutedEventArgs e)
         {
-            App.Master.Main.ColecaoSelecionada = this;
-            App.Master.Main.AreaDePopups.Children.Add(App.Master.Main.JanelaDePesquisa);
+            Master.Main.ColecaoSelecionada = this;
+            Master.Main.AreaDePopups.Children.Add(Master.Main.JanelaDePesquisa);
 
-            App.Master.Main.JanelaDePesquisa.AppList.Children.Clear();
-            App.Master.Main.JanelaDePesquisa.BuscarPorCategoria("all");
-            App.Master.Main.JanelaDePesquisa.ListaDeAppsParaColecionar = new();
+            Master.Main.JanelaDePesquisa.AppList.Children.Clear();
+            Master.Main.JanelaDePesquisa.BuscarPorCategoria("all");
+            Master.Main.JanelaDePesquisa.ListaDeAppsParaColecionar = new();
         }
 
         private async void EditName_MouseDown(object sender, MouseButtonEventArgs e)
@@ -100,13 +102,13 @@
 
         private void CollectionTextBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            App.Master.Main.MouseDown -= ClickOutside;
-            App.Master.Main.MouseDown += ClickOutside;
+            Master.Main.MouseDown -= ClickOutside;
+            Master.Main.MouseDown += ClickOutside;
         }
 
         public void ChangeIcon()
         {
-            App.Master.Main.MouseEnter += (object sender, MouseEventArgs e) => { EditPen.Visibility = Visibility.Visible; };
+            Master.Main.MouseEnter += (object sender, MouseEventArgs e) => { EditPen.Visibility = Visibility.Visible; };
 
             if (CollectionTextBox.IsEnabled) EditPen.Visibility = Visibility.Visible;
             if (!CollectionTextBox.IsEnabled) EditPen.Visibility = Visibility.Collapsed;
@@ -165,19 +167,19 @@
             {
                 int ColunaAtual = Grid.GetColumn(this);
 
-                App.Master.Main.Footer.RemoverAppsPorColecao(collection.Title);
-                App.Master.Main.CollectionList.Children.Remove(this);
+                Master.Main.Footer.RemoverAppsPorColecao(collection.Title);
+                Master.Main.CollectionList.Children.Remove(this);
 
                 InstallyCollections.All.RemoveAt(collectionIndex);
                 InstallyCollections.AtualizarArquivo();
 
-                foreach (UIElement coll in App.Master.Main.CollectionList.Children)
+                foreach (UIElement coll in Master.Main.CollectionList.Children)
                 {
                     int colunaDoElemento = Grid.GetColumn(coll);
                     if (colunaDoElemento > ColunaAtual) Grid.SetColumn(coll, colunaDoElemento - 1);
                 }
 
-                if (InstallyCollections.All.Count <= 3) App.Master.Main.ElementCollectionAdd.Visibility = Visibility.Visible;
+                if (InstallyCollections.All.Count <= 3) Master.Main.ElementCollectionAdd.Visibility = Visibility.Visible;
 
             }
             catch(Exception ex)
@@ -186,7 +188,7 @@
                 CollectionRemoveButton.Opacity = 1;
                 CollectionRemoveButton.Cursor = Cursors.Hand;
 
-                WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
         }
     }

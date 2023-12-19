@@ -10,11 +10,11 @@ namespace InstallyApp.Application.Contexts
         {
             Apps.Add(appId);
 
-            if (App.Master.Main is null) return;
+            if (Master.Main is null) return;
 
-            foreach (AppInSearchList app in App.Master.Main.JanelaDePesquisa.AppList.Children)
+            foreach (AppInSearchList app in Master.Main.JanelaDePesquisa.AppList.Children)
             {
-                WriteLine(app.AppId);
+                Debug.WriteLine(app.AppId);
                 if (app.AppId == appId) app.IconeJaAdicionado(true);
             }
         }
@@ -23,9 +23,9 @@ namespace InstallyApp.Application.Contexts
         {
             Apps.Remove(appId);
 
-            foreach (AppInSearchList app in App.Master.Main.JanelaDePesquisa.AppList.Children)
+            foreach (AppInSearchList app in Master.Main.JanelaDePesquisa.AppList.Children)
             {
-                WriteLine(app.AppId);
+                Debug.WriteLine(app.AppId);
                 if (app.AppId == appId) app.IconeJaAdicionado(false);
             }
         }

@@ -1,4 +1,6 @@
-﻿namespace InstallyApp.Components.Items
+﻿using InstallyApp.Application.Queries;
+
+namespace InstallyApp.Components.Items
 {
     public partial class CollectionAdd : UserControl
     {
@@ -24,7 +26,7 @@
 
             Collection collection = new(newCollection, newCollectionIndex);
 
-            App.Master.Main.CollectionList.Children.Add(collection);
+            Master.Main.CollectionList.Children.Add(collection);
             Grid.SetColumn(collection, newCollectionIndex+1);
 
             collection.Apps.Children.Clear();

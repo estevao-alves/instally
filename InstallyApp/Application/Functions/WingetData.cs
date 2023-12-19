@@ -45,7 +45,7 @@ namespace InstallyApp.Application.Functions
             if (!File.Exists(fileDestPath))
             {
                 await Command.Download(urlDoFavicon, fileDestPath);
-                WriteLine(fileName + " foi baixado!");
+                Debug.WriteLine(fileName + " foi baixado!");
             }
 
             await Task.Delay(10);

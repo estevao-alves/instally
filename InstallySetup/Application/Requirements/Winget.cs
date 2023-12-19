@@ -39,7 +39,7 @@ namespace InstallySetup.Application.Requirements
 
                 string result = await Task.Run(() => Command.Executar("cmd.exe", $"/c; echo Y | {wingetExe} show winget"));
 
-                WriteLine(result);
+                Debug.WriteLine(result);
 
                 Master.InstallationStatus = "Instalando o aplicativo...";
 

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using InstallyApp.Application.Queries;
 
 namespace InstallyApp.Application.Functions
 {

@@ -45,9 +45,9 @@
 
         private async void WrapperAppItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (App.Master.Main.VerificarSeAplicativoJaFoiAdicionado(AppId))
+            if (Master.Main.VerificarSeAplicativoJaFoiAdicionado(AppId))
             {
-                this.AlertDropdownText.Text = $"App already added in: {App.Master.Main.ColecaoSelecionada.collection.Title}";
+                this.AlertDropdownText.Text = $"App already added in: {Master.Main.ColecaoSelecionada.collection.Title}";
 
                 AlertDropdownCanvas.Visibility = Visibility.Visible;
                 await Task.Delay(3000);
@@ -62,7 +62,7 @@
                 IsActive = false;
                 WrapperAppItem.Background = new SolidColorBrush(Color.FromArgb(0,0,0,0));
 
-                App.Master.Main.JanelaDePesquisa.RemoverApp(appInListaDeInstalacao, pkg.Id);
+                Master.Main.JanelaDePesquisa.RemoverApp(appInListaDeInstalacao, pkg.Id);
             }
             else
             {
@@ -70,7 +70,7 @@
                 WrapperAppItem.Background = (SolidColorBrush)App.Current.Resources["PrimaryColor"];
 
                 // Adicionar a lista de instalação
-                appInListaDeInstalacao = App.Master.Main.JanelaDePesquisa.AdicionarApp(pkg);
+                appInListaDeInstalacao = Master.Main.JanelaDePesquisa.AdicionarApp(pkg);
             }
         }
 
@@ -89,13 +89,13 @@
             if (InfoIcon.IsActive)
             {
                 Package pkg = WingetData.CapturarPacote(AppName);
-                App.Master.Main.JanelaDePesquisa.DetalhesDoApp.AtualizarInformacoes(pkg);
+                Master.Main.JanelaDePesquisa.DetalhesDoApp.AtualizarInformacoes(pkg);
 
-                App.Master.Main.JanelaDePesquisa.DetalhesDoApp.Visibility = Visibility.Visible;
+                Master.Main.JanelaDePesquisa.DetalhesDoApp.Visibility = Visibility.Visible;
             }
-            else App.Master.Main.JanelaDePesquisa.DetalhesDoApp.Visibility = Visibility.Collapsed;
+            else Master.Main.JanelaDePesquisa.DetalhesDoApp.Visibility = Visibility.Collapsed;
             
-            App.Master.Main.JanelaDePesquisa.AppList_ChangeColumns();
+            Master.Main.JanelaDePesquisa.AppList_ChangeColumns();
 
             e.Handled = true;
         }
