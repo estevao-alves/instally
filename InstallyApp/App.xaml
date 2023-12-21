@@ -10,7 +10,9 @@
             <SolidColorBrush x:Key="ActionColor" Color="#7251b5" />
             <SolidColorBrush x:Key="PurpleViolet" Color="#6247AA" />
 
-            <SolidColorBrush x:Key="Red" Color="#E15A5A" />
+            <SolidColorBrush x:Key="NegativeColor" Color="#E15A5A" />
+            <SolidColorBrush x:Key="PositiveColor" Color="#04A589" />
+            
             <SolidColorBrush x:Key="LightGray" Color="#DFDFDF" />
             <SolidColorBrush x:Key="White" Color="#FFF" />
 

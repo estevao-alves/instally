@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:items="clr-namespace:InstallyApp.Components.Items"
         xmlns:layout="clr-namespace:InstallyApp.Components.Layout"
-        xmlns:popup="clr-namespace:InstallyApp.Components.Popups"
         mc:Ignorable="d"
         
         Background="Transparent"

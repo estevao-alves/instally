@@ -112,7 +112,7 @@
                 <Border
                     Name="CollectionRemoveButton"
                     MouseDown="RemoveCollection_MouseDown"
-                    Background="{DynamicResource Red}"
+                    Background="{DynamicResource NegativeColor}"
                     Padding="5"
                     CornerRadius="6"
                     VerticalAlignment="Center"

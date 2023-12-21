@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
 using InstallyApp.Application.Entities;
 using InstallyApp.Application.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace InstallyApp.Application.Repository
 {
@@ -12,6 +13,7 @@ namespace InstallyApp.Application.Repository
         {
             _context = context;
         }
+
         public IUnitOfWork UnitOfWork => _context;
 
         public DatabaseFacade Database => _context.Database;

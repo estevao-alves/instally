@@ -2,7 +2,7 @@
 
 namespace InstallyApp.Application.Commands.UserCommands
 {
-    public class AddUserCommand : IRequest<bool>
+    public class DeleteUserCommand : IRequest<bool>
     {
         public string Name { get; set; }
         public string Email { get; set; }
@@ -10,7 +10,7 @@ namespace InstallyApp.Application.Commands.UserCommands
         public string? Collection { get; set; }
         public int? CollectionId { get; set; }
 
-        public AddUserCommand(string email, string senha)
+        public DeleteUserCommand(string email, string senha)
         {
             Senha = senha;
             Email = email;

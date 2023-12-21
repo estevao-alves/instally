@@ -1,9 +1,13 @@
 ﻿using MediatR;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using InstallyApp.Application.Repository;
 using InstallyApp.Application.Repository.Interfaces;
 using InstallyApp.Application.Commands.UserCommands;
 using InstallyApp.Application.Commands.Handlers.User;
+using System.Reflection;
+using InstallyApp.Application.Commands.UserCommands.Behaviors;
+using InstallyApp.Application.Commands.UserCommands.Validators;
 
 namespace InstallyApp
 {
@@ -32,10 +36,17 @@ namespace InstallyApp
             services.AddDbContext<ApplicationDbContext>();
             services.AddScoped(typeof(IAppRepository<>), typeof(AppRepository<>));
 
-            services.AddMediatR(typeof(App));
+            services.AddMediatR(config =>
+            {
+                config.RegisterServicesFromAssemblyContaining<App>();
+            });
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             // UserCommands
-            services.AddScoped<IRequestHandler<AddUserCommand, bool>, UserHandler>();
+            services.AddTransient<IValidator<AddUserCommand>, AddUserValidator>();
+            services.AddTransient<IValidator<UpdateUserCommand>, UpdateUserValidator>();
+            services.AddTransient<IValidator<DeleteUserCommand>, DeleteUserValidator>();
 
             return services;
         }

@@ -6,6 +6,7 @@ namespace InstallyApp
 {
     public partial class MainWindow : Window
     {
+        public Login Login;
         public PesquisaDeApps JanelaDePesquisa;
         public Collection ColecaoSelecionada;
         public CollectionAdd ElementCollectionAdd;
@@ -16,6 +17,8 @@ namespace InstallyApp
             DataContext = this;
 
             JanelaDePesquisa = new();
+            Login = new();
+            AreaDePopups.Children.Add(Login);
             CarregarCollections();
         }
 
