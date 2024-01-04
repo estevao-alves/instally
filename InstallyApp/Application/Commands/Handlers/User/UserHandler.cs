@@ -5,6 +5,7 @@ using InstallyApp.Application.Entities;
 using InstallyApp.Application.Repository.Interfaces;
 using InstallyApp.Application.Repository;
 using FluentValidation;
+using InstallyApp.Components.Items;
 
 namespace InstallyApp.Application.Commands.Handlers.User
 {

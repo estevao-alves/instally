@@ -13,6 +13,9 @@ namespace InstallyApp.Application.Contexts
         }
 
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<CollectionEntity> Collections { get; set; }
+        public DbSet<PackageEntity> Packages { get; set; }
+        public DbSet<TagEntity> Tags { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,7 +31,6 @@ namespace InstallyApp.Application.Contexts
         {
             modelBuilder.Entity<UserEntity>(c =>
             {
-                c.HasKey(x => x.Id);
                 c.Property(x => x.Name).HasMaxLength(100);
                 c.Property(x => x.Email).HasMaxLength(80);
             });

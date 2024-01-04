@@ -8,6 +8,9 @@ using InstallyApp.Application.Commands.Handlers.User;
 using System.Reflection;
 using InstallyApp.Application.Commands.UserCommands.Behaviors;
 using InstallyApp.Application.Commands.UserCommands.Validators;
+using InstallyApp.Application.Queries.Interfaces;
+using InstallyApp.Application.Queries;
+using InstallyApp.Application.Commands.PackageCommands.Validators;
 
 namespace InstallyApp
 {
@@ -19,9 +22,12 @@ namespace InstallyApp
             Master.Mediator = Master.ServiceProvider.GetRequiredService<IMediator>();
         }
 
-        private async void Application_Startup(object sender, StartupEventArgs e)
+        private void Application_Startup(object sender, StartupEventArgs e)
         {
-            await WingetData.CarregarPacotesDaAPI();
+            Task.Run(() =>
+            {
+                WingetData.CarregarPacotesDaAPI();
+            });
 
             Master.Main = new();
             Master.Main.Show();
@@ -32,21 +38,23 @@ namespace InstallyApp
             var services = new ServiceCollection();
 
             services.AddTransient<MainWindow>();
-
             services.AddDbContext<ApplicationDbContext>();
             services.AddScoped(typeof(IAppRepository<>), typeof(AppRepository<>));
 
-            services.AddMediatR(config =>
-            {
-                config.RegisterServicesFromAssemblyContaining<App>();
-            });
+            services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<App>());
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddScoped<ICollectionQuery, CollectionQuery>();
+            services.AddScoped<IUserQuery, UserQuery>();
+            services.AddScoped<IPackageQuery, PackageQuery>();
 
             // UserCommands
             services.AddTransient<IValidator<AddUserCommand>, AddUserValidator>();
             services.AddTransient<IValidator<UpdateUserCommand>, UpdateUserValidator>();
             services.AddTransient<IValidator<DeleteUserCommand>, DeleteUserValidator>();
+
+            // PackageCommands
+            services.AddTransient<IValidator<AddPackageCommand>, AddPackageValidator>();
 
             return services;
         }

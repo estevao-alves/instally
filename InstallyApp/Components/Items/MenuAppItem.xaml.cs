@@ -1,10 +1,12 @@
-﻿namespace InstallyApp.Components
+﻿using InstallyApp.Application.Entities;
+
+namespace InstallyApp.Components
 {
     public partial class MenuAppItem : UserControl
     {
         string appName;
         string AppId;
-        public Package PacoteWingetSelecionado;
+        public PackageEntity PacoteWingetSelecionado;
 
         public delegate void ExcluirDaColecao();
         public event ExcluirDaColecao OnExcluir;
@@ -71,7 +73,7 @@
             // Remover do rodapé de existir
             AdicionarRemoverItemDoRodape(false);
 
-            ListaDeAplicativosAdicionados.Remover(AppId);
+            // ListaDeAplicativosAdicionados.Remover(AppId);
 
             // Excluir da coleção
             OnExcluir();

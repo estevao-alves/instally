@@ -1,4 +1,6 @@
-﻿namespace InstallyApp.Components.Items
+﻿using InstallyApp.Application.Entities;
+
+namespace InstallyApp.Components.Items
 {
     public partial class DetalhesDoApp : UserControl
     {
@@ -9,7 +11,7 @@
             DataContext = this;
         }
 
-        public void AtualizarInformacoes(Package pkg)
+        public void AtualizarInformacoes(PackageEntity pkg)
         {
             // Remover IsActive (InfoIcon) de todos os outros pacotes
             foreach (AppInSearchList appItem in Master.Main.JanelaDePesquisa.AppList.Children)
@@ -42,13 +44,13 @@
 
             TagsList.Children.Clear();
 
-            foreach (string tag in pkg.Tags)
+            foreach (TagEntity tag in pkg.Tags)
             {
                 Border border = new();
 
                 TextBlock textBlock = new()
                 { 
-                    Text = tag,
+                    Text = tag.Title,
                     Style = (Style)TagsList.Resources["TextBlockItem"]
                 };
 

@@ -11,6 +11,7 @@ namespace InstallyApp.Components.Items
 
         private void AddCollection_Click(object sender, RoutedEventArgs e)
         {
+            /*
             string newCollectionName = $"My Collection";
 
             int defaultName = InstallyCollections.All.Where(coll => coll.Title.ToLower().Contains(newCollectionName.ToLower())).ToList().Count;
@@ -38,6 +39,7 @@ namespace InstallyApp.Components.Items
                 Visibility = Visibility.Collapsed;
                 return;
             }
+            */
         }
 
         private void NewCollection_MouseEnter(object sender, MouseEventArgs e)

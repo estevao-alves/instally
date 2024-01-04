@@ -1,6 +1,11 @@
-﻿using InstallyApp.Components.Items;
+﻿using InstallyApp.Application.Entities;
+using InstallyApp.Application.Queries;
+using InstallyApp.Application.Queries.Interfaces;
+using InstallyApp.Application.Repository.Interfaces;
+using InstallyApp.Components.Items;
+using InstallyApp.Components.Janelas;
 using InstallyApp.Components.Layout;
-using InstallyApp.Components.Popups;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace InstallyApp
 {
@@ -11,6 +16,8 @@ namespace InstallyApp
         public Collection ColecaoSelecionada;
         public CollectionAdd ElementCollectionAdd;
 
+        List<CollectionEntity> collections { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -18,37 +25,30 @@ namespace InstallyApp
 
             JanelaDePesquisa = new();
             Login = new();
-            AreaDePopups.Children.Add(Login);
+            Janelas.Children.Add(Login);
             CarregarCollections();
         }
 
         public void CarregarCollections()
         {
-            /*
             CollectionList.Children.Clear();
 
             ElementCollectionAdd = new();
             ElementCollectionAdd.Visibility = Visibility.Collapsed;
             CollectionList.Children.Add(ElementCollectionAdd);
 
-            List<InstallyCollection> collections = InstallyCollections.CarregarLista();
+            collections = Master.ServiceProvider.GetService<ICollectionQuery>().GetAll().ToList();
 
-            if (collections.Count < 1)
+            if (!collections.Any())
             {
-                // Backend collection
-                InstallyCollection coll = new InstallyCollection("My Collection");
-                InstallyCollections.All.Add(coll);
-                InstallyCollections.AtualizarColecao(coll, 0);
-
-                // Frontend collection
-                Collection collection = new Collection(coll, 0);
+                Collection collection = new(0);
                 CollectionList.Children.Add(collection);
             }
             else
             {
-                for(int i = 0; i < collections.Count; i++)
+                for (int i = 0; i < collections.Count; i++)
                 {
-                    Collection collection = new Collection(collections[i], i);
+                    Collection collection = new(i);
                     CollectionList.Children.Add(collection);
 
                     Grid.SetColumn(collection, i);
@@ -60,7 +60,6 @@ namespace InstallyApp
                 ElementCollectionAdd.Visibility = Visibility.Visible;
                 Grid.SetColumn(ElementCollectionAdd, collections.Count);
             }
-            */
         }
 
         public void AdicionarAplicativosACollection(List<AppParaInstalar> list, Collection componentCollection)
@@ -70,9 +69,12 @@ namespace InstallyApp
 
         public bool VerificarSeAplicativoJaFoiAdicionado(string appId)
         {
+            /*
             string? app = ListaDeAplicativosAdicionados.Apps.Find(name => name == appId);
             if (app is not null) return true;
             else return false;
+            */
+            return false;
         }
 
         private void Window_SizeChanged(object sender, EventArgs e)

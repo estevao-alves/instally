@@ -8,10 +8,6 @@ namespace InstallyApp.Application.Entities
         public string Name { get; set; }
         public string Email { get; set; }
 
-        [ForeignKey("Collection")]
-        public int? CollectionId { get; set; }
-        public CollectionQuery? Collection { get; set; }
-
         public UserEntity(string name, string email)
         {
             Name = name;

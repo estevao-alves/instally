@@ -1,11 +1,10 @@
-﻿using InstallyApp.Application.Queries;
+﻿using InstallyApp.Application.Entities;
 
 namespace InstallyApp.Application.Queries.Interfaces
 {
     public interface ICollectionQuery
     {
-        Task<IEnumerable<CollectionQuery>> GetAll();
-        Task<CollectionQuery> GetById(int id);
-
+        IQueryable<CollectionEntity> GetAll();
+        Task<CollectionEntity> GetById(int id);
     }
 }

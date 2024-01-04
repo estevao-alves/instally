@@ -1,4 +1,5 @@
-﻿using InstallyApp.Components.Popups;
+﻿using InstallyApp.Application.Entities;
+using InstallyApp.Components.Janelas;
 
 namespace InstallyApp.Components.Layout
 {
@@ -18,7 +19,7 @@ namespace InstallyApp.Components.Layout
 
     public partial class Footer : UserControl
     {
-        public JanelaDeInstalacaoDeApps janelaDeInstalacao;
+        public InstalacaoDeApps janelaDeInstalacao;
 
         public Footer()
         {
@@ -43,10 +44,10 @@ namespace InstallyApp.Components.Layout
             return borderWrapper;
         }
 
-        public Button AdicionarApp(Package pkg, string collectionName)
+        public Button AdicionarApp(PackageEntity pkg, string collectionName)
         {
             // Adiciona na variavel lista de apps
-            janelaDeInstalacao.ListaDeAppParaInstalar.Add(new AppParaInstalar(pkg.Name, pkg.Id, collectionName));
+            janelaDeInstalacao.ListaDeAppParaInstalar.Add(new AppParaInstalar(pkg.Name, pkg.WingetId, collectionName));
 
             // Adiciona visualmente nos icones do rodape
             Button Icone = ConstruirAppIcone(pkg.Name);

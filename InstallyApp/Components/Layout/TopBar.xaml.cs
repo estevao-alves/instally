@@ -41,7 +41,7 @@ namespace InstallyApp.Components.Layout
 
         private void Account_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Master.Main.AreaDePopups.Children.Add(Master.Main.Login);
+            Master.Main.Janelas.Children.Add(Master.Main.Login);
         }
     }
 }

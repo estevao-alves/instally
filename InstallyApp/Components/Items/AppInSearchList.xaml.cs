@@ -1,4 +1,6 @@
-﻿namespace InstallyApp.Components.Items
+﻿using InstallyApp.Application.Entities;
+
+namespace InstallyApp.Components.Items
 {
     public partial class AppInSearchList : UserControl
     {
@@ -56,13 +58,13 @@
                 return;
             }
 
-            Package pkg = WingetData.CapturarPacotePorId(AppId);
+            PackageEntity pkg = WingetData.CapturarPacotePorId(AppId);
 
             if (IsActive) {
                 IsActive = false;
                 WrapperAppItem.Background = new SolidColorBrush(Color.FromArgb(0,0,0,0));
 
-                Master.Main.JanelaDePesquisa.RemoverApp(appInListaDeInstalacao, pkg.Id);
+                Master.Main.JanelaDePesquisa.RemoverApp(appInListaDeInstalacao, pkg.WingetId);
             }
             else
             {
@@ -88,7 +90,7 @@
         {
             if (InfoIcon.IsActive)
             {
-                Package pkg = WingetData.CapturarPacote(AppName);
+                PackageEntity pkg = WingetData.CapturarPacote(AppName);
                 Master.Main.JanelaDePesquisa.DetalhesDoApp.AtualizarInformacoes(pkg);
 
                 Master.Main.JanelaDePesquisa.DetalhesDoApp.Visibility = Visibility.Visible;

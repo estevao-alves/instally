@@ -1,4 +1,7 @@
-﻿using InstallyApp.Application.Queries;
+﻿using InstallyApp.Application.Entities;
+using InstallyApp.Application.Queries;
+using InstallyApp.Application.Queries.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace InstallyApp.Components.Items
 {
@@ -9,37 +12,38 @@ namespace InstallyApp.Components.Items
 
         public bool isActive = false;
 
+        List<PackageEntity> packages { get; set; }
+
         public Collection()
         {
             InitializeComponent();
         }
 
-        public Collection(InstallyCollection coll, int collIndex)
+        public Collection(int collIndex)
         {
-            // Inicia
             InitializeComponent();
             Apps.Children.Clear();
 
-            collection = coll;
             collectionIndex = collIndex;
-
-            // Define
-            CollectionTextBox.Text = coll.Title;
 
             VerOpcoesConfiguracao();
 
-            // Carrega
             CarregarApps();
         }
-
         private void CarregarApps()
         {
             var appName = "Blender";
-            foreach (string appId in collection.Packages) AnexarAplicativoAColecao(appName, appId, false);
+            packages = Master.ServiceProvider.GetService<IPackageQuery>().GetAll().ToList();
+
+            foreach (var app in packages)
+            {
+                //AnexarAplicativoAColecao(appName, appId, false);
+            }
         }
 
         public void AnexarAplicativoAColecao(string appName, string appId, bool updateCollection)
         {
+            /*
             Package? pkg = WingetData.CapturarPacotePorId(appId);
             if (pkg is null) return;
 
@@ -70,12 +74,13 @@ namespace InstallyApp.Components.Items
                 collection.Packages.Add(appId);
                 InstallyCollections.AtualizarColecao(collection, collectionIndex);
             }
+            */
         }
 
         private void AdicionarApp_Click(object sender, RoutedEventArgs e)
         {
             Master.Main.ColecaoSelecionada = this;
-            Master.Main.AreaDePopups.Children.Add(Master.Main.JanelaDePesquisa);
+            Master.Main.Janelas.Children.Add(Master.Main.JanelaDePesquisa);
 
             Master.Main.JanelaDePesquisa.AppList.Children.Clear();
             Master.Main.JanelaDePesquisa.BuscarPorCategoria("all");
@@ -126,6 +131,7 @@ namespace InstallyApp.Components.Items
 
         private void AtualizarNome()
         {
+            /*
             CollectionTextBox.IsEnabled = false;
             ChangeIcon();
             Keyboard.ClearFocus();
@@ -141,6 +147,7 @@ namespace InstallyApp.Components.Items
             collection.Title = newTitle;
             
             InstallyCollections.AtualizarColecao(collection, collectionIndex);
+            */
         }
 
         private void VerOpcoesConfiguracao()
@@ -163,6 +170,7 @@ namespace InstallyApp.Components.Items
 
         private async void RemoveCollection_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            /*
             try
             {
                 int ColunaAtual = Grid.GetColumn(this);
@@ -190,6 +198,7 @@ namespace InstallyApp.Components.Items
 
                 Debug.WriteLine(ex.Message);
             }
+            */
         }
     }
 }

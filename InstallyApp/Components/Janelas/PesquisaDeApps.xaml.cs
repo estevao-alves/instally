@@ -1,18 +1,19 @@
-﻿using InstallyApp.Components.Items;
+﻿using InstallyApp.Application.Entities;
+using InstallyApp.Components.Items;
 using InstallyApp.Components.Layout;
 using InstallyApp.Components.Selectors;
 
-namespace InstallyApp.Components.Popups
+namespace InstallyApp.Components.Janelas
 {
     public partial class PesquisaDeApps : UserControl
     {
         string? TextoPadraoSearch;
         string? CategoriaEscolhida;
 
-        List<Package> PacotesEncontrados { get; set; } = new();
+        List<PackageEntity> PacotesEncontrados { get; set; } = new();
         int LimiteDeResultados = 0;
 
-        public event System.EventHandler<ScrollChangedEventArgs> ViewChanged;
+        public event EventHandler<ScrollChangedEventArgs> ViewChanged;
 
         public List<AppParaInstalar> ListaDeAppsParaColecionar;
 
@@ -38,7 +39,7 @@ namespace InstallyApp.Components.Popups
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Master.Main.AreaDePopups.Children.Clear();
+            Master.Main.Janelas.Children.Clear();
             ListaDeInstalacao.Children.Clear();
         }
 
@@ -50,9 +51,9 @@ namespace InstallyApp.Components.Popups
             PacotesEncontrados = WingetData.CapturarPacotes(filtro, CategoriaEscolhida, LimiteDeResultados, 42);
             LimiteDeResultados += 42;
 
-            foreach (Package pacote in PacotesEncontrados)
+            foreach (PackageEntity pacote in PacotesEncontrados)
             {
-                AppInSearchList app = new(pacote.Name, pacote.Id, Master.Main.VerificarSeAplicativoJaFoiAdicionado(pacote.Id));
+                AppInSearchList app = new(pacote.Name, pacote.WingetId, Master.Main.VerificarSeAplicativoJaFoiAdicionado(pacote.WingetId));
                 AppList.Children.Add(app);
             }
         }
@@ -124,9 +125,9 @@ namespace InstallyApp.Components.Popups
 
         private void AppList_SizeChanged(object sender, SizeChangedEventArgs e) => AppList_ChangeColumns();
 
-        public Button AdicionarApp(Package pkg)
+        public Button AdicionarApp(PackageEntity pkg)
         {
-            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.Id, Master.Main.ColecaoSelecionada.collection.Title));
+            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.WingetId, Master.Main.ColecaoSelecionada.collection.Title));
 
             Button borderWrapper = new()
             {
@@ -156,7 +157,7 @@ namespace InstallyApp.Components.Popups
 
             Master.Main.JanelaDePesquisa.ListaDeInstalacao.Children.Clear();
 
-            Master.Main.AreaDePopups.Children.Clear();
+            Master.Main.Janelas.Children.Clear();
         }
 
         private void SearchTextBox_MouseLeave(object sender, MouseEventArgs e)

@@ -1,7 +1,10 @@
 ﻿using FluentValidation;
 using InstallyApp.Application.Commands.UserCommands;
+using InstallyApp.Application.Queries;
+using InstallyApp.Application.Queries.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace InstallyApp.Components.Popups
+namespace InstallyApp.Components.Janelas
 {
     public partial class Login : UserControl
     {
@@ -13,7 +16,7 @@ namespace InstallyApp.Components.Popups
 
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)
         {
-            Master.Main.AreaDePopups.Children.Clear();
+            Master.Main.Janelas.Children.Clear();
         }
 
         public void BtnEntrar_Click(object sender, RoutedEventArgs e)
@@ -23,13 +26,18 @@ namespace InstallyApp.Components.Popups
 
         public async void CreateDefaultUser()
         {
-            var command = new UpdateUserCommand(TextBox_Email.Valor, TextBox_Senha.Valor);
+            var command = new AddUserCommand(TextBox_Email.Valor, TextBox_Senha.Valor);
 
             try
             {
                 TextBox_Email.Erro = string.Empty;
                 TextBox_Senha.Erro = string.Empty;
-                await Master.Mediator.Send(command);
+                bool resultado = await Master.Mediator.Send(command);
+
+                if (resultado)
+                {
+                    Master.Main.CarregarCollections();
+                }
             }
             catch (ValidationException ex)
             {

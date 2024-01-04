@@ -1,24 +1,23 @@
 ﻿using FluentValidation;
+using InstallyApp.Application.Entities;
+using InstallyApp.Application.Repository.Interfaces;
+using System.Threading;
 
 namespace InstallyApp.Application.Commands.UserCommands.Validators
 {
     public sealed class AddUserValidator : AbstractValidator<AddUserCommand>
     {
-        public AddUserValidator()
+        public AddUserValidator(IAppRepository<UserEntity> userRepository)
         {
-            RuleFor(x => x.Email)
-            .Must(id =>
-            {
-                using (var db = HostContext.AppHost.GetDbConnection(base.Request))
+            RuleFor(c => c.Email)
+                .EmailAddress().WithMessage("Email Inválido.")
+                .NotEmpty().WithMessage("Informe o Email.")
+                .MustAsync(async (email, _) =>
                 {
-                    return !db.Exists<AddUserCommand>(x => x.Email == email);
-                }
-            })
-            .WithErrorCode("AlreadyExists")
-            .WithMessage("...");
+                    return await userRepository.IsUniqueUserAsync(email);
+                }).WithMessage("Já existe um usuario com este Email.");
 
-            RuleFor(x => x.Email).NotEmpty().WithMessage("Informe o Email.");
-            RuleFor(x => x.Senha).NotEmpty().WithMessage("Informe a Senha.");
+            RuleFor(c => c.Senha).NotEmpty().WithMessage("Informe a Senha.");
         }
     }
 

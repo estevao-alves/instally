@@ -1,9 +1,8 @@
 ﻿using InstallyApp.Components.Layout;
-using System.Threading;
 
-namespace InstallyApp.Components.Popups
+namespace InstallyApp.Components.Janelas
 {
-    public partial class JanelaDeInstalacaoDeApps : UserControl
+    public partial class InstalacaoDeApps : UserControl
     {
 
         public List<AppParaInstalar> ListaDeAppParaInstalar { get; set; }
@@ -18,7 +17,7 @@ namespace InstallyApp.Components.Popups
             Error
         }
 
-        public JanelaDeInstalacaoDeApps()
+        public InstalacaoDeApps()
         {
             InitializeComponent();
             DataContext = this;
@@ -42,9 +41,9 @@ namespace InstallyApp.Components.Popups
                     break;
 
                 case "Waiting":
-                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => Master.Main.AreaDePopups.Children.Clear();
-                    CloseButton.Click += (object sender, RoutedEventArgs e) => Master.Main.AreaDePopups.Children.Clear();
-                    MinimizeButton.Click += (object sender, RoutedEventArgs e) => Master.Main.AreaDePopups.Children.Clear();
+                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => Master.Main.Janelas.Children.Clear();
+                    CloseButton.Click += (object sender, RoutedEventArgs e) => Master.Main.Janelas.Children.Clear();
+                    MinimizeButton.Click += (object sender, RoutedEventArgs e) => Master.Main.Janelas.Children.Clear();
 
                     MinimizeButton.Visibility = Visibility.Collapsed;
 
@@ -72,7 +71,7 @@ namespace InstallyApp.Components.Popups
                     break;
 
                 case "Error":
-                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => Master.Main.AreaDePopups.Children.Clear();
+                    Confirmar.MouseDown += (object sender, MouseButtonEventArgs e) => Master.Main.Janelas.Children.Clear();
 
                     Titulo.Text = "Installation error";
                     BarraDeProgresso.Visibility = Visibility.Collapsed;
@@ -84,7 +83,7 @@ namespace InstallyApp.Components.Popups
 
         public async void IniciarVerificacao()
         {
-            Master.Main.AreaDePopups.Children.Add(this);
+            Master.Main.Janelas.Children.Add(this);
 
             if (currentState != EnumState.Installing) InstalacaoEstado(EnumState.Checking);
 
@@ -198,7 +197,7 @@ namespace InstallyApp.Components.Popups
             Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Visible;
 
             // Master.Main.Footer.InstallyButton.Text = textoDetalhes;
-            Master.Main.AreaDePopups.Children.Clear();
+            Master.Main.Janelas.Children.Clear();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -207,7 +206,7 @@ namespace InstallyApp.Components.Popups
 
             Master.Main.Footer.BarraDeProgresso.Visibility = Visibility.Collapsed;
             Master.Main.Footer.InstallyButton.Text = "Instally";
-            Master.Main.AreaDePopups.Children.Clear();
+            Master.Main.Janelas.Children.Clear();
         }
     }
 }

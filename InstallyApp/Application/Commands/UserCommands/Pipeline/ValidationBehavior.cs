@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using InstallyApp.Application.Commands.UserCommands.Validators;
 using MediatR;
 using System.Threading;
 
@@ -15,14 +14,16 @@ namespace InstallyApp.Application.Commands.UserCommands.Behaviors
             _validators = validators;
         }
 
-        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var context = new ValidationContext<TRequest>(request);
 
-            var failures = _validators
-                .Select(x => x.Validate(context))
-                .SelectMany(x => x.Errors)
-                .Where(x => x != null)
+            var validationTasks = _validators.Select(x => x.ValidateAsync(context, cancellationToken));
+            var validationResults = await Task.WhenAll(validationTasks);
+
+            var failures = validationResults
+                .SelectMany(result => result.Errors)
+                .Where(error => error != null)
                 .ToList();
 
             if (failures.Any())
@@ -30,7 +31,7 @@ namespace InstallyApp.Application.Commands.UserCommands.Behaviors
                 throw new ValidationException(failures);
             }
 
-            return next();
+            return await next();
         }
     }
 }

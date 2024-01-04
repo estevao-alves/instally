@@ -47,5 +47,10 @@ namespace InstallyApp.Application.Repository
         {
             _context?.Dispose();
         }
+
+        public async Task<bool> IsUniqueUserAsync(string email)
+        {
+            return !await _context.Users.AnyAsync(u => u.Email == email);
+        }
     }
 }

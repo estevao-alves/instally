@@ -1,34 +1,25 @@
-﻿using System.IO;
+﻿using InstallyApp.Application.Commands.UserCommands;
+using InstallyApp.Application.Entities;
+using InstallyApp.Application.Queries.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace InstallyApp.Application.Functions
 {
-    public class Package
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Publisher { get; set; }
-        public List<string> Tags { get; set; }
-        public string Description { get; set; }
-        public string Site { get; set; }
-        public int VersionsLength { get; set; }
-        public string LatestVersion { get; set; }
-        public double Score { get; set; }
-    }
-
     public static class WingetData
     {
-        public static List<Package> Packages { get; set; }
+        public static List<PackageEntity> Packages { get; set; }
 
         public static async Task<bool> CarregarPacotesDaAPI()
         {
             string responseBody = await API.Get("/packages");
-            Packages = Json.JsonParaClasse<List<Package>>(responseBody);
+            Packages = Json.JsonParaClasse(responseBody);
 
-            // Baixar favicons
-            // foreach (Package pkg in Packages) DownloadFavicon(pkg.Site, "256", pkg.Id, "png");
+            var command = new AddPackageCommand(Packages);
+            bool resultado = await Master.Mediator.Send(command);
 
-            return true;
+            return resultado;
         }
 
         public static async void DownloadFavicon(string? url, string size, string fileName, string extension)
@@ -51,32 +42,32 @@ namespace InstallyApp.Application.Functions
             await Task.Delay(10);
         }
 
-        public static Package? CapturarPacote(string NomeDoPacote)
+        public static PackageEntity? CapturarPacote(string NomeDoPacote)
         {
-            Package? pkg = Packages.Find(pkg => pkg.Name.ToLower() == NomeDoPacote.ToLower());
+            PackageEntity? pkg = Packages.Find(pkg => pkg.Name.ToLower() == NomeDoPacote.ToLower());
             return pkg;
         }
 
-        public static Package? CapturarPacotePorId(string id)
+        public static PackageEntity? CapturarPacotePorId(string id)
         {
-            Package? pkg = Packages.Find(pkg => pkg.Id == id);
+            PackageEntity? pkg = Packages.Find(pkg => pkg.WingetId == id);
             return pkg;
         }
 
-        public static List<Package> CapturarPacotes(string? ParteDoNomeDoPacote, string? categoria, int offset, int limit)
+        public static List<PackageEntity> CapturarPacotes(string? ParteDoNomeDoPacote, string? categoria, int offset, int limit)
         {
-            string BuscaPorNome = "";
+            string BuscaPorNome = string.Empty;
 
             if (ParteDoNomeDoPacote is not null) BuscaPorNome = ParteDoNomeDoPacote;
 
-            bool Filter(Package pkg)
+            bool Filter(PackageEntity pkg)
             {
                 bool pkgFilteredByName = pkg.Name.ToLower().Contains(BuscaPorNome.ToLower());
 
                 if (categoria is not null) {
                     string[] categorias = categoria.Split(' ');
 
-                    bool pkgFilteredByTag = pkg.Tags.Where(tag => categorias.Contains(tag)).Count() > 0;
+                    bool pkgFilteredByTag = pkg.Tags.Where(tag => categorias.Contains(tag.Title)).Count() > 0;
 
                     return pkgFilteredByName && pkgFilteredByTag;
                 }
@@ -84,7 +75,7 @@ namespace InstallyApp.Application.Functions
                 return pkgFilteredByName;
             }
 
-            List<Package> pkgs = Packages.FindAll(Filter).OrderByDescending(pkg => pkg.VersionsLength).OrderByDescending(pkg => pkg.Score).Skip(offset).Take(limit).ToList();
+            List<PackageEntity> pkgs = Master.ServiceProvider.GetService<IPackageQuery>().GetAll().ToList().OrderByDescending(pkg => pkg.Score).Skip(offset).Take(limit).ToList();
 
             return pkgs;
         }
@@ -93,7 +84,7 @@ namespace InstallyApp.Application.Functions
         {
             if (Packages is null) return null;
 
-            Package? pkg = CapturarPacote(NomeDoPacote);
+            PackageEntity? pkg = CapturarPacote(NomeDoPacote);
             if (pkg is null) return null;
 
             if (pkg.Site is null)
