@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Instally.App.Components.Items.AddCollection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="280">
+    <Border
+        Background="Transparent"
+        Grid.Column="2"
+        BorderThickness="4"
+        MouseEnter="NewCollection_MouseEnter"
+        MouseLeave="NewCollection_MouseLeave"
+        >
+
+        <Grid>
+            <Rectangle
+                StrokeDashArray="4 2"
+                StrokeThickness="4"
+                Stroke="{DynamicResource SecondaryColor}"
+                RadiusX="8"
+                RadiusY="8"
+                >
+            </Rectangle>
+
+            <Button
+                Click="AddCollection_Click"
+                Cursor="Hand"
+                Background="{DynamicResource PrimaryColor}"
+                Style="{StaticResource HoverEffect}"
+                Opacity=".1"
+                >
+            </Button>
+
+            <Border Panel.ZIndex="-1" Name="BorderIconAddCollection" Width="40" Height="40" Padding="10" Background="Transparent" CornerRadius="20">
+                <Viewbox>
+                    <Grid>
+                        <Path Data="M3.09309 1.17016C3.09309 0.804796 3.38928 0.508606 3.75464 0.508606C4.12001 0.508606 4.4162 0.804795 4.4162 1.17016V7.04328C4.4162 7.40865 4.12001 7.70484 3.75464 7.70484C3.38928 7.70484 3.09309 7.40865 3.09309 7.04329V1.17016Z"
+                            Fill="{DynamicResource TertiaryColor}"/>
+                        <Path Data="M6.69117 3.44517C7.05654 3.44517 7.35273 3.74136 7.35273 4.10672C7.35273 4.47209 7.05654 4.76828 6.69117 4.76828L0.818051 4.76828C0.452684 4.76828 0.156494 4.47209 0.156494 4.10672C0.156494 3.74136 0.452683 3.44517 0.81805 3.44517L6.69117 3.44517Z"
+                            Fill="{DynamicResource TertiaryColor}"/>
+                    </Grid>
+                </Viewbox>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

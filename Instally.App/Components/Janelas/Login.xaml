@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Instally.App.Components.Janelas.Login"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:inputs="clr-namespace:Instally.App.Components.Inputs"
+             mc:Ignorable="d" 
+             d:DesignHeight="600"
+             d:DesignWidth="800"
+             >
+
+    <Grid>
+        <Border Background="{DynamicResource TertiaryColor}" Opacity=".6" />
+
+        <Grid Width="500" VerticalAlignment="Center">
+            <Border Background="{DynamicResource PrimaryColor}" CornerRadius="14" />
+
+            <Grid Margin="30 40">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" VerticalAlignment="Center" Margin="0,0,0,40">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <Viewbox Grid.Row="0" Height="36" HorizontalAlignment="Center" Stretch="Uniform">
+                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" FontWeight="SemiBold">Autenticação</TextBlock>
+                    </Viewbox>
+                    <Viewbox Grid.Row="1" Height="24"  HorizontalAlignment="Center" Stretch="Uniform">
+                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" FontWeight="Regular">Digite seu usuário e senha para continuar</TextBlock>
+                    </Viewbox>
+                </Grid>
+
+                <StackPanel Name="Campos" Grid.Row="1" VerticalAlignment="Center" Margin="-5 -5 -5 10">
+                    <inputs:CampoDeTexto Titulo="Email" x:Name="TextBox_Email" />
+                    <inputs:CampoDeTexto Titulo="Senha" x:Name="TextBox_Senha" Tipo="Senha" Margin="0 -10 0 0" />
+                </StackPanel>
+
+                <Grid Grid.Row="2" Name="Grid_Acoes" Height="56">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Style="{DynamicResource HoverEffect}" Background="{DynamicResource NegativeColor}" Margin="0,0,5,0" Grid.Column="0" Name="BtnCancelar" Click="BtnCancelar_Click">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Text="Cancelar"/>
+                    </Button>
+                    <Button Style="{DynamicResource HoverEffect}" Background="{DynamicResource PositiveColor}" Margin="5,0,0,0" Grid.Column="1" Name="BtnEntrar" Click="BtnEntrar_Click">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Text="Entrar"/>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
