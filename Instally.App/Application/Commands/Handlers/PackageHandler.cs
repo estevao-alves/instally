@@ -6,10 +6,12 @@ using Instally.App.Application.Repository.Interfaces;
 using Instally.App.Application.Repository;
 using FluentValidation;
 using Instally.App.Components.Items;
+using Instally.App.Application.Queries.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Instally.App.Application.Commands.Handlers
 {
-    public class PackageHandler : IRequestHandler<AddPackageCommand, bool>
+    public class PackageHandler : IRequestHandler<AddPackageCommand, bool>, IRequestHandler<AddToCollectionCommand, bool>
     {
 
         private readonly IAppRepository<PackageEntity> _packageRepository;
@@ -27,6 +29,18 @@ namespace Instally.App.Application.Commands.Handlers
 
                 _packageRepository.Add(package);
             }
+
+            return await _packageRepository.UnitOfWork.Save();
+        }
+
+        public async Task<bool> Handle(AddToCollectionCommand message, CancellationToken cancellationToken)
+        {
+            PackageEntity Package = await Master.ServiceProvider.GetService<IPackageQuery>().GetById(message.PackageId);
+            CollectionEntity Collection = await Master.ServiceProvider.GetService<ICollectionQuery>().GetById(message.CollectionId);
+            
+            // Package.AtualizarCollection(message.CollectionId, Collection);
+
+            _packageRepository.Update(Package);
 
             return await _packageRepository.UnitOfWork.Save();
         }

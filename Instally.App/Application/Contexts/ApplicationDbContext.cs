@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Instally.App.Application.Entities;
 using Instally.App.Application.Repository.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace Instally.App.Application.Contexts
 {
@@ -20,7 +21,8 @@ namespace Instally.App.Application.Contexts
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=ESTEVAO\\SQLEXPRESS;Initial Catalog=Instally;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+                string connectionString = AppSettings.ConnectionString;
+                optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             }
 
             base.OnConfiguring(optionsBuilder);
@@ -30,8 +32,8 @@ namespace Instally.App.Application.Contexts
         {
             modelBuilder.Entity<UserEntity>(c =>
             {
-                c.Property(x => x.Name).HasMaxLength(100);
-                c.Property(x => x.Email).HasMaxLength(80);
+                c.Property(x => x.Email).HasMaxLength(100);
+                c.Property(x => x.Senha).HasMaxLength(80);
             });
 
             base.OnModelCreating(modelBuilder);

@@ -21,7 +21,7 @@ namespace Instally.App.Components
             }
         }
 
-        public string CollectionName { get; set; }
+        public Guid CollectionId { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -31,13 +31,13 @@ namespace Instally.App.Components
             DataContext = this;
         }
 
-        public MenuAppItem(string appName, string appId, string collectionName)
+        public MenuAppItem(string appName, string appId, Guid collectionId)
         {
             InitializeComponent();
 
             AppName = appName;
             AppId = appId;
-            CollectionName = collectionName;
+            CollectionId = collectionId;
             AdicionarIcone();
         }
 
@@ -55,7 +55,7 @@ namespace Instally.App.Components
 
                 // Adicionar ao rodapé de instalação
                 PacoteWingetSelecionado = WingetData.CapturarPacote(AppName);
-                Master.Main.Footer.AdicionarApp(PacoteWingetSelecionado, CollectionName);
+                Master.Main.Footer.AdicionarApp(PacoteWingetSelecionado, CollectionId);
             }
             else
             {

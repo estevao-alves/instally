@@ -1,6 +1,4 @@
-﻿using Instally.App.Application.Queries;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Instally.App.Application.Entities
 {

@@ -4,7 +4,7 @@ namespace Instally.App.Application.Queries.Interfaces
 {
     public interface IUserQuery
     {
-        Task<IEnumerable<UserEntity>> GetAll();
+        IQueryable<UserEntity> GetAll();
         Task<UserEntity> GetById(Guid id);
     }
 }

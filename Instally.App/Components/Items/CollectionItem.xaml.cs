@@ -1,80 +1,62 @@
-﻿using Instally.App.Application.Entities;
-using Instally.App.Application.Queries;
+﻿using Instally.App.Application.Commands.UserCommands;
+using Instally.App.Application.Entities;
+using Instally.App.Application.Functions;
 using Instally.App.Application.Queries.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Instally.App.Components.Items
 {
-    public partial class Collection : UserControl
+    public partial class CollectionItem : UserControl
     {
-        public InstallyCollection collection { get; set; }
+        public List<PackageEntity> CollectionPackages { get; set; }
+        public CollectionEntity Collection { get; set; }
         public int collectionIndex { get; set; }
 
         public bool isActive = false;
 
-        List<PackageEntity> packages { get; set; }
-
-        public Collection()
+        public CollectionItem()
         {
             InitializeComponent();
         }
 
-        public Collection(int collIndex)
+        public CollectionItem(int collIndex, string collectionTitulo, List<PackageEntity> collectionPackages, CollectionEntity collection)
         {
             InitializeComponent();
             Apps.Children.Clear();
 
             collectionIndex = collIndex;
 
+            Collection = collection;
+            CollectionTitulo.Text = collectionTitulo;
+            CollectionPackages = collectionPackages;
+
             VerOpcoesConfiguracao();
-
-            CarregarApps();
-        }
-        private void CarregarApps()
-        {
-            var appName = "Blender";
-            packages = Master.ServiceProvider.GetService<IPackageQuery>().GetAll().ToList();
-
-            foreach (var app in packages)
-            {
-                //AnexarAplicativoAColecao(appName, appId, false);
-            }
         }
 
-        public void AnexarAplicativoAColecao(string appName, string appId, bool updateCollection)
+        public async void AnexarAplicativoAColecao(string appName, string wingetId, Guid collectionId, bool updateCollection)
         {
-            /*
-            Package? pkg = WingetData.CapturarPacotePorId(appId);
-            if (pkg is null) return;
+            PackageEntity package = Master.Packages.Where(p => p.WingetId == wingetId).FirstOrDefault();
 
-            MenuAppItem newApp = new(pkg.Name, appId, collection.Title);
+            MenuAppItem newApp = new(appName, wingetId, collectionId);
 
             newApp.OnExcluir += () =>
             {
-                // Frontend changes
+                // package.LimparCollection();
+
                 Apps.Children.Remove(newApp);
-                collection.Packages.Remove(appId);
-
-                // Contexto Apps Adicionados
-                ListaDeAplicativosAdicionados.Remover(newApp.AppName);
-
-                // Backend changes
-                InstallyCollections.AtualizarColecao(collection, collectionIndex);
+                Collection.Packages.RemoveAll(p => p.WingetId == wingetId);
             };
 
-            // Frontend changes
-            Apps.Children.Add(newApp);
-
-            // Contexto Apps Adicionados
-            ListaDeAplicativosAdicionados.Adicionar(appId);
-
-            // Backend changes
-            if(updateCollection)
+            if (updateCollection)
             {
-                collection.Packages.Add(appId);
-                InstallyCollections.AtualizarColecao(collection, collectionIndex);
+                AddToCollectionCommand command = new(package.Id, Collection.Id);
+                bool resultado = await Master.Mediator.Send(command);
+
+                if (resultado)
+                {
+                    Apps.Children.Add(newApp);
+                }
             }
-            */
         }
 
         private void AdicionarApp_Click(object sender, RoutedEventArgs e)
@@ -89,23 +71,23 @@ namespace Instally.App.Components.Items
 
         private async void EditName_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            CollectionTextBox.IsEnabled = true;
+            CollectionTitulo.IsEnabled = true;
             await Task.Delay(10);
 
-            CollectionTextBox.Focus();
-            CollectionTextBox.Select(CollectionTextBox.Text.Length, 0);
+            CollectionTitulo.Focus();
+            CollectionTitulo.Select(CollectionTitulo.Text.Length, 0);
 
             ChangeIcon();
         }
 
-        private void CollectionTextBox_KeyUp(object sender, KeyEventArgs e)
+        private void CollectionTitulo_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter) AtualizarNome();
         }
 
         private void ClickOutside(object sender, MouseButtonEventArgs e) => AtualizarNome();
 
-        private void CollectionTextBox_MouseLeave(object sender, MouseEventArgs e)
+        private void CollectionTitulo_MouseLeave(object sender, MouseEventArgs e)
         {
             Master.Main.MouseDown -= ClickOutside;
             Master.Main.MouseDown += ClickOutside;
@@ -115,8 +97,8 @@ namespace Instally.App.Components.Items
         {
             Master.Main.MouseEnter += (object sender, MouseEventArgs e) => { EditPen.Visibility = Visibility.Visible; };
 
-            if (CollectionTextBox.IsEnabled) EditPen.Visibility = Visibility.Visible;
-            if (!CollectionTextBox.IsEnabled) EditPen.Visibility = Visibility.Collapsed;
+            if (CollectionTitulo.IsEnabled) EditPen.Visibility = Visibility.Visible;
+            if (!CollectionTitulo.IsEnabled) EditPen.Visibility = Visibility.Collapsed;
         }
 
         private void CollectionButton_MouseEnter(object sender, MouseEventArgs e)
@@ -126,21 +108,21 @@ namespace Instally.App.Components.Items
 
         private void CollectionButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            if(!CollectionTextBox.IsEnabled) EditPen.Visibility = Visibility.Collapsed;
+            if(!CollectionTitulo.IsEnabled) EditPen.Visibility = Visibility.Collapsed;
         }
 
         private void AtualizarNome()
         {
             /*
-            CollectionTextBox.IsEnabled = false;
+            CollectionTitulo.IsEnabled = false;
             ChangeIcon();
             Keyboard.ClearFocus();
 
-            string newTitle = CollectionTextBox.Text;
+            string newTitle = CollectionTitulo.Text;
 
             if (InstallyCollections.All.Where(coll => coll.Title == newTitle).ToList().Count > 0)
             {
-                CollectionTextBox.Text = collection.Title;
+                CollectionTitulo.Text = collection.Title;
                 return;
             }
 
@@ -170,35 +152,27 @@ namespace Instally.App.Components.Items
 
         private async void RemoveCollection_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            /*
-            try
+            DeleteCollectionCommand command = new(Collection.Id);
+            bool resultado = await Master.Mediator.Send(command);
+
+            if (resultado)
             {
                 int ColunaAtual = Grid.GetColumn(this);
 
-                Master.Main.Footer.RemoverAppsPorColecao(collection.Title);
+                Master.Main.Footer.RemoverAppsPorColecao(Collection.Id);
                 Master.Main.CollectionList.Children.Remove(this);
 
-                InstallyCollections.All.RemoveAt(collectionIndex);
-                InstallyCollections.AtualizarArquivo();
-
-                foreach (UIElement coll in Master.Main.CollectionList.Children)
+                 foreach (UIElement coll in Master.Main.CollectionList.Children)
                 {
                     int colunaDoElemento = Grid.GetColumn(coll);
                     if (colunaDoElemento > ColunaAtual) Grid.SetColumn(coll, colunaDoElemento - 1);
                 }
 
-                if (InstallyCollections.All.Count <= 3) Master.Main.ElementCollectionAdd.Visibility = Visibility.Visible;
+                if (Master.Collections.Count <= 3) Master.Main.ElementCollectionAdd.Visibility = Visibility.Visible;
 
+                var collectionQuery = Master.ServiceProvider.GetService<ICollectionQuery>();
+                Master.Collections = collectionQuery.GetAll().ToList();
             }
-            catch(Exception ex)
-            {
-                await Task.Delay(1000);
-                CollectionRemoveButton.Opacity = 1;
-                CollectionRemoveButton.Cursor = Cursors.Hand;
-
-                Debug.WriteLine(ex.Message);
-            }
-            */
         }
     }
 }

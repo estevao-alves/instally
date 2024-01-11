@@ -127,7 +127,7 @@ namespace Instally.App.Components.Janelas
 
         public Button AdicionarApp(PackageEntity pkg)
         {
-            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.WingetId, Master.Main.ColecaoSelecionada.collection.Title));
+            ListaDeAppsParaColecionar.Add(new AppParaInstalar(pkg.Name, pkg.WingetId, Master.Main.ColecaoSelecionada.Collection.Id));
 
             Button borderWrapper = new()
             {
@@ -153,7 +153,7 @@ namespace Instally.App.Components.Janelas
 
         private void Add_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Master.Main.AdicionarAplicativosACollection(ListaDeAppsParaColecionar, Master.Main.ColecaoSelecionada);
+            Master.Main.AdicionarAplicativosACollection(ListaDeAppsParaColecionar, Master.Main.ColecaoSelecionada, Master.Collections[0].Id);
 
             Master.Main.JanelaDePesquisa.ListaDeInstalacao.Children.Clear();
 

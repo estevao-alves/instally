@@ -4,6 +4,7 @@ using Instally.App.Application.Queries.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
+using System.IO.Packaging;
 using System.Windows.Media.Imaging;
 
 namespace Instally.App.Application.Functions
@@ -14,16 +15,23 @@ namespace Instally.App.Application.Functions
 
         public static async Task<bool> CarregarPacotesDaAPI()
         {
-            string responseBody = await Task.Run(async () =>
+            Packages = Master.ServiceProvider.GetService<IPackageQuery>().GetAll().ToList();
+
+            if (!Packages.Any())
             {
-                return await API.Get("/packages");
-            });
-            Packages = FuncoesJson.JsonParaClasse(responseBody);
+                string responseBody = await Task.Run(async () =>
+                {
+                    return await API.Get("/packages");
+                });
+                Packages = FuncoesJson.JsonParaClassePackage(responseBody);
 
-            AddPackageCommand command = new(Packages);
-            bool resultado = await Master.Mediator.Send(command);
+                AddPackageCommand command = new(Packages);
+                bool resultado = await Master.Mediator.Send(command);
 
-            return resultado;
+                return resultado;
+            }
+
+            return true;
         }
 
         public static async void DownloadFavicon(string? url, string size, string fileName, string extension)

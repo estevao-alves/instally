@@ -1,8 +1,5 @@
 ﻿using Instally.App.Application.Entities;
 using Instally.App.Application.Queries.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Instally.App.Application.Queries
 {
@@ -15,9 +12,9 @@ namespace Instally.App.Application.Queries
             _appRepository = appRepository;
         }
 
-        public Task<IEnumerable<UserEntity>> GetAll()
+        public IQueryable<UserEntity> GetAll()
         {
-            throw new NotImplementedException();
+            return _appRepository.Users.AsQueryable();
         }
 
         public async Task<UserEntity> GetById(Guid id)

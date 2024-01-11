@@ -18,9 +18,9 @@ namespace Instally.App.Application.Queries
             return _appRepository.Packages.AsQueryable();
         }
 
-        public Task<PackageEntity> GetById(Guid id)
+        public async Task<PackageEntity> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _appRepository.Set<PackageEntity>().FindAsync(id);
         }
     }
 }

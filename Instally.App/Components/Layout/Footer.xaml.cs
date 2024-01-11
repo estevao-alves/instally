@@ -7,13 +7,13 @@ namespace Instally.App.Components.Layout
     {
         public string Name;
         public string CodeId;
-        public string CollectionName;
+        public Guid CollectionId;
 
-        public AppParaInstalar(string name, string wingetCode, string collectionName)
+        public AppParaInstalar(string name, string wingetCode, Guid collectionId)
         {
             Name = name;
             CodeId = wingetCode;
-            CollectionName = collectionName;
+            CollectionId = collectionId;
         }
     }
 
@@ -44,10 +44,10 @@ namespace Instally.App.Components.Layout
             return borderWrapper;
         }
 
-        public Button AdicionarApp(PackageEntity pkg, string collectionName)
+        public Button AdicionarApp(PackageEntity pkg, Guid collectionId)
         {
             // Adiciona na variavel lista de apps
-            janelaDeInstalacao.ListaDeAppParaInstalar.Add(new AppParaInstalar(pkg.Name, pkg.WingetId, collectionName));
+            janelaDeInstalacao.ListaDeAppParaInstalar.Add(new AppParaInstalar(pkg.Name, pkg.WingetId, collectionId));
 
             // Adiciona visualmente nos icones do rodape
             Button Icone = ConstruirAppIcone(pkg.Name);
@@ -61,16 +61,14 @@ namespace Instally.App.Components.Layout
             // Remove da variavel lista de apps
             janelaDeInstalacao.ListaDeAppParaInstalar = new(janelaDeInstalacao.ListaDeAppParaInstalar.FindAll(item => item.Name != appName));
 
-            // Atualiza visualmente os icones selecionados no rodapé
             AtualizarLista();
         }
 
-        public void RemoverAppsPorColecao(string collectionName)
+        public void RemoverAppsPorColecao(Guid collectionId)
         {
             // Atualiza na variável lista de apps
-            janelaDeInstalacao.ListaDeAppParaInstalar = new(janelaDeInstalacao.ListaDeAppParaInstalar.FindAll(item => item.CollectionName != collectionName));
+            janelaDeInstalacao.ListaDeAppParaInstalar = new(janelaDeInstalacao.ListaDeAppParaInstalar.FindAll(item => item.CollectionId != collectionId));
 
-            // Atualiza visualmente os icones selecionados no rodapé
             AtualizarLista();
         }
 

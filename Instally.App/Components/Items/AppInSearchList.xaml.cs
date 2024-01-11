@@ -49,7 +49,7 @@ namespace Instally.App.Components.Items
         {
             if (Master.Main.VerificarSeAplicativoJaFoiAdicionado(AppId))
             {
-                this.AlertDropdownText.Text = $"App already added in: {Master.Main.ColecaoSelecionada.collection.Title}";
+                this.AlertDropdownText.Text = $"App already added in: {Master.Main.ColecaoSelecionada.Collection.Title}";
 
                 AlertDropdownCanvas.Visibility = Visibility.Visible;
                 await Task.Delay(3000);

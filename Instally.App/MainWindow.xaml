@@ -18,6 +18,7 @@
         MouseDown="Window_MouseDown" 
         AllowsTransparency="True"
         ResizeMode="CanResize"
+        Loaded="Window_Loaded"
         
         FontFamily="{StaticResource FontFamily}"
         
@@ -56,10 +57,6 @@
 
         <Border Grid.Row="1" Grid.Column="1" Padding="20" Background="{DynamicResource PrimaryColor}">
             <Grid Name="CollectionList">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -67,7 +64,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <items:Collection />
+                <items:CollectionItem x:Name="CollectionItem" />
                 <items:AddCollection Grid.Column="1" />
             </Grid>
         </Border>

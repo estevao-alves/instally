@@ -1,9 +1,5 @@
 ﻿using FluentValidation;
 using Instally.App.Application.Commands.UserCommands;
-using Instally.App.Application.Models;
-using Instally.App.Application.Queries;
-using Instally.App.Application.Queries.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Instally.App.Components.Janelas
 {
@@ -27,18 +23,29 @@ namespace Instally.App.Components.Janelas
 
         public async void CreateDefaultUser()
         {
-            AddUserCommand command = new(TextBox_Email.Valor, TextBox_Senha.Valor);
-
             try
             {
                 TextBox_Email.Erro = string.Empty;
                 TextBox_Senha.Erro = string.Empty;
-                bool resultado = await Master.Mediator.Send(command);
+
+                bool resultado;
+
+                if (Master.UsuarioAutenticado is null)
+                { 
+                    AddUserCommand addCommand = new(TextBox_Email.Valor, TextBox_Senha.Valor);
+                    resultado = await Master.Mediator.Send(addCommand);
+                }
+                else
+                {
+                    UpdateUserCommand updateCommand = new(TextBox_Email.Valor, TextBox_Senha.Valor);
+                    resultado = await Master.Mediator.Send(updateCommand);
+                }
 
                 if (resultado)
                 {
-                    Master.Usuario = new(TextBox_Email.Valor, TextBox_Senha.Valor);
+                    Master.UsuarioAutenticado = new(TextBox_Email.Valor, TextBox_Senha.Valor);
                     Master.Main.CarregarCollections();
+                    Master.Main.Janelas.Children.Clear();
                 }
             }
             catch (ValidationException ex)

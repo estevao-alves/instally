@@ -1,18 +1,12 @@
 ﻿using Instally.App.Application.Commands.UserCommands;
 using Instally.App.Application.Entities;
-using Instally.App.Application.Queries;
 using Instally.App.Application.Queries.Interfaces;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.IO.Packaging;
 
 namespace Instally.App.Components.Items
 {
     public partial class AddCollection : UserControl
     {
-        private string defaultName = "My Collection";
-        private UserEntity usuarioAtual;
-
         public AddCollection()
         {
             InitializeComponent();
@@ -20,36 +14,36 @@ namespace Instally.App.Components.Items
 
         private async void AddCollection_Click(object sender, RoutedEventArgs e)
         {
-            bool resultado = await AdicionarCollection();
-
-            if (resultado) return;
-
-            int novoIndex = (usuarioAtual.Collections != null ? usuarioAtual.Collections.Count : 0)  - 1;
-
-            Collection collection = new(novoIndex);
-
-            Master.Main.CollectionList.Children.Add(collection);
-            Grid.SetColumn(collection, novoIndex + 1);
-
-            collection.Apps.Children.Clear();
-
-            Grid.SetColumn(this, novoIndex);
-
-            if (novoIndex > 3)
-            {
-                Visibility = Visibility.Collapsed;
-                return;
-            }
+            AdicionarCollectionPadrao();
         }
 
-        private async Task<bool> AdicionarCollection()
-        {
-            usuarioAtual = await Master.ServiceProvider.GetService<IUserQuery>().GetById(Master.Usuario.Id);
+        public void AdicionarCollectionPadrao() => AdicionarCollection("My Collection", Master.UsuarioAutenticado.Id, Master.Packages.Take(5).ToList());
 
-            AddCollectionCommand command = new(defaultName, Master.Usuario.Id, null);
+        public async void AdicionarCollection(string name, Guid user, List<PackageEntity> packages)
+        {
+            AddCollectionCommand command = new(name, user, packages);
             bool resultado = await Master.Mediator.Send(command);
 
-            return resultado;
+            if (resultado)
+            {
+                int novoIndex = Master.Collections != null ? Master.Collections.Count : 0;
+
+                CollectionItem collection = new(0, name, packages, Master.Collections[Master.Collections.Count]);
+                Master.Main.CollectionList.Children.Add(collection);
+
+                Grid.SetColumn(collection, novoIndex);
+                collection.Apps.Children.Clear();
+                Grid.SetColumn(this, novoIndex + 1);
+
+                if (novoIndex > 4)
+                {
+                    Visibility = Visibility.Collapsed;
+                    return;
+                }
+
+                var collectionQuery = Master.ServiceProvider.GetService<ICollectionQuery>();
+                Master.Collections = collectionQuery.GetAll().ToList();
+            }
         }
 
         private void NewCollection_MouseEnter(object sender, MouseEventArgs e)

@@ -1,10 +1,5 @@
 ﻿using Instally.App.Application.Entities;
 using Instally.App.Application.Queries.Interfaces;
-using Instally.App.Application.Repository.Interfaces;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Instally.App.Application.Queries
 {
@@ -22,9 +17,9 @@ namespace Instally.App.Application.Queries
             return _appRepository.Collections.AsQueryable();
         }
 
-        public Task<CollectionEntity> GetById(Guid id)
+        public async Task<CollectionEntity> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _appRepository.Set<CollectionEntity>().FindAsync(id);
         }
     }
 }

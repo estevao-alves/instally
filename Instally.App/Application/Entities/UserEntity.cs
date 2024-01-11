@@ -6,22 +6,21 @@ namespace Instally.App.Application.Entities
 {
     public class UserEntity : BaseEntity
     {
-        public string Name { get; set; }
         public string Email { get; set; }
+        public string Senha { get; set; }
 
-        public List<CollectionEntity>? Collections { get; set; }
+        public List<CollectionEntity> Collections { get; set; }
 
-        public UserEntity(string name, string email)
+        public UserEntity(string email, string senha)
         {
-            Name = name;
             Email = email;
+            Senha = senha;
         }
 
-        public UserEntity(string name, string email, List<CollectionEntity> collections)
+        public void Atualizar(string email, string senha)
         {
-            Name = name;
+            Senha = senha;
             Email = email;
-            Collections = collections;
         }
     }
 }

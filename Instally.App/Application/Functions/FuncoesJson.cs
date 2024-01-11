@@ -1,11 +1,9 @@
 ﻿using System.IO;
 using System.Text.Json;
 using Instally.App.Application.Entities;
-using Instally.App.Application.Queries;
 
 namespace Instally.App.Application.Functions
 {
-    /*
     public class FuncoesJson
     {
         public static T JsonParaClasse<T>(string caminhoArquivoJson)
@@ -14,21 +12,7 @@ namespace Instally.App.Application.Functions
             return JsonSerializer.Deserialize<T>(json);
         }
 
-        public static string ClasseParaJson<T>(T classe)
-        {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true // Indentação para melhor legibilidade
-            };
-
-            return JsonSerializer.Serialize(classe, options);
-        }
-    }
-    */
-
-    public class FuncoesJson
-    {
-        public static List<PackageEntity> JsonParaClasse(string data)
+        public static List<PackageEntity> JsonParaClassePackage(string data)
         {
             if (data == string.Empty) data = "[]";
 
@@ -46,9 +30,14 @@ namespace Instally.App.Application.Functions
             return dataClasse;
         }
 
-        public static string ClasseParaJson(List<PackageEntity> colecoes)
+        public static string ClasseParaJson<T>(T classe)
         {
-            return JsonSerializer.Serialize(colecoes);
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true // Indentação para melhor legibilidade
+            };
+
+            return JsonSerializer.Serialize(classe, options);
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using Instally.App.Application.Entities;
-using Instally.App.Application.Queries;
 using Instally.App.Application.Queries.Interfaces;
-using Instally.App.Application.Repository.Interfaces;
 using Instally.App.Components.Items;
 using Instally.App.Components.Janelas;
 using Instally.App.Components.Layout;
@@ -13,10 +11,8 @@ namespace Instally.App
     {
         public Login Login;
         public PesquisaDeApps JanelaDePesquisa;
-        public Collection ColecaoSelecionada;
+        public CollectionItem ColecaoSelecionada;
         public AddCollection ElementCollectionAdd;
-
-        List<CollectionEntity> collections { get; set; }
 
         public MainWindow()
         {
@@ -24,49 +20,61 @@ namespace Instally.App
             DataContext = this;
 
             JanelaDePesquisa = new();
+        }
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             Login = new();
-            Janelas.Children.Add(Login);
+
+            UserEntity usuario = Master.ServiceProvider.GetService<IUserQuery>().GetAll().FirstOrDefault();
+
+            if (usuario is not null) Master.UsuarioAutenticado = usuario;
+            else Master.Main.Janelas.Children.Add(Login);
+
+            var packagesQuery = Master.ServiceProvider.GetService<IPackageQuery>();
+            Master.Packages = packagesQuery.GetAll().ToList();
+
             CarregarCollections();
         }
 
-        public void CarregarCollections()
+        public async void CarregarCollections()
         {
-            /*
+            Master.Collections = Master.ServiceProvider.GetService<ICollectionQuery>().GetAll().ToList();
+
             CollectionList.Children.Clear();
 
             ElementCollectionAdd = new();
             ElementCollectionAdd.Visibility = Visibility.Collapsed;
             CollectionList.Children.Add(ElementCollectionAdd);
 
-            collections = Master.ServiceProvider.GetService<ICollectionQuery>().GetAll().ToList();
-
-            if (!collections.Any())
+            if (!Master.Collections.Any() && Master.UsuarioAutenticado is not null)
             {
-                Collection collection = new(0);
-                CollectionList.Children.Add(collection);
+                ElementCollectionAdd.AdicionarCollectionPadrao();
+
+                ElementCollectionAdd.Visibility = Visibility.Visible;
+                Grid.SetColumn(ElementCollectionAdd, 1);
             }
             else
             {
-                for (int i = 0; i < collections.Count; i++)
+                for (int i = 0; i < Master.Collections.Count; i++)
                 {
-                    Collection collection = new(i);
-                    CollectionList.Children.Add(collection);
+                    CollectionItem collectionAtual = new(i, Master.Collections[i].Title, Master.Collections[i].Packages, Master.Collections[i]);
+                    ColecaoSelecionada = collectionAtual;
+                    CollectionList.Children.Add(collectionAtual);
 
-                    Grid.SetColumn(collection, i);
+                    Grid.SetColumn(collectionAtual, i);
+                }
+
+                if(Master.Collections.Count < 4)
+                {
+                    ElementCollectionAdd.Visibility = Visibility.Visible;
+                    Grid.SetColumn(ElementCollectionAdd, Master.Collections.Count);
                 }
             }
-
-            if(collections.Count < 4)
-            {
-                ElementCollectionAdd.Visibility = Visibility.Visible;
-                Grid.SetColumn(ElementCollectionAdd, collections.Count);
-            }
-            */
         }
 
-        public void AdicionarAplicativosACollection(List<AppParaInstalar> list, Collection componentCollection)
+        public void AdicionarAplicativosACollection(List<AppParaInstalar> list, CollectionItem componentCollection, Guid collectionId)
         {
-            foreach (AppParaInstalar app in list) componentCollection.AnexarAplicativoAColecao(app.Name, app.CodeId, true);
+            foreach (AppParaInstalar app in list) componentCollection.AnexarAplicativoAColecao(app.Name, app.CodeId, collectionId, true);
         }
 
         public bool VerificarSeAplicativoJaFoiAdicionado(string appId)

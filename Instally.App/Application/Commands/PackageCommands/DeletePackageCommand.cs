@@ -4,14 +4,14 @@ using MediatR;
 
 namespace Instally.App.Application.Commands.UserCommands
 {
-    public class AddPackageCommand : IRequest<bool>
+    public class DeletePackageCommand : IRequest<bool>
     {
-        public List<PackageEntity> Packages { get; set; }
+        public Guid PackageId { get; set; }
         public Guid? CollectionId { get; set; }
 
-        public AddPackageCommand(List<PackageEntity> packages)
+        public DeletePackageCommand(Guid packages)
         {
-            Packages = packages;
+            PackageId = packages;
         }
     }
 }

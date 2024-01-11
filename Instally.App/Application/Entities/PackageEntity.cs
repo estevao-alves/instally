@@ -26,8 +26,7 @@ namespace Instally.App.Application.Entities
         public double Score { get; set; }
 
         [ForeignKey("Collection")]
-        public int? CollectionId { get; set; }
-        public List<CollectionEntity> Collections { get; set; }
+        public Guid CollectionId { get; set; }
 
         private PackageEntity() { }
 
@@ -43,6 +42,10 @@ namespace Instally.App.Application.Entities
             VersionsLength = versionsLength;
             LatestVersion = latestVersion;
             Score = score;
+        }
+        public void AtualizarCollection(Guid collectionId)
+        {
+            CollectionId = collectionId;
         }
     }
 }

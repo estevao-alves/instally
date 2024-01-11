@@ -3,7 +3,6 @@ using System;
 using Instally.App.Application.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -12,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Instally.App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240104231042_NewMigration")]
+    [Migration("20240107155317_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -21,47 +20,33 @@ namespace Instally.App.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.14")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CollectionEntityPackageEntity", b =>
-                {
-                    b.Property<Guid>("CollectionsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PackagesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CollectionsId", "PackagesId");
-
-                    b.HasIndex("PackagesId");
-
-                    b.ToTable("CollectionEntityPackageEntity");
-                });
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Instally.App.Application.Entities.CollectionEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("UserEntityId")
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserEntityId");
 
                     b.ToTable("Collections");
                 });
@@ -70,51 +55,56 @@ namespace Instally.App.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
-                    b.Property<int?>("CollectionId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CollectionEntityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CollectionId")
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("LatestVersion")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Publisher")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<double>("Score")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<string>("Site")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("TagsString")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("VersionsLength")
                         .HasColumnType("int");
 
                     b.Property<string>("WingetId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CollectionEntityId");
 
                     b.ToTable("Packages");
                 });
@@ -123,53 +113,46 @@ namespace Instally.App.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CollectionEntityPackageEntity", b =>
+            modelBuilder.Entity("Instally.App.Application.Entities.CollectionEntity", b =>
+                {
+                    b.HasOne("Instally.App.Application.Entities.UserEntity", null)
+                        .WithMany("Collections")
+                        .HasForeignKey("UserEntityId");
+                });
+
+            modelBuilder.Entity("Instally.App.Application.Entities.PackageEntity", b =>
                 {
                     b.HasOne("Instally.App.Application.Entities.CollectionEntity", null)
-                        .WithMany()
-                        .HasForeignKey("CollectionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Instally.App.Application.Entities.PackageEntity", null)
-                        .WithMany()
-                        .HasForeignKey("PackagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Packages")
+                        .HasForeignKey("CollectionEntityId");
                 });
 
             modelBuilder.Entity("Instally.App.Application.Entities.CollectionEntity", b =>
                 {
-                    b.HasOne("Instally.App.Application.Entities.UserEntity", "User")
-                        .WithMany("Collections")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.Navigation("Packages");
                 });
 
             modelBuilder.Entity("Instally.App.Application.Entities.UserEntity", b =>
