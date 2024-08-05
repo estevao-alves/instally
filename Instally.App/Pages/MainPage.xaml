@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Instally.App.Pages.MainPage"
+             
+             xmlns:viewmodels="clr-namespace:Instally.App.Models.ViewModels"
+             xmlns:models="clr-namespace:Instally.App.Models"
+             x:DataType="viewmodels:ManageUserViewModel"
+             
+             Title="My To Dos"
+             >
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add ToDo" Clicked="OnAddUserClicked" />
+    </ContentPage.ToolbarItems>
+
+    <CollectionView x:Name="collectionView"
+                    SelectionMode="Single"
+                    SelectionChanged="OnSelectionChanged"
+                    Margin="40"
+                    ItemsSource="{Binding User}"
+                    >
+        
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+        </CollectionView.ItemsLayout>
+        
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type models:User}">
+                <VerticalStackLayout>
+                    <Label Text="{Binding Email}" TextColor="White" FontSize="Medium" Padding="10" />
+                    <Label Text="{Binding Password}" TextColor="White" FontSize="Medium" Padding="10" />
+                </VerticalStackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+</ContentPage>
